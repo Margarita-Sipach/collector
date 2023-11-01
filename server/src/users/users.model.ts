@@ -6,7 +6,7 @@ interface UserCreationAttrs {
   password: string;
 }
 
-enum Roles {
+export enum Roles {
   USER = "USER",
   ADMIN = "ADMIN",
 }
