@@ -1,9 +1,14 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { Column, DataType, Default, Model, Table } from "sequelize-typescript";
 
 interface UserCreationAttrs {
   username: string;
   email: string;
   password: string;
+}
+
+enum Roles {
+  USER = "USER",
+  ADMIN = "ADMIN",
 }
 
 @Table({ tableName: "users" })
@@ -24,4 +29,11 @@ export class User extends Model<User, UserCreationAttrs> {
 
   @Column({ type: DataType.STRING, allowNull: false })
   password: string;
+
+  @Default(Roles.USER)
+  @Column({
+    type: DataType.ENUM({ values: Object.keys(Roles) }),
+    allowNull: false,
+  })
+  role: Roles;
 }
