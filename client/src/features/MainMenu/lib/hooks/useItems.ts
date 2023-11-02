@@ -4,43 +4,48 @@ import { AdminRoutePath } from 'shared/config/routeConfig/adminConfig';
 import { CommonRoutePath } from 'shared/config/routeConfig/commonConfig';
 import { NotAuthRoutePath } from 'shared/config/routeConfig/notAuthConfig';
 
-export const useItems = (isAuth: boolean, isAdmin: boolean) => {
-    const adminItems = useMemo(() => {
-        if (isAdmin) {
-            return [{
-                label: 'Admin Page',
-                key: AdminRoutePath.admin,
-            }];
-        }
-        return [];
-    }, [isAdmin]);
+const getAdminItems = (isAdmin: boolean) => {
+    if (isAdmin) {
+        return [{
+            label: 'Admin Page',
+            key: AdminRoutePath.admin,
+        }];
+    }
+    return [];
+};
 
-    const authItems = useMemo(() => {
-        if (isAuth) {
-            return [
-                {
-                    label: 'Exit',
-                    key: CommonRoutePath.main,
-                },
-            ];
-        }
+const getAuthItems = (isAuth: boolean) => {
+    if (isAuth) {
         return [
             {
-                label: 'Login Page',
-                key: NotAuthRoutePath.login,
-            },
-            {
-                label: 'Registration Page',
-                key: NotAuthRoutePath.registration,
+                label: 'Exit',
+                key: CommonRoutePath.main,
             },
         ];
-    }, [isAuth]);
+    }
+    return [
+        {
+            label: 'Login Page',
+            key: NotAuthRoutePath.login,
+        },
+        {
+            label: 'Registration Page',
+            key: NotAuthRoutePath.registration,
+        },
+    ];
+};
+
+const commonItems = [{
+    label: 'Main Page',
+    key: CommonRoutePath.main,
+}];
+
+export const useItems = (isAuth: boolean, isAdmin: boolean) => {
+    const adminItems = useMemo(() => getAdminItems(isAdmin), [isAdmin]);
+    const authItems = useMemo(() => getAuthItems(isAuth), [isAuth]);
 
     const items: MenuProps['items'] = useMemo(() => [
-        {
-            label: 'Main Page',
-            key: CommonRoutePath.main,
-        },
+        ...commonItems,
         ...adminItems,
         ...authItems,
     ], [adminItems, authItems]);
