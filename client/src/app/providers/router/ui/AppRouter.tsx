@@ -1,3 +1,5 @@
+import { Button } from 'antd';
+import { Theme, themeState } from 'app/providers/ThemeProvider';
 import React, { Suspense, memo, useMemo } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { routeConfig } from 'shared/config/routeConfig/routeConfig';
@@ -18,7 +20,12 @@ export const AppRouter = memo(() => {
                     path={path}
                     element={(
                         <Suspense fallback="Loading...">
-                            <div className="page-wrapper">{element}</div>
+                            <div className="page-wrapper">
+                                <Button onClick={() => themeState.setTheme(Theme[themeState.isLight ? 'dark' : 'light'])}>
+                                    click
+                                </Button>
+                                {element}
+                            </div>
                         </Suspense>
                     )}
                 />

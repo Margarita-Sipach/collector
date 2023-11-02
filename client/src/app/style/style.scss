@@ -1,0 +1,44 @@
+@import "./reset";
+@import "./var";
+@import "./theme/light";
+@import "./theme/dark";
+
+body {
+    overflow-x: hidden;
+    background: var(--primary-color);
+    color: var(--primary-inverted-color);
+}
+
+body,
+#root {
+    min-height: 100vh;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 15px;
+    width: 100%;
+
+    @media (min-width: 768px) {
+        max-width: 720px;
+    }
+
+    @media (min-width: 992px) {
+        max-width: 960px;
+    }
+
+    @media (min-width: 1200px) {
+        max-width: 1140px;
+    }
+
+    @media (min-width: 1400px) {
+        max-width: 1340px;
+    }
+}
