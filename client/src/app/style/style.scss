@@ -42,3 +42,16 @@ body,
         max-width: 1340px;
     }
 }
+
+.ant-spin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.main {
+    flex-grow: 1;
+    display: flex;
+    margin-top: var(--header-height);
+}
