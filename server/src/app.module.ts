@@ -4,6 +4,13 @@ import { UsersModule } from "./users/users.module";
 import { ConfigModule } from "@nestjs/config";
 import { User } from "./users/users.model";
 
+const dialectOptions = {
+	supportBigNumbers: true,
+	ssl: {
+	  rejectUnauthorized: false,
+	}
+}
+
 @Module({
   controllers: [],
   providers: [],
@@ -20,6 +27,7 @@ import { User } from "./users/users.model";
       database: process.env.POSTGRES_DB,
       autoLoadModels: true,
       models: [User],
+	  dialectOptions
     }),
     UsersModule,
   ],
