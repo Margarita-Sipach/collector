@@ -1,3 +1,5 @@
+import { Button, Spin } from 'antd';
+import { Theme, themeState } from 'app/providers/ThemeProvider';
 import React, { Suspense, memo, useMemo } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { routeConfig } from 'shared/config/routeConfig/routeConfig';
@@ -17,8 +19,13 @@ export const AppRouter = memo(() => {
                     key={path}
                     path={path}
                     element={(
-                        <Suspense fallback="Loading...">
-                            <div className="page-wrapper">{element}</div>
+                        <Suspense fallback={<Spin size="large" />}>
+                            <Button onClick={() => themeState.setTheme(Theme[themeState.isLight ? 'dark' : 'light'])}>
+                                header
+                            </Button>
+                            <div className="container main">
+                                {element}
+                            </div>
                         </Suspense>
                     )}
                 />

@@ -8,11 +8,11 @@
     "start:dev:server": "node ./json-server/index.js",
     "build:prod": "webpack --env mode=production",
     "build:dev": "webpack --env mode=development",
-	"lint:script": "eslint \"**/*.{ts,tsx,js,jsx}\"",
+    "lint:script": "eslint \"**/*.{ts,tsx,js,jsx}\"",
     "lint:script:fix": "eslint \"**/*.{ts,tsx,js,jsx}\" --fix",
     "lint:style": "npx stylelint \"**/*.{css,scss}\"",
     "lint:style:fix": "npx stylelint \"**/*.{css,scss}\" --fix",
-	"lint": "npm run lint:style && npm run lint:script",
+    "lint": "npm run lint:style && npm run lint:script",
     "lint:fix": "npm run lint:style:fix && npm run lint:script:fix"
   },
   "keywords": [],
@@ -66,9 +66,17 @@
     "webpack-dev-server": "^4.7.4"
   },
   "dependencies": {
+    "antd": "^5.10.3",
     "axios": "^0.26.1",
+    "eslint-plugin-i18next": "^6.0.3",
+    "i18next": "^23.6.0",
+    "i18next-browser-languagedetector": "^7.1.0",
+    "i18next-http-backend": "^2.3.1",
+    "mobx": "^6.10.2",
+    "mobx-react-lite": "^4.0.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-i18next": "^13.3.1",
     "react-router-dom": "^6.2.1"
   }
 }
