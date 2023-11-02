@@ -1,0 +1,22 @@
+.Logo {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    width: fit-content;
+    padding: 0;
+}
+
+.icon {
+    width: 35px;
+    height: 35px;
+}
+
+.text {
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+
+    @media (max-width: 700px) {
+        display: none !important;
+    }
+}
