@@ -1,16 +1,15 @@
-import { Button, Spin } from 'antd';
-import { Theme, themeState } from 'app/providers/ThemeProvider';
-import React, { Suspense, memo, useMemo } from 'react';
+import { Spin } from 'antd';
+import { Suspense, memo } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { routeConfig } from 'shared/config/routeConfig/routeConfig';
+import { Header } from 'widgets/Header';
+import { Sidebar } from 'widgets/Sidebar';
+import { useRoutes } from '../lib/useRoutes';
 
 export const AppRouter = memo(() => {
     const isAuth = true;
+    const isAdmin = true;
 
-    const routes = useMemo(() => Object.values(routeConfig).filter((route) => {
-        const isAuthOnly = route.authOnly;
-        return !(isAuthOnly && !isAuth);
-    }), [isAuth]);
+    const routes = useRoutes(isAuth, isAdmin);
 
     return (
         <Routes>
@@ -20,9 +19,8 @@ export const AppRouter = memo(() => {
                     path={path}
                     element={(
                         <Suspense fallback={<Spin size="large" />}>
-                            <Button onClick={() => themeState.setTheme(Theme[themeState.isLight ? 'dark' : 'light'])}>
-                                header
-                            </Button>
+                            <Header />
+                            <Sidebar />
                             <div className="container main">
                                 {element}
                             </div>

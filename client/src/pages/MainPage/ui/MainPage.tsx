@@ -1,16 +1,10 @@
-import { Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 const MainPage = () => {
-    const { t, i18n } = useTranslation('');
-
-    const handleClick = () => {
-        i18n.changeLanguage(i18n.language === 'ru' ? 'en' : 'ru');
-    };
+    const { t } = useTranslation('main');
 
     return (
         <div>
-            <Button onClick={handleClick} icon={t('lang')} />
             <div>{t('main')}</div>
         </div>
     );
