@@ -4,8 +4,21 @@ import { LOCAL_STORAGE } from 'shared/const/localstorage';
 
 const USER_ROUTE = 'users/';
 
+enum Role{
+	USER = 'USER',
+	ADMIN = 'ADMIN'
+}
+
+interface User {
+	id: number,
+	username: string,
+	email: string,
+	password: string,
+	role: Role
+}
+
 class UserState {
-    user: any = null;
+    user: User | null = null;
 
     isAuth: boolean = false;
 
@@ -21,7 +34,7 @@ class UserState {
     async initUser() {
         try {
             const path = `${USER_ROUTE}${this.userId}`;
-            const data = await api.get(path);
+            const data: User = await api.get(path);
             this.setUser(data);
         } catch (e) {}
     }
@@ -29,30 +42,28 @@ class UserState {
     removeUser() {
         this.isAdmin = this.isAuth = false;
         this.user = null;
+        localStorage.removeItem(LOCAL_STORAGE.USER_ID);
     }
 
-    async auth(user: any, successCallback: () => void, isRegistration: boolean = true) {
+    async auth(user: User, successCallback: () => void, isRegistration: boolean = true) {
         try {
             const path = `${USER_ROUTE}${isRegistration ? 'registration' : 'login'}`;
             const { data } = await api.post(path, user);
             this.setUser(data);
-            localStorage.setItem(LOCAL_STORAGE.USER_ID, data.id);
             successCallback();
-            console.log(data);
         } catch (e) {
-            console.log(e);
             alert((e as any).response.data.message || 'Unexpected error');
         }
     }
 
-    setUser(data: any) {
+    setUser(data: User) {
         this.isAuth = true;
-        this.isAdmin = data.role === 'ADMIN';
+        this.isAdmin = data.role === Role.ADMIN;
         this.user = data;
+        localStorage.setItem(LOCAL_STORAGE.USER_ID, String(data.id));
     }
 
     exit() {
-        localStorage.removeItem(LOCAL_STORAGE.USER_ID);
         this.removeUser();
     }
 }
