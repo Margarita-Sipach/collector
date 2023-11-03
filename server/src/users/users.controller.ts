@@ -43,6 +43,7 @@ export class UsersController {
   @Get("/:id")
   async getUserById(@Param("id") id: number) {
     const user = await this.usersService.getUserById(id);
+    if (!user) throw new UnauthorizedException({ message: "No user" });
     return user;
   }
 
