@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import { LOCAL_STORAGE } from 'shared/const/localstorage';
 
 export enum Theme{
 	light = 'light',
@@ -6,7 +7,7 @@ export enum Theme{
 }
 
 class ThemeState {
-    theme: Theme = localStorage.getItem('app-theme') as Theme || Theme.light;
+    theme: Theme = localStorage.getItem(LOCAL_STORAGE.THEME_KEY) as Theme || Theme.light;
 
     isLight: boolean = this.theme === Theme.light;
 
