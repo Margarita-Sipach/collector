@@ -1,0 +1,15 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    position: relative;
+    bottom: var(--header-height);
+    width: 100%;
+}
+
+.form {
+    width: 100%;
+    max-width: 500px;
+}

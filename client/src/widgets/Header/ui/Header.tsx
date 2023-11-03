@@ -1,5 +1,7 @@
 import { Button, Input } from 'antd';
-import { FC, memo, useState } from 'react';
+import {
+    FC, memo, useState,
+} from 'react';
 import { Logo } from 'shared/ui/Logo/Logo';
 import { UserOutlined } from '@ant-design/icons';
 import { MdOutlineAdminPanelSettings } from 'react-icons/md';
@@ -9,16 +11,16 @@ import classNames from 'classnames';
 import { MainMenu } from 'features/MainMenu';
 import { useNavigate } from 'react-router-dom';
 import { AdminRoutePath } from 'shared/config/routeConfig/adminConfig';
+import { userState } from 'entities/User';
+import { observer } from 'mobx-react-lite';
 import cls from './Header.module.scss';
 
 interface HeaderProps {
 }
 
-export const Header: FC<HeaderProps> = memo(() => {
+export const Header: FC<HeaderProps> = memo(observer(() => {
     const navigate = useNavigate();
-    const isAuth = true;
-    const isAdmin = true;
-
+    const { isAuth, isAdmin } = userState;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
@@ -44,4 +46,4 @@ export const Header: FC<HeaderProps> = memo(() => {
             <MainMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
         </header>
     );
-});
+}));

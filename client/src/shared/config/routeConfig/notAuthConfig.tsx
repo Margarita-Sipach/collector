@@ -1,4 +1,4 @@
-import { NotFoundPage } from 'pages/NotFoundPage';
+import { AuthPage } from 'pages/AuthPage';
 import { RouteProps } from 'react-router-dom';
 
 export enum NotAuthRoutes {
@@ -14,10 +14,10 @@ export const NotAuthRoutePath: Record<NotAuthRoutes, string> = {
 export const notAuthRouteConfig: Record<NotAuthRoutes, RouteProps> = {
     [NotAuthRoutes.LOGIN]: {
         path: NotAuthRoutePath.login,
-        element: <NotFoundPage />,
+        element: <AuthPage isRegistration={false} />,
     },
     [NotAuthRoutes.REGISTRATION]: {
         path: NotAuthRoutePath.registration,
-        element: <NotFoundPage />,
+        element: <AuthPage />,
     },
 };

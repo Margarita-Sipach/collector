@@ -19,7 +19,7 @@ const getAuthItems = (isAuth: boolean) => {
         return [
             {
                 label: 'Exit',
-                key: CommonRoutePath.main,
+                key: 'exit',
             },
         ];
     }

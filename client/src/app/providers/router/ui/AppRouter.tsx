@@ -3,11 +3,11 @@ import { Suspense, memo } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Header } from 'widgets/Header';
 import { Sidebar } from 'widgets/Sidebar';
+import { userState } from 'entities/User';
 import { useRoutes } from '../lib/useRoutes';
 
 export const AppRouter = memo(() => {
-    const isAuth = true;
-    const isAdmin = true;
+    const { isAuth, isAdmin } = userState;
 
     const routes = useRoutes(isAuth, isAdmin);
 
