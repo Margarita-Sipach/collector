@@ -29,4 +29,16 @@ export class UsersService {
     const users = await this.userRepository.findAll();
     return users;
   }
+
+  async updateUser({ id, ...updatedFields }: Partial<User>) {
+    const res = await this.userRepository.update(updatedFields, {
+      where: { id },
+    });
+    return res[0];
+  }
+
+  async deleteUser(id: number) {
+    const res = await this.userRepository.destroy({ where: { id } });
+    return res;
+  }
 }

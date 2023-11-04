@@ -2,8 +2,10 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Patch,
   Post,
   UnauthorizedException,
   UseGuards,
@@ -13,6 +15,8 @@ import { RegistrationDTO } from "./dto/registration.dto";
 import { LoginDTO } from "./dto/login.dto";
 import { Error } from "sequelize";
 import { AdminGuard } from "src/guards/admin.guard";
+import { UpdateStatusDTO } from "./dto/updateStatus.dto";
+import { UpdateRoleDTO } from "./dto/updateRole.dto";
 
 @Controller("users")
 export class UsersController {
@@ -52,5 +56,21 @@ export class UsersController {
   async getAllUsers() {
     const users = await this.usersService.getAllUsers();
     return users;
+  }
+
+  @UseGuards(AdminGuard)
+  @Patch()
+  async updateUser(@Body() dto: UpdateStatusDTO | UpdateRoleDTO) {
+    const res = await this.usersService.updateUser(dto);
+    if (!res)
+      throw new UnauthorizedException({ message: "User doesn't exist" });
+    return await this.usersService.getUserById(dto.id);
+  }
+
+  @UseGuards(AdminGuard)
+  @Delete("/:id")
+  async deleteUser(@Param("id") id: number) {
+    await this.usersService.deleteUser(id);
+    return { status: "success" };
   }
 }
