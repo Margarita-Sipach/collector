@@ -4,9 +4,10 @@ import { Route, Routes } from 'react-router-dom';
 import { Header } from 'widgets/Header';
 import { Sidebar } from 'widgets/Sidebar';
 import { userState } from 'entities/User';
+import { observer } from 'mobx-react-lite';
 import { useRoutes } from '../lib/useRoutes';
 
-export const AppRouter = memo(() => {
+export const AppRouter = memo(observer(() => {
     const { isAuth, isAdmin } = userState;
 
     const routes = useRoutes(isAuth, isAdmin);
@@ -30,4 +31,4 @@ export const AppRouter = memo(() => {
             ))}
         </Routes>
     );
-});
+}));
