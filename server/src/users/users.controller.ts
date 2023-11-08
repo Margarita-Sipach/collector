@@ -17,6 +17,7 @@ import { Error } from "sequelize";
 import { AdminGuard } from "src/guards/admin.guard";
 import { UpdateStatusDTO } from "./dto/updateStatus.dto";
 import { UpdateRoleDTO } from "./dto/updateRole.dto";
+import { CommonGuard } from "src/guards/common.guard";
 
 @Controller("users")
 export class UsersController {
@@ -41,6 +42,8 @@ export class UsersController {
     const user = await this.usersService.login(dto);
     if (!user)
       throw new UnauthorizedException({ message: "Invalid email or password" });
+    if (!user.isActive)
+      throw new UnauthorizedException({ message: "User is not active" });
     return user;
   }
 
@@ -48,10 +51,12 @@ export class UsersController {
   async getUserById(@Param("id") id: number) {
     const user = await this.usersService.getUserById(id);
     if (!user) throw new UnauthorizedException({ message: "No user" });
+    if (!user.isActive)
+      throw new UnauthorizedException({ message: "User is not active" });
     return user;
   }
 
-  @UseGuards(AdminGuard)
+  @UseGuards(CommonGuard)
   @Get()
   async getAllUsers() {
     const users = await this.usersService.getAllUsers();
