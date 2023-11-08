@@ -1,3 +1,4 @@
+import { AdminPage } from 'pages/AdminPage';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { RouteProps } from 'react-router-dom';
 
@@ -12,6 +13,6 @@ export const AdminRoutePath: Record<AdminRoutes, string> = {
 export const adminRouteConfig: Record<AdminRoutes, RouteProps> = {
     [AdminRoutes.ADMIN]: {
         path: AdminRoutePath.admin,
-        element: <NotFoundPage />,
+        element: <AdminPage />,
     },
 };

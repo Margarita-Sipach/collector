@@ -1,20 +1,21 @@
 import { makeAutoObservable } from 'mobx';
-import { api } from 'shared/api/api';
+import { api, authApi } from 'shared/api/api';
 import { LOCAL_STORAGE } from 'shared/const/localstorage';
 
 const USER_ROUTE = 'users/';
 
-enum Role{
+export enum Role{
 	USER = 'USER',
 	ADMIN = 'ADMIN'
 }
 
-interface User {
+export interface User {
 	id: number,
 	username: string,
 	email: string,
 	password: string,
 	role: Role
+	isActive: boolean
 }
 
 class UserState {
@@ -32,9 +33,10 @@ class UserState {
     }
 
     async initUser() {
+        if (!this.userId) return;
         try {
             const path = `${USER_ROUTE}${this.userId}`;
-            const data: User = await api.get(path);
+            const { data } = await api.get(path);
             this.setUser(data);
         } catch (e) {}
     }
@@ -50,6 +52,7 @@ class UserState {
             const path = `${USER_ROUTE}${isRegistration ? 'registration' : 'login'}`;
             const { data } = await api.post(path, user);
             this.setUser(data);
+            localStorage.setItem(LOCAL_STORAGE.USER_ID, String(data.id));
             successCallback();
         } catch (e) {
             alert((e as any).response.data.message || 'Unexpected error');
@@ -60,11 +63,31 @@ class UserState {
         this.isAuth = true;
         this.isAdmin = data.role === Role.ADMIN;
         this.user = data;
-        localStorage.setItem(LOCAL_STORAGE.USER_ID, String(data.id));
     }
 
     exit() {
         this.removeUser();
+    }
+
+    async getUsers() {
+        const { data } = await authApi.get(USER_ROUTE);
+        return data;
+    }
+
+    async updateUser(changeArgs: Partial<User>) {
+        try {
+            const { data } = await authApi.patch(USER_ROUTE, changeArgs);
+        } catch (e) {
+            alert((e as any).response.data.message || 'Unexpected error');
+        }
+    }
+
+    async deleteUser(id: number) {
+        try {
+            const { data } = await authApi.delete(`${USER_ROUTE}${id}`);
+        } catch (e) {
+            alert((e as any).response.data.message || 'Unexpected error');
+        }
     }
 }
 
