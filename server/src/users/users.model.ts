@@ -30,6 +30,10 @@ export class User extends Model<User, UserCreationAttrs> {
   @Column({ type: DataType.STRING, allowNull: false })
   password: string;
 
+  @Default(true)
+  @Column({ type: DataType.BOOLEAN, allowNull: false })
+  isActive: boolean;
+
   @Default(Roles.USER)
   @Column({
     type: DataType.ENUM({ values: Object.keys(Roles) }),

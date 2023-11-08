@@ -2,8 +2,10 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Patch,
   Post,
   UnauthorizedException,
   UseGuards,
@@ -13,6 +15,9 @@ import { RegistrationDTO } from "./dto/registration.dto";
 import { LoginDTO } from "./dto/login.dto";
 import { Error } from "sequelize";
 import { AdminGuard } from "src/guards/admin.guard";
+import { UpdateStatusDTO } from "./dto/updateStatus.dto";
+import { UpdateRoleDTO } from "./dto/updateRole.dto";
+import { CommonGuard } from "src/guards/common.guard";
 
 @Controller("users")
 export class UsersController {
@@ -37,6 +42,8 @@ export class UsersController {
     const user = await this.usersService.login(dto);
     if (!user)
       throw new UnauthorizedException({ message: "Invalid email or password" });
+    if (!user.isActive)
+      throw new UnauthorizedException({ message: "User is not active" });
     return user;
   }
 
@@ -44,13 +51,31 @@ export class UsersController {
   async getUserById(@Param("id") id: number) {
     const user = await this.usersService.getUserById(id);
     if (!user) throw new UnauthorizedException({ message: "No user" });
+    if (!user.isActive)
+      throw new UnauthorizedException({ message: "User is not active" });
     return user;
   }
 
-  @UseGuards(AdminGuard)
+  @UseGuards(CommonGuard)
   @Get()
   async getAllUsers() {
     const users = await this.usersService.getAllUsers();
     return users;
+  }
+
+  @UseGuards(AdminGuard)
+  @Patch()
+  async updateUser(@Body() dto: UpdateStatusDTO | UpdateRoleDTO) {
+    const res = await this.usersService.updateUser(dto);
+    if (!res)
+      throw new UnauthorizedException({ message: "User doesn't exist" });
+    return await this.usersService.getUserById(dto.id);
+  }
+
+  @UseGuards(AdminGuard)
+  @Delete("/:id")
+  async deleteUser(@Param("id") id: number) {
+    await this.usersService.deleteUser(id);
+    return { status: "success" };
   }
 }
