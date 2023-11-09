@@ -3,6 +3,18 @@ import { SequelizeModule } from "@nestjs/sequelize";
 import { UsersModule } from "./users/users.module";
 import { ConfigModule } from "@nestjs/config";
 import { User } from "./users/users.model";
+import { Collection } from "./collections/collections.model";
+import { Item } from "./items/items.model";
+import { Theme } from "./themes/themes.model";
+import { Tag } from "./tags/tags.model";
+import { ItemTag } from "./items-tags/items-tags.model";
+import { CollectionsModule } from "./collections/collections.module";
+import { ThemesModule } from "./themes/themes.module";
+import { ItemsModule } from "./items/items.module";
+import { TagsModule } from "./tags/tags.module";
+import { FieldsModule } from "./fields/fields.module";
+import { Field } from "./fields/fields.model";
+import { FieldItem } from "./fields-items/fields-items.controller";
 
 const dialectOptions = {
   supportBigNumbers: true,
@@ -26,10 +38,16 @@ const dialectOptions = {
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
       autoLoadModels: true,
-      models: [User],
+      models: [User, Collection, Theme, Item, Tag, ItemTag, Field, FieldItem],
       dialectOptions,
     }),
     UsersModule,
+    CollectionsModule,
+    ThemesModule,
+    ItemsModule,
+    TagsModule,
+    ItemsModule,
+    FieldsModule,
   ],
 })
 export class AppModule {}
