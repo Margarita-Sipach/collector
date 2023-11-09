@@ -1,4 +1,12 @@
-import { Column, DataType, Default, Model, Table } from "sequelize-typescript";
+import {
+  Column,
+  DataType,
+  Default,
+  HasMany,
+  Model,
+  Table,
+} from "sequelize-typescript";
+import { Collection } from "src/collections/collections.model";
 
 interface UserCreationAttrs {
   username: string;
@@ -34,10 +42,13 @@ export class User extends Model<User, UserCreationAttrs> {
   @Column({ type: DataType.BOOLEAN, allowNull: false })
   isActive: boolean;
 
-  @Default(Roles.USER)
+  @Default(Roles.ADMIN)
   @Column({
     type: DataType.ENUM({ values: Object.keys(Roles) }),
     allowNull: false,
   })
   role: Roles;
+
+  @HasMany(() => Collection)
+  collection: Collection[];
 }
