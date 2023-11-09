@@ -1,24 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { Theme } from "./themes.model";
-import { CreateDTO } from "./dto/CreateDTO";
+import { CharacterService } from "src/character/character.service";
 
 @Injectable()
-export class ThemesService {
-  constructor(@InjectModel(Theme) private themeRepository: typeof Theme) {}
-
-  async create(dto: CreateDTO) {
-    const theme = await this.themeRepository.create(dto);
-    return theme;
-  }
-
-  async getAll() {
-    const themes = await this.themeRepository.findAll();
-    return themes;
-  }
-
-  async getByTitle(title: string) {
-    const theme = await this.themeRepository.findOne({ where: { title } });
-    return theme;
+export class ThemesService extends CharacterService {
+  constructor(@InjectModel(Theme) private themeRepository: typeof Theme) {
+    super(themeRepository);
   }
 }
