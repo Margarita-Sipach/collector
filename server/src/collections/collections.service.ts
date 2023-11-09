@@ -25,9 +25,14 @@ export class CollectionsService {
         this.fieldService.create({
           type: type as unknown as FieldTypes,
           title,
+          collectionId: collection.id,
         });
       });
     });
     return collection;
+  }
+
+  async getAll() {
+    return await this.collectionRepository.findAll({ include: { all: true } });
   }
 }

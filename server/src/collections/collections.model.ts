@@ -3,9 +3,12 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Table,
 } from "sequelize-typescript";
 import { Base, requireString } from "src/base/character.model";
+import { Field } from "src/fields/fields.model";
+import { Item } from "src/items/items.model";
 import { Theme } from "src/themes/themes.model";
 import { User } from "src/users/users.model";
 
@@ -31,16 +34,18 @@ export class Collection extends Base<Collection, CollectionCreationAttrs> {
   @ForeignKey(() => Theme)
   @Column({ field: "themeId" })
   themeId: number;
-
   @BelongsTo(() => Theme)
   theme: Theme;
 
   @ForeignKey(() => User)
-  @Column({
-    field: "userId",
-  })
+  @Column({ field: "userId" })
   userId: number;
-
   @BelongsTo(() => User)
   user: User;
+
+  @HasMany(() => Field)
+  fields: Field[];
+
+  @HasMany(() => Item)
+  items: Item[];
 }

@@ -39,5 +39,5 @@ export class User extends Base<User, UserCreationAttrs> {
   role: Roles;
 
   @HasMany(() => Collection)
-  collection: Collection[];
+  collections: Collection[];
 }
