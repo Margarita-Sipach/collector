@@ -3,9 +3,9 @@ import {
   DataType,
   Default,
   HasMany,
-  Model,
   Table,
 } from "sequelize-typescript";
+import { Base } from "src/base/character.model";
 import { Collection } from "src/collections/collections.model";
 
 interface UserCreationAttrs {
@@ -20,15 +20,7 @@ export enum Roles {
 }
 
 @Table({ tableName: "users" })
-export class User extends Model<User, UserCreationAttrs> {
-  @Column({
-    type: DataType.INTEGER,
-    unique: true,
-    autoIncrement: true,
-    primaryKey: true,
-  })
-  id: number;
-
+export class User extends Base<User, UserCreationAttrs> {
   @Column({ type: DataType.STRING, allowNull: false })
   username: string;
 

@@ -1,10 +1,5 @@
-import {
-  Column,
-  DataType,
-  ForeignKey,
-  Model,
-  Table,
-} from "sequelize-typescript";
+import { Column, ForeignKey, Table } from "sequelize-typescript";
+import { Base } from "src/base/character.model";
 import { Item } from "src/items/items.model";
 import { Tag } from "src/tags/tags.model";
 
@@ -14,15 +9,7 @@ interface ItemTagCreationAttrs {
 }
 
 @Table({ tableName: "items-tags" })
-export class ItemTag extends Model<ItemTag, ItemTagCreationAttrs> {
-  @Column({
-    type: DataType.INTEGER,
-    unique: true,
-    autoIncrement: true,
-    primaryKey: true,
-  })
-  id: number;
-
+export class ItemTag extends Base<ItemTag, ItemTagCreationAttrs> {
   @ForeignKey(() => Tag)
   @Column
   tagId: number;

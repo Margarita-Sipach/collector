@@ -1,4 +1,5 @@
-import { Column, DataType, Default, Model, Table } from "sequelize-typescript";
+import { Column, DataType, Default, Table } from "sequelize-typescript";
+import { Base } from "src/base/character.model";
 
 export enum FieldTypes {
   INTEGER = "integer",
@@ -13,15 +14,7 @@ interface FieldCreationAttrs {
 }
 
 @Table({ tableName: "fields" })
-export class Field extends Model<Field, FieldCreationAttrs> {
-  @Column({
-    type: DataType.INTEGER,
-    unique: true,
-    autoIncrement: true,
-    primaryKey: true,
-  })
-  id: number;
-
+export class Field extends Base<Field, FieldCreationAttrs> {
   @Default(FieldTypes.CHAR)
   @Column({
     type: DataType.ENUM({ values: Object.values(FieldTypes) }),

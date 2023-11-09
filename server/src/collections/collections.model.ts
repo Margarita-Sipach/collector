@@ -3,9 +3,9 @@ import {
   Column,
   DataType,
   ForeignKey,
-  Model,
   Table,
 } from "sequelize-typescript";
+import { Base } from "src/base/character.model";
 import { Theme } from "src/themes/themes.model";
 import { User } from "src/users/users.model";
 
@@ -18,15 +18,7 @@ interface CollectionCreationAttrs {
 }
 
 @Table({ tableName: "collections" })
-export class Collection extends Model<Collection, CollectionCreationAttrs> {
-  @Column({
-    type: DataType.INTEGER,
-    unique: true,
-    autoIncrement: true,
-    primaryKey: true,
-  })
-  id: number;
-
+export class Collection extends Base<Collection, CollectionCreationAttrs> {
   @Column({ type: DataType.STRING, allowNull: false })
   title: string;
 

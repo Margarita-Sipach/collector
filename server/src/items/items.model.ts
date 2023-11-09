@@ -4,9 +4,9 @@ import {
   Column,
   DataType,
   ForeignKey,
-  Model,
   Table,
 } from "sequelize-typescript";
+import { Base } from "src/base/character.model";
 import { Collection } from "src/collections/collections.model";
 import { ItemTag } from "src/items-tags/items-tags.model";
 import { Tag } from "src/tags/tags.model";
@@ -18,15 +18,7 @@ interface ItemCreationAttrs {
 }
 
 @Table({ tableName: "items" })
-export class Item extends Model<Item, ItemCreationAttrs> {
-  @Column({
-    type: DataType.INTEGER,
-    unique: true,
-    autoIncrement: true,
-    primaryKey: true,
-  })
-  id: number;
-
+export class Item extends Base<Item, ItemCreationAttrs> {
   @Column({ type: DataType.STRING, allowNull: false })
   title: string;
 
