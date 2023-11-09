@@ -5,7 +5,7 @@ import {
   ForeignKey,
   Table,
 } from "sequelize-typescript";
-import { Base } from "src/base/character.model";
+import { Base, requireString } from "src/base/character.model";
 import { Theme } from "src/themes/themes.model";
 import { User } from "src/users/users.model";
 
@@ -19,7 +19,7 @@ interface CollectionCreationAttrs {
 
 @Table({ tableName: "collections" })
 export class Collection extends Base<Collection, CollectionCreationAttrs> {
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column(requireString)
   title: string;
 
   @Column({ type: DataType.STRING })
@@ -43,7 +43,4 @@ export class Collection extends Base<Collection, CollectionCreationAttrs> {
 
   @BelongsTo(() => User)
   user: User;
-
-  //   @HasMany(() => Item)
-  //   item: Item[]
 }

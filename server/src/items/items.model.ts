@@ -6,7 +6,7 @@ import {
   ForeignKey,
   Table,
 } from "sequelize-typescript";
-import { Base } from "src/base/character.model";
+import { Base, requireString } from "src/base/character.model";
 import { Collection } from "src/collections/collections.model";
 import { ItemTag } from "src/items-tags/items-tags.model";
 import { Tag } from "src/tags/tags.model";
@@ -19,7 +19,7 @@ interface ItemCreationAttrs {
 
 @Table({ tableName: "items" })
 export class Item extends Base<Item, ItemCreationAttrs> {
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column(requireString)
   title: string;
 
   @Column({ type: DataType.STRING })
