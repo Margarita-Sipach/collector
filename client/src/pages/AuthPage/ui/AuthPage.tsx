@@ -4,6 +4,7 @@ import { FC, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CommonRoutePath } from 'shared/config/routeConfig/commonConfig';
 import { useTranslation } from 'react-i18next';
+import { settingsState } from 'app/providers/SettingsProvider';
 import cls from './AuthPage.module.scss';
 import { AuthFormItem } from './AuthFormItem/AuthFormItem';
 
@@ -14,7 +15,7 @@ interface AuthPageProps{
 }
 
 const AuthPage: FC<AuthPageProps> = memo(({ isRegistration = true }: AuthPageProps) => {
-    const { t } = useTranslation(['user', 'translation', 'button']);
+    const { t } = useTranslation(['user', 'translation', 'button', 'error']);
 
     const inputs = {
         username: {
@@ -38,7 +39,7 @@ const AuthPage: FC<AuthPageProps> = memo(({ isRegistration = true }: AuthPagePro
     const navigate = useNavigate();
     const onFinish = (values: any) => {
         if (isRegistration && values.password !== values.repeated) {
-            return alert('Different passwords');
+            return settingsState.setErrorText(t('error:diffPasswords'));
         }
 
         const navigateToMainPage = () => navigate(CommonRoutePath.main);
@@ -47,7 +48,7 @@ const AuthPage: FC<AuthPageProps> = memo(({ isRegistration = true }: AuthPagePro
     return (
         <div className={cls.content}>
             <Title className={cls.title}>
-                {t(isRegistration ? 'registration' : 'login')}
+                {t(`translation:${isRegistration ? 'registration' : 'login'}`)}
             </Title>
 
             <Form

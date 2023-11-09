@@ -1,3 +1,4 @@
+import { settingsState } from 'app/providers/SettingsProvider';
 import { makeAutoObservable } from 'mobx';
 import { api, authApi } from 'shared/api/api';
 import { LOCAL_STORAGE } from 'shared/const/localstorage';
@@ -33,10 +34,15 @@ class UserState {
     }
 
     async initUser() {
-        if (!this.userId) return;
-        const path = `${USER_ROUTE}${this.userId}`;
-        const { data } = await api.get(path);
-        this.setUser(data);
+        try {
+            if (!this.userId) return;
+            settingsState.setIsLoading();
+            const path = `${USER_ROUTE}${this.userId}`;
+            const { data } = await api.get(path);
+            this.setUser(data);
+        } finally {
+            settingsState.removeIsLoading();
+        }
     }
 
     removeUser() {
@@ -47,13 +53,16 @@ class UserState {
 
     async auth(user: User, successCallback: () => void, isRegistration: boolean = true) {
         try {
+            settingsState.setIsLoading();
             const path = `${USER_ROUTE}${isRegistration ? 'registration' : 'login'}`;
             const { data } = await api.post(path, user);
             this.setUser(data);
             localStorage.setItem(LOCAL_STORAGE.USER_ID, String(data.id));
             successCallback();
         } catch (e) {
-            alert((e as any).response.data.message || 'Unexpected error');
+            settingsState.setError(e);
+        } finally {
+            settingsState.removeIsLoading();
         }
     }
 
@@ -74,17 +83,23 @@ class UserState {
 
     async updateUser(changeArgs: Partial<User>) {
         try {
+            settingsState.setIsLoading();
             await authApi.patch(USER_ROUTE, changeArgs);
         } catch (e) {
-            alert((e as any).response.data.message || 'Unexpected error');
+            settingsState.setError(e);
+        } finally {
+            settingsState.removeIsLoading();
         }
     }
 
     async deleteUser(id: number) {
         try {
-            const { data } = await authApi.delete(`${USER_ROUTE}${id}`);
+            settingsState.setIsLoading();
+            await authApi.delete(`${USER_ROUTE}${id}`);
         } catch (e) {
-            alert((e as any).response.data.message || 'Unexpected error');
+            settingsState.setError(e);
+        } finally {
+            settingsState.removeIsLoading();
         }
     }
 }

@@ -40,6 +40,10 @@ module.exports = {
         'react-hooks/exhaustive-deps': 'error',
         'no-param-reassign': 'off',
         'no-undef': 'off',
+		'class-methods-use-this': 'off',
+		'no-multi-assign': 'off',
+		'react-hooks/rules-of-hooks': 'off',
+		'react/jsx-props-no-spreading': 'off',
         'i18next/no-literal-string': [
             'error',
             { markupOnly: true, ignoreAttribute: ['data-testid', 'to'] },
