@@ -1,6 +1,6 @@
 import { Form, Input } from 'antd';
 import { FC, memo } from 'react';
-import { InputNames } from '../AuthPage';
+import { useTranslation } from 'react-i18next';
 
 interface AuthFormItemProps{
 	isPassword?: boolean
@@ -19,12 +19,14 @@ export const AuthFormItem: FC<AuthFormItemProps> = memo((props: AuthFormItemProp
         Tag = isPassword ? Input.Password : Input,
     } = props;
 
+    const { t } = useTranslation();
+
     return (
-        <Form.Item<InputNames>
+        <Form.Item
             name={name}
             rules={[{
                 required: true,
-                message: `Please input valid ${placeholder}!`,
+                message: `${t('inputValid')}${placeholder}!`,
                 ...isEmail ? { type: 'email' } : {},
             }]}
         >

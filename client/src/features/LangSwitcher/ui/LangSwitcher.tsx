@@ -7,7 +7,7 @@ interface LangSwitcherProps {
 	Tag?: CompoundedComponent
 }
 
-export const LangSwitcher: FC<LangSwitcherProps> = memo((props) => {
+export const LangSwitcher: FC<LangSwitcherProps> = memo((props: LangSwitcherProps) => {
     const { Tag = FloatButton } = props;
     const { t, i18n } = useTranslation();
 

@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { userState } from 'entities/User';
 import { observer } from 'mobx-react-lite';
 import { CommonRoutePath } from 'shared/config/routeConfig/commonConfig';
+import { useTranslation } from 'react-i18next';
 import cls from './MainMenu.module.scss';
 import { useItems } from '../lib/hooks/useItems';
 
@@ -17,9 +18,11 @@ interface MainMenuProps{
 
 export const MainMenu: FC<MainMenuProps> = memo(observer(({ isOpen, setIsOpen }) => {
     const navigate = useNavigate();
-    const { isAdmin, isAuth } = userState;
 
-    const items = useItems(isAuth, isAdmin);
+    const { isAdmin, isAuth } = userState;
+    const { t } = useTranslation();
+
+    const items = useItems(isAuth, isAdmin, t);
 
     const onClick: MenuProps['onClick'] = ({ key }) => {
         let path = key;

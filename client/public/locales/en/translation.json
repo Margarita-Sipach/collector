@@ -1,3 +1,9 @@
 {
-	"lang": "en"
+	"lang": "EN",
+	"login": "Login Page",
+	"registration": "Registration Page",
+	"inputValid": "Please input valid",
+	"admin": "Admin Page",
+	"main": "Main Page",
+	"exit": "Exit"
 }

@@ -34,11 +34,9 @@ class UserState {
 
     async initUser() {
         if (!this.userId) return;
-        try {
-            const path = `${USER_ROUTE}${this.userId}`;
-            const { data } = await api.get(path);
-            this.setUser(data);
-        } catch (e) {}
+        const path = `${USER_ROUTE}${this.userId}`;
+        const { data } = await api.get(path);
+        this.setUser(data);
     }
 
     removeUser() {
@@ -76,7 +74,7 @@ class UserState {
 
     async updateUser(changeArgs: Partial<User>) {
         try {
-            const { data } = await authApi.patch(USER_ROUTE, changeArgs);
+            await authApi.patch(USER_ROUTE, changeArgs);
         } catch (e) {
             alert((e as any).response.data.message || 'Unexpected error');
         }
