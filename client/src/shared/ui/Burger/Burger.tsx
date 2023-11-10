@@ -8,7 +8,7 @@ interface BurgerProps{
 	onClick: () => void
 }
 
-export const Burger: FC<BurgerProps> = memo(({ onClick }) => (
+export const Burger: FC<BurgerProps> = memo(({ onClick }: BurgerProps) => (
     <button
         className={cls.burger}
         onClick={onClick}

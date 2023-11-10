@@ -1,0 +1,6 @@
+{
+	"pageError": "Unexpected page error. Try to reload page",
+	"notFound": "Page not found",
+	"unexpected": "Unexpected error",
+	"diffPasswords": "Different passwords"
+}
