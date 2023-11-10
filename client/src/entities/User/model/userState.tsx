@@ -5,6 +5,8 @@ import { LOCAL_STORAGE } from 'shared/const/localstorage';
 
 const USER_ROUTE = 'users/';
 
+const getUserIdRoute = (id: number) => `${USER_ROUTE}${id}`;
+
 export enum Role{
 	USER = 'USER',
 	ADMIN = 'ADMIN'
@@ -35,9 +37,7 @@ class UserState {
 
     async initUser() {
         try {
-            if (!this.userId) return;
-            settingsState.setIsLoading();
-            const path = `${USER_ROUTE}${this.userId}`;
+            const path = getUserIdRoute(this.userId);
             const { data } = await api.get(path);
             this.setUser(data);
         } finally {
@@ -70,6 +70,7 @@ class UserState {
         this.isAuth = true;
         this.isAdmin = data.role === Role.ADMIN;
         this.user = data;
+        this.userId = data.id;
     }
 
     exit() {
@@ -78,6 +79,12 @@ class UserState {
 
     async getUsers() {
         const { data } = await authApi.get(USER_ROUTE);
+        return data;
+    }
+
+    async getUserById(id: number) {
+        if (!id) alert('Id does not exist');
+        const { data } = await authApi.get(getUserIdRoute(id));
         return data;
     }
 
@@ -94,8 +101,7 @@ class UserState {
 
     async deleteUser(id: number) {
         try {
-            settingsState.setIsLoading();
-            await authApi.delete(`${USER_ROUTE}${id}`);
+            const { data } = await authApi.delete(`${USER_ROUTE}${id}`);
         } catch (e) {
             settingsState.setError(e);
         } finally {
