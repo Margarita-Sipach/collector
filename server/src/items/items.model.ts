@@ -4,10 +4,12 @@ import {
   Column,
   DataType,
   ForeignKey,
-  Model,
   Table,
 } from "sequelize-typescript";
+import { Base, requireString } from "src/base/character.model";
 import { Collection } from "src/collections/collections.model";
+import { FieldItem } from "src/fields-items/fields-items.model";
+import { Field } from "src/fields/fields.model";
 import { ItemTag } from "src/items-tags/items-tags.model";
 import { Tag } from "src/tags/tags.model";
 
@@ -18,16 +20,8 @@ interface ItemCreationAttrs {
 }
 
 @Table({ tableName: "items" })
-export class Item extends Model<Item, ItemCreationAttrs> {
-  @Column({
-    type: DataType.INTEGER,
-    unique: true,
-    autoIncrement: true,
-    primaryKey: true,
-  })
-  id: number;
-
-  @Column({ type: DataType.STRING, allowNull: false })
+export class Item extends Base<Item, ItemCreationAttrs> {
+  @Column(requireString)
   title: string;
 
   @Column({ type: DataType.STRING })
@@ -36,10 +30,12 @@ export class Item extends Model<Item, ItemCreationAttrs> {
   @ForeignKey(() => Collection)
   @Column({ field: "collectionId" })
   collectionId: number;
-
   @BelongsTo(() => Collection)
   collection: Collection;
 
   @BelongsToMany(() => Tag, () => ItemTag)
-  item: Tag[];
+  tag: Tag[];
+
+  @BelongsToMany(() => Field, () => FieldItem)
+  field: Field[];
 }

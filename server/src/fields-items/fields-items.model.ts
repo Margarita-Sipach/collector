@@ -1,10 +1,5 @@
-import {
-  Column,
-  DataType,
-  ForeignKey,
-  Model,
-  Table,
-} from "sequelize-typescript";
+import { Column, DataType, ForeignKey, Table } from "sequelize-typescript";
+import { Base } from "src/base/character.model";
 import { Field } from "src/fields/fields.model";
 import { Item } from "src/items/items.model";
 
@@ -15,15 +10,7 @@ interface FieldItemCreationAttrs {
 }
 
 @Table({ tableName: "fields-items" })
-export class FieldItem extends Model<FieldItem, FieldItemCreationAttrs> {
-  @Column({
-    type: DataType.INTEGER,
-    unique: true,
-    autoIncrement: true,
-    primaryKey: true,
-  })
-  id: number;
-
+export class FieldItem extends Base<FieldItem, FieldItemCreationAttrs> {
   @ForeignKey(() => Item)
   @Column
   itemId: number;

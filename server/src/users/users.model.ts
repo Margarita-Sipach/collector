@@ -1,11 +1,11 @@
+import { Column, Default, HasMany, Table } from "sequelize-typescript";
 import {
-  Column,
-  DataType,
-  Default,
-  HasMany,
-  Model,
-  Table,
-} from "sequelize-typescript";
+  Base,
+  requireBoolean,
+  requireEnum,
+  requireString,
+  uniqString,
+} from "src/base/character.model";
 import { Collection } from "src/collections/collections.model";
 
 interface UserCreationAttrs {
@@ -20,35 +20,24 @@ export enum Roles {
 }
 
 @Table({ tableName: "users" })
-export class User extends Model<User, UserCreationAttrs> {
-  @Column({
-    type: DataType.INTEGER,
-    unique: true,
-    autoIncrement: true,
-    primaryKey: true,
-  })
-  id: number;
-
-  @Column({ type: DataType.STRING, allowNull: false })
+export class User extends Base<User, UserCreationAttrs> {
+  @Column(requireString)
   username: string;
 
-  @Column({ type: DataType.STRING, unique: true, allowNull: false })
+  @Column(uniqString)
   email: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column(requireString)
   password: string;
 
   @Default(true)
-  @Column({ type: DataType.BOOLEAN, allowNull: false })
+  @Column(requireBoolean)
   isActive: boolean;
 
   @Default(Roles.ADMIN)
-  @Column({
-    type: DataType.ENUM({ values: Object.keys(Roles) }),
-    allowNull: false,
-  })
+  @Column(requireEnum(Roles))
   role: Roles;
 
   @HasMany(() => Collection)
-  collection: Collection[];
+  collections: Collection[];
 }

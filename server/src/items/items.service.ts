@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/sequelize";
 import { Item } from "./items.model";
 import { CreateDTO } from "./dto/CreateDTO";
 import { ItemTag } from "src/items-tags/items-tags.model";
-import { FieldItem } from "src/fields-items/fields-items.controller";
+import { FieldItem } from "src/fields-items/fields-items.model";
 
 @Injectable()
 export class ItemsService {

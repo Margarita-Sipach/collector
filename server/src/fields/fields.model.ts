@@ -1,4 +1,15 @@
-import { Column, DataType, Default, Model, Table } from "sequelize-typescript";
+import {
+  BelongsTo,
+  BelongsToMany,
+  Column,
+  Default,
+  ForeignKey,
+  Table,
+} from "sequelize-typescript";
+import { Base, requireEnum, requireString } from "src/base/character.model";
+import { Collection } from "src/collections/collections.model";
+import { FieldItem } from "src/fields-items/fields-items.model";
+import { Item } from "src/items/items.model";
 
 export enum FieldTypes {
   INTEGER = "integer",
@@ -13,22 +24,20 @@ interface FieldCreationAttrs {
 }
 
 @Table({ tableName: "fields" })
-export class Field extends Model<Field, FieldCreationAttrs> {
-  @Column({
-    type: DataType.INTEGER,
-    unique: true,
-    autoIncrement: true,
-    primaryKey: true,
-  })
-  id: number;
-
+export class Field extends Base<Field, FieldCreationAttrs> {
   @Default(FieldTypes.CHAR)
-  @Column({
-    type: DataType.ENUM({ values: Object.values(FieldTypes) }),
-    allowNull: false,
-  })
+  @Column(requireEnum(FieldTypes))
   type: FieldTypes;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column(requireString)
   title: string;
+
+  @ForeignKey(() => Collection)
+  @Column({ field: "collectionId" })
+  collectionId: number;
+  @BelongsTo(() => Collection)
+  collection: Collection;
+
+  @BelongsToMany(() => Item, () => FieldItem)
+  item: Item[];
 }

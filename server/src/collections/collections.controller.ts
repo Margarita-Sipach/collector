@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { CollectionsService } from "./collections.service";
 import { CreateDTO } from "./dto/CreateDTO";
 import { CommonGuard } from "src/guards/common.guard";
@@ -11,6 +11,12 @@ export class CollectionsController {
   @Post()
   async create(@Body() dto: CreateDTO) {
     const collection = await this.collectionsService.create(dto);
+    return collection;
+  }
+
+  @Get()
+  async getAll() {
+    const collection = await this.collectionsService.getAll();
     return collection;
   }
 }
