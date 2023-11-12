@@ -14,7 +14,7 @@ import { ItemsModule } from "./items/items.module";
 import { TagsModule } from "./tags/tags.module";
 import { FieldsModule } from "./fields/fields.module";
 import { Field } from "./fields/fields.model";
-import { FieldItem } from "./fields-items/fields-items.controller";
+import { FieldItem } from "./fields-items/fields-items.model";
 
 const dialectOptions = {
   supportBigNumbers: true,
