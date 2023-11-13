@@ -1,7 +1,8 @@
 import { FieldTypes } from "src/fields/fields.model";
 
 type Fields = {
-  [key in FieldTypes]: string[];
+  title: string;
+  type: FieldTypes;
 };
 
 export interface CreateDTO {
@@ -10,5 +11,5 @@ export interface CreateDTO {
   description?: string;
   img?: string;
   theme: string;
-  fields: Fields;
+  fields: Fields[];
 }
