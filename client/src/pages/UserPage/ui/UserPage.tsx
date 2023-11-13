@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { userState } from 'entities/User';
+import { AddCollectionModal } from 'widgets/AddCollectionModal';
 import cls from './UserPage.module.scss';
 import { UserHeader } from './UserHeader/UserHeader';
 
@@ -10,6 +11,7 @@ const UserPage = observer(() => {
     const { id } = useParams();
 
     const [user, setUser] = useState({});
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         userState.getUserById(Number(id)).then((data) => setUser(data));
@@ -17,7 +19,8 @@ const UserPage = observer(() => {
 
     return (
         <div className={cls.col}>
-            <UserHeader user={user} />
+            <UserHeader user={user} setIsVisible={setIsVisible} />
+            <AddCollectionModal userId={Number(id)} isVisible={isVisible} setIsVisible={setIsVisible} />
         </div>
     );
 });

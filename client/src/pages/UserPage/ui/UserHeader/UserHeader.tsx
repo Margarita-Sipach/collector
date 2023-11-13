@@ -13,10 +13,11 @@ const { Title } = Typography;
 interface UserHeaderProps {
   className?: string
   user: Partial<User>
+  setIsVisible: (isVisible: boolean) => void
 }
 
 export const UserHeader: FC<UserHeaderProps> = observer((props) => {
-    const { user } = props;
+    const { user, setIsVisible } = props;
     const { t } = useTranslation();
 
     return (
@@ -29,7 +30,9 @@ export const UserHeader: FC<UserHeaderProps> = observer((props) => {
                 <Title>{user.username}</Title>
                 <AppStatistic itemsAmount={200} collectionsAmount={300} />
                 {(user.id === userState.userId || userState.isAdmin) && (
-                    <Button className={cls.buttons}>
+                    <Button className={cls.buttons} 
+					onClick={() => { setIsVisible(true); }}
+					>
                         +
                         {t('collection')}
                     </Button>
