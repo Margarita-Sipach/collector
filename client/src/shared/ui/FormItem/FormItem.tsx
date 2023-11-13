@@ -1,10 +1,15 @@
-import { Form, Input, Select } from 'antd';
+import {
+    DatePicker, Form, Input, InputNumber, Select, SelectProps, Switch,
+} from 'antd';
 import { FC, useMemo } from 'react';
 
 export enum FormItemTypes {
 	'input' = 'input',
+	'inputNumber' = 'inputNumber',
+	'switch' = 'switch',
 	'textarea' = 'textarea',
 	'select' = 'select',
+	'date' = 'date',
 }
 
 export interface FormItemProps {
@@ -14,6 +19,7 @@ export interface FormItemProps {
   type?: FormItemTypes
   options?: string[]
   placeholder?: string
+  mode?: 'multiple' | 'tags'
 }
 
 export const FormItem: FC<FormItemProps> = (props) => {
@@ -25,14 +31,18 @@ export const FormItem: FC<FormItemProps> = (props) => {
             : '',
         isRequired = true,
         options,
+        mode = 'multiple',
         placeholder = '',
     } = props;
 
     const Children = useMemo(() => {
         switch (type) {
         case 'textarea': return <Input.TextArea />;
+        case 'inputNumber': return <InputNumber />;
+        case 'switch': return <Switch />;
+        case 'date': return <DatePicker />;
         case 'select': return (
-            <Select>
+            <Select mode={mode}>
                 {options && options.map((item) => (
                     <Select.Option
                         value={item}
