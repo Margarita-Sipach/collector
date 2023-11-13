@@ -4,7 +4,6 @@ import { Collection } from "./collections.model";
 import { CreateDTO } from "./dto/CreateDTO";
 import { ThemesService } from "src/themes/themes.service";
 import { FieldsService } from "src/fields/fields.service";
-import { FieldTypes } from "src/fields/fields.model";
 
 @Injectable()
 export class CollectionsService {
@@ -20,13 +19,10 @@ export class CollectionsService {
       ...collectionArgs,
       themeId,
     });
-    Object.entries(fields).forEach(([type, titles]) => {
-      titles.forEach((title) => {
-        this.fieldService.create({
-          type: type as unknown as FieldTypes,
-          title,
-          collectionId: collection.id,
-        });
+    fields.forEach((field) => {
+      this.fieldService.create({
+        ...field,
+        collectionId: collection.id,
       });
     });
     return collection;
