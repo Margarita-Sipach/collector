@@ -31,4 +31,10 @@ export class CollectionsService {
   async getAll() {
     return await this.collectionRepository.findAll({ include: { all: true } });
   }
+
+  async getById(id: number) {
+    return await this.collectionRepository.findByPk(id, {
+      include: { all: true },
+    });
+  }
 }

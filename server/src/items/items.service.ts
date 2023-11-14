@@ -25,12 +25,20 @@ export class ItemsService {
       });
     });
     for (const tag of tags) await this.setTag(item.id, tag);
-    return await this.itemRepository.findByPk(item.id, {include: {all: true}});
+    return await this.itemRepository.findByPk(item.id, {
+      include: { all: true },
+    });
   }
 
   async setTag(itemId: number, title: string) {
-	const tag = (await this.tagRepository.findOne({where: {title}}))
-    const { id: tagId } = tag.id ? tag : await this.tagRepository.create({ title });
+    const tag = await this.tagRepository.findOne({ where: { title } });
+    const { id: tagId } = tag.id
+      ? tag
+      : await this.tagRepository.create({ title });
     this.itemTagRepository.create({ itemId, tagId });
+  }
+
+  async getById(id: number) {
+    return await this.itemRepository.findByPk(id, { include: { all: true } });
   }
 }
