@@ -1,7 +1,7 @@
 import { Form, Modal } from 'antd';
 import { collectionState } from 'entities/Collection';
 import { observer } from 'mobx-react-lite';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 interface ModalFormProps {
 	onFinish: (values: any) => void
@@ -17,6 +17,11 @@ export const ModalForm: FC<ModalFormProps> = observer((props) => {
 
     const [form] = Form.useForm();
 
+	useEffect(() => {
+		if(values) form.setFieldsValue(values)
+		else form.resetFields()
+	}, [values])
+
     return (
         <Modal
             open={collectionState.isModalVisible}
@@ -27,7 +32,6 @@ export const ModalForm: FC<ModalFormProps> = observer((props) => {
             <Form
                 form={form}
                 onFinish={onFinish}
-                initialValues={values}
             >
                 {children}
             </Form>

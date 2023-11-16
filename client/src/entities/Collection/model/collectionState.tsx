@@ -6,6 +6,15 @@ import { errorHandler } from 'shared/error/errorHandler';
 const COLLECTION_ROUTE = 'collections/';
 
 export interface Collection {
+	id: number;
+	userId: number;
+	title: string;
+	theme: string;
+	description: string;
+	fields: {
+		title: string;
+		type: number
+	}
 }
 
 export enum FieldTypes {
@@ -53,12 +62,20 @@ class CollectionState extends ModalState<any> {
         return errorHandler(getAll);
     }
 
-    async delete(id: number) {
-		return errorHandler(() => authApi.delete(COLLECTION_ROUTE + id));
+    async delete(id: number, userId: number) {
+		const deleteHandle = async() => {
+			await authApi.delete(COLLECTION_ROUTE + id)
+			await this.getAll({userId})
+		}
+		return errorHandler(deleteHandle);
     }
 
-    async update(args: any) {
-		return errorHandler(() => authApi.put(COLLECTION_ROUTE + args.id, args));
+    async update(collection: any) {
+		const update = async() => {
+			await authApi.put(COLLECTION_ROUTE + collection.id, collection)
+			await this.getAll({userId: collection.userId})
+		}
+		return errorHandler(update);
     }
 
     async getById(id: number) {

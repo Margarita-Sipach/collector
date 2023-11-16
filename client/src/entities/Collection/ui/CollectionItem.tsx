@@ -1,47 +1,54 @@
 import { Card, Dropdown } from 'antd';
 import Meta from 'antd/es/card/Meta';
-import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { CommonRoutePath } from 'shared/config/routeConfig/commonConfig';
 import { MdEdit } from 'react-icons/md';
 import { observer } from 'mobx-react-lite';
 import cls from './CollectionItem.module.scss';
-
-import { collectionState } from '../model/collectionState';
+import { Collection, collectionState } from '../model/collectionState';
+import { FC } from 'react';
 
 interface CollectionItemProps {
   className?: string
-  title: string
-  id: number
+  collection: Collection
 }
 
 export const CollectionItem: FC<CollectionItemProps> = observer((props) => {
     const {
-        title, id,
+        collection
     } = props;
+
+	const updateHandle = (e: any) => {
+		e.stopPropagation()
+		collectionState.setValues(collection)
+		collectionState.openModal()
+	}
+
+	const deleteHandle = (e: any) => {
+		e.stopPropagation()
+		collectionState.delete(collection.id, collection.userId)
+	}
 
     const items = [
         {
             key: 'update',
-            label: <span onClick={() => {}}>update</span>,
-            disabled: true,
+            label: <span onClick={updateHandle}>update</span>,
         },
         {
             key: 'delete',
-            label: <span onClick={() => {}}>delete</span>,
-            disabled: true,
+            label: <span onClick={deleteHandle}>delete</span>,
             danger: true,
         },
     ];
 
     return (
-        <Link to={`${CommonRoutePath.collection}/${id}`} className={cls.card}>
+        <Link to={`${CommonRoutePath.collection}/${collection.id}`} className={cls.card}>
             <Card
                 hoverable
                 cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
             >
                 <div className={cls.cardContent}>
-                    <Meta title={title} />
+                    <Meta title={collection.title} />
                     <Dropdown menu={{ items }}>
                         <MdEdit
                             className={cls.menuLink}

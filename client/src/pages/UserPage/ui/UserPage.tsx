@@ -22,7 +22,6 @@ const UserPage = observer(() => {
 		const numberId = Number(id)
 		setUserById(numberId)
 		setCollectionsById(numberId)
-		console.log(collectionState.collections)
 	}, [])
 
 
@@ -32,7 +31,7 @@ const UserPage = observer(() => {
                 <div className={cls.col}>
                     <UserHeader user={user} />
                     <div className={cls.body}>
-                        {collectionState.collections?.map((item: any) => <CollectionItem key={item.id} {...item} />)}
+                        {collectionState.collections?.map((item: any) => <CollectionItem key={item.id} collection={item} />)}
                     </div>
                 </div>
             )}
