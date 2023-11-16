@@ -20,6 +20,7 @@ export interface FormItemProps {
   options?: string[]
   placeholder?: string
   mode?: 'multiple' | 'tags'
+  className?: string
 }
 
 export const FormItem: FC<FormItemProps> = (props) => {
@@ -31,8 +32,9 @@ export const FormItem: FC<FormItemProps> = (props) => {
             : '',
         isRequired = true,
         options,
-        mode = 'multiple',
+        mode,
         placeholder = '',
+        className,
     } = props;
 
     const Children = useMemo(() => {
@@ -42,16 +44,20 @@ export const FormItem: FC<FormItemProps> = (props) => {
         case 'switch': return <Switch />;
         case 'date': return <DatePicker />;
         case 'select': return (
-            <Select mode={mode}>
-                {options && options.map((item) => (
-                    <Select.Option
-                        value={item}
-                        key={item}
-                    >
-                        {item}
-                    </Select.Option>
-                ))}
-            </Select>
+            options
+            && (
+                <Select mode={mode}>
+                    {options.map((item) => (
+                        <Select.Option
+                            value={item}
+                            key={item}
+                        >
+                            {item}
+                        </Select.Option>
+                    ))}
+                </Select>
+            )
+
         );
         default: return <Input placeholder={placeholder} />;
         }
@@ -65,6 +71,7 @@ export const FormItem: FC<FormItemProps> = (props) => {
                 required: isRequired,
                 message: 'Please input title!',
             }]}
+            className={className}
         >
             {Children}
         </Form.Item>

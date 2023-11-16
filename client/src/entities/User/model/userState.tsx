@@ -1,4 +1,5 @@
 import { settingsState } from 'app/providers/SettingsProvider';
+import { Collection } from 'entities/Collection';
 import { makeAutoObservable } from 'mobx';
 import { api, authApi } from 'shared/api/api';
 import { LOCAL_STORAGE } from 'shared/const/localstorage';
@@ -18,11 +19,12 @@ export interface User {
 	email: string,
 	password: string,
 	role: Role
-	isActive: boolean
+	isActive: boolean,
+	collections: Collection[]
 }
 
 class UserState {
-    user: User | null = null;
+    user:any = null;
 
     isAuth: boolean = false;
 
@@ -82,7 +84,7 @@ class UserState {
         return data;
     }
 
-    async getUserById(id: number) {
+    async getUserById(id: number): Promise<User> {
         if (!id) alert('Id does not exist');
         const { data } = await authApi.get(getUserIdRoute(id));
         return data;

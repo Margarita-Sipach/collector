@@ -1,39 +1,36 @@
 import { Form, Modal } from 'antd';
+import { collectionState } from 'entities/Collection';
+import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 
 interface ModalFormProps {
-	isVisible: boolean
-	setIsVisible: (isVisible: boolean) => void
 	onFinish: (values: any) => void
+	onReset?: any
 	title: string
+	values?: any
 }
 
-export const ModalForm: FC<ModalFormProps> = (props) => {
+export const ModalForm: FC<ModalFormProps> = observer((props) => {
     const {
-        isVisible, setIsVisible, onFinish, children, title,
+        onFinish, onReset, children, title, values,
     } = props;
+
     const [form] = Form.useForm();
-
-    const handleSubmit = (values: any) => {
-        onFinish(values);
-        setIsVisible(false);
-    };
-
-    const handleCancel = () => {
-      setIsVisible(false);
-      form.resetFields();
-    };
 
     return (
         <Modal
-            open={isVisible}
+            open={collectionState.isModalVisible}
             onOk={form.submit}
-            onCancel={handleCancel}
+            onCancel={onReset}
             title={title}
         >
-            <Form form={form} onFinish={handleSubmit}>
+            <Form
+                form={form}
+                onFinish={onFinish}
+                initialValues={values}
+            >
                 {children}
             </Form>
         </Modal>
     );
-};
+});

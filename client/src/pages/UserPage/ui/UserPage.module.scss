@@ -1,10 +1,16 @@
 .col {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 50px;
     width: 100%;
 
     & > * {
         width: 100%;
     }
+}
+
+.body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }

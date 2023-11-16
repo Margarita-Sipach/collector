@@ -6,6 +6,8 @@ import { AppStatistic } from 'features/AppStatistic';
 import { useTranslation } from 'react-i18next';
 import { User, userState } from 'entities/User';
 import { observer } from 'mobx-react-lite';
+import { settingsState } from 'app/providers/SettingsProvider';
+import { collectionState } from 'entities/Collection';
 import cls from './UserHeader.module.scss';
 
 const { Title } = Typography;
@@ -13,11 +15,10 @@ const { Title } = Typography;
 interface UserHeaderProps {
   className?: string
   user: Partial<User>
-  setIsVisible: (isVisible: boolean) => void
 }
 
 export const UserHeader: FC<UserHeaderProps> = observer((props) => {
-    const { user, setIsVisible } = props;
+    const { user } = props;
     const { t } = useTranslation();
 
     return (
@@ -30,9 +31,12 @@ export const UserHeader: FC<UserHeaderProps> = observer((props) => {
                 <Title>{user.username}</Title>
                 <AppStatistic itemsAmount={200} collectionsAmount={300} />
                 {(user.id === userState.userId || userState.isAdmin) && (
-                    <Button className={cls.buttons} 
-					onClick={() => { setIsVisible(true); }}
-					>
+                    <Button
+                        className={cls.buttons}
+                        onClick={() => {
+                            collectionState.openModal();
+                        }}
+                    >
                         +
                         {t('collection')}
                     </Button>

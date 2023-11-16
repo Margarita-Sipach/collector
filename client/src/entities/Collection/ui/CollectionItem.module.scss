@@ -1,0 +1,15 @@
+.card {
+    position: relative;
+    width: 250px;
+}
+
+.menuLink {
+    font-size: 20px;
+}
+
+.cardContent {
+    display: grid;
+    justify-content: space-between;
+    align-items: center;
+    grid-template-columns: 85% 15%;
+}
