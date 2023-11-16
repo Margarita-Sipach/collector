@@ -19,7 +19,7 @@ export class CollectionsService {
       ...collectionArgs,
       themeId,
     });
-    fields.forEach((field) => {
+    if(fields) fields.forEach((field) => {
       this.fieldService.create({
         ...field,
         collectionId: collection.id,
