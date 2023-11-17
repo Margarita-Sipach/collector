@@ -21,4 +21,11 @@ export class FieldsService {
     const field = await this.fieldRepository.findOne({ where: { title } });
     return field;
   }
+
+  async deleteByCollectionId(collectionId: number) {
+    const field = await this.fieldRepository.destroy({
+      where: { collectionId },
+    });
+    return field;
+  }
 }

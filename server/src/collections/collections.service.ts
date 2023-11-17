@@ -4,6 +4,7 @@ import { Collection } from "./collections.model";
 import { CreateDTO } from "./dto/CreateDTO";
 import { ThemesService } from "src/themes/themes.service";
 import { FieldsService } from "src/fields/fields.service";
+import { UpdateDTO } from "./dto/UpdateDTO";
 
 @Injectable()
 export class CollectionsService {
@@ -19,13 +20,36 @@ export class CollectionsService {
       ...collectionArgs,
       themeId,
     });
-    if(fields) fields.forEach((field) => {
-      this.fieldService.create({
-        ...field,
-        collectionId: collection.id,
-      });
-    });
-    return collection;
+    await this.createFields(fields, collection.id);
+    return await this.getById(collection.id);
+  }
+
+  async update({ fields, theme, ...collectionArgs }: UpdateDTO) {
+    const { id: themeId } = await this.themeService.getByTitle(theme);
+    await this.collectionRepository.update(
+      {
+        ...collectionArgs,
+        themeId,
+      },
+      { where: { id: collectionArgs.id } },
+    );
+
+    await this.fieldService.deleteByCollectionId(collectionArgs.id);
+    await this.createFields(fields, collectionArgs.id);
+
+    return await this.getById(collectionArgs.id);
+  }
+
+  async createFields(fields: any, collectionId: number) {
+    if (fields)
+      await Promise.all(
+        fields.map((field) =>
+          this.fieldService.create({
+            ...field,
+            collectionId,
+          }),
+        ),
+      );
   }
 
   async getAll() {
@@ -36,5 +60,9 @@ export class CollectionsService {
     return await this.collectionRepository.findByPk(id, {
       include: { all: true },
     });
+  }
+
+  async delete(id: number) {
+    return await this.collectionRepository.destroy({ where: { id } });
   }
 }
