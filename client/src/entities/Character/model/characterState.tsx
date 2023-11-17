@@ -12,9 +12,9 @@ export enum CharacterRoutes{
 }
 
 class CharacterState {
-    themes: any = [];
+    themes: Character[] = [];
 
-    tags: any = [];
+    tags: Character[] = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -29,7 +29,7 @@ class CharacterState {
 
     async getTags() {
         const data = await this.getAll(CharacterRoutes.tags);
-        this.themes = data;
+        this.tags = data;
         return data;
     }
 
