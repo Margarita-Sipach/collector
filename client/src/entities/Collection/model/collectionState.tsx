@@ -72,7 +72,7 @@ class CollectionState extends ModalState<any> {
 
     async update(collection: any) {
 		const update = async() => {
-			await authApi.put(COLLECTION_ROUTE + collection.id, collection)
+			await authApi.patch(COLLECTION_ROUTE + collection.id, collection)
 			await this.getAll({userId: collection.userId})
 		}
 		return errorHandler(update);

@@ -20,7 +20,7 @@ export const CollectionItem: FC<CollectionItemProps> = observer((props) => {
 
 	const updateHandle = (e: any) => {
 		e.stopPropagation()
-		collectionState.setValues(collection)
+		collectionState.setValues({...collection, theme: (collection.theme as any).title})
 		collectionState.openModal()
 	}
 
