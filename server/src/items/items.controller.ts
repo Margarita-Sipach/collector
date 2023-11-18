@@ -19,4 +19,10 @@ export class ItemsController {
     const collection = await this.itemsService.getById(id);
     return collection;
   }
+
+  @Get()
+  async getAll() {
+    const items = await this.itemsService.getAll();
+    return items;
+  }
 }
