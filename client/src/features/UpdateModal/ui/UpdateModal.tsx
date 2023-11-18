@@ -21,7 +21,7 @@ export const UpdateModal: FC<UpdateModalProps> = observer((props) => {
         children,
     } = props;
 
-    const state = type === UpdateModalTypes.collection ? collectionState : itemState as any;
+    const state = type === UpdateModalTypes.collection ? collectionState : itemState;
 
     const onFinish = async (values: any) => {
         const method = values.id ? 'update' : 'add';
@@ -35,10 +35,11 @@ export const UpdateModal: FC<UpdateModalProps> = observer((props) => {
 
     return (
         <ModalForm
-            title="Collection Modal"
+            title={`${type} modal`}
             onFinish={onFinish}
             onReset={onReset}
             values={state.values}
+			isModalVisible={state.isModalVisible}
         >
             {children}
         </ModalForm>

@@ -22,6 +22,10 @@ const UserPage = observer(() => {
 		const numberId = Number(id)
 		setUserById(numberId)
 		setCollectionsById(numberId)
+
+		return () => {
+			collectionState.setCollections([])
+		}
 	}, [])
 
 

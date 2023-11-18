@@ -21,6 +21,7 @@ export interface FormItemProps {
   placeholder?: string
   mode?: 'multiple' | 'tags'
   className?: string
+  defaultValue?: string
 }
 
 export const FormItem: FC<FormItemProps> = (props) => {
@@ -35,6 +36,7 @@ export const FormItem: FC<FormItemProps> = (props) => {
         mode,
         placeholder = '',
         className,
+		defaultValue
     } = props;
 
     const Children = useMemo(() => {
@@ -46,7 +48,7 @@ export const FormItem: FC<FormItemProps> = (props) => {
         case 'select': return (
             options
             && (
-                <Select mode={mode}>
+                <Select mode={mode} defaultValue={defaultValue}>
                     {options.map((item) => (
                         <Select.Option
                             value={item}

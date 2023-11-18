@@ -2,51 +2,36 @@ import { FC, useEffect, useState } from 'react';
 import { ModalForm } from 'shared/ui/ModalForm/ModalForm';
 import { characterState } from 'entities/Character';
 import { observer } from 'mobx-react-lite';
-import { collectionState } from 'entities/Collection';
+import { FieldTypes, collectionState } from 'entities/Collection';
+import { UpdateModal, UpdateModalTypes } from 'features/UpdateModal';
 import { FormItem, FormItemTypes } from 'shared/ui/FormItem/FormItem';
-import { FieldInput } from './FieldInput/FieldInput';
-import { Form, Input, Upload } from 'antd';
-import { itemState } from 'entities/Item';
+
+const FieldInputTypes = {
+    [FieldTypes.BOOLEAN]: FormItemTypes.switch,
+    [FieldTypes.CHAR]: FormItemTypes.input,
+    [FieldTypes.DATE]: FormItemTypes.date,
+    [FieldTypes.INTEGER]: FormItemTypes.inputNumber,
+    [FieldTypes.TEXT]: FormItemTypes.textarea,
+};
 
 interface AddItemModalProps {
   className?: string
-  collectionId: number
-  setIsVisible: (isVisible: boolean) => void
-  isVisible: boolean
 }
 
 export const AddItemModal: FC<AddItemModalProps> = observer((props) => {
     const {
-        collectionId, isVisible, setIsVisible,
     } = props;
 
-    const [collection, setCollection] = useState(null);
-    useEffect(() => {
-        collectionState.getAll().then((data: any) => setCollection(data[0] as any));
-    }, []);
-
-    const onFinish = (values: any) => {
-		const {title, tags, ...fieldsArgs} = values;
-
-		const fields: [number, any][] = Object.entries(fieldsArgs)
-		.filter(([_, val]) => val)
-		.map(([id, val]) => [+id.slice(0, -6), val])
-		itemState.add({ collectionId, title, tags, fields});
-    };
-
     return (
-        <ModalForm
-            title="Item Modal"
-            isVisible={isVisible}
-            setIsVisible={setIsVisible}
-            onFinish={onFinish}
-        >
+	<UpdateModal
+	type={UpdateModalTypes.item}
+>
             <FormItem name="title" label="Item title" />
             <FormItem
                 type={FormItemTypes.select}
                 mode="tags"
                 name="tags"
-                options={characterState.themes.map(({ title }: any) => (title))}
+                options={characterState.tags.map(({ title }: any) => (title))}
             />
             {/* <Form.Item
                 name="img"
@@ -56,13 +41,12 @@ export const AddItemModal: FC<AddItemModalProps> = observer((props) => {
                     <Button>Click to upload</Button>
                 </Upload>
             </Form.Item> */}
-			
 
+            {collectionState.collection?.fields.map(({type, id, title}: any) => (
+                <FormItem type={(FieldInputTypes as any)[type]} name={`${id}-field`} label={title} isRequired={false} />
+            ))}
 
-	{collection && (collection as any).fields && (collection as any).fields.map((field: any) => (
-	  <FieldInput {...field} key={`field-${field.id}`}/>
-	))}
-
-        </ModalForm>
+        </UpdateModal>
     );
 });
+

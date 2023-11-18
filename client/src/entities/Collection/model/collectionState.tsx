@@ -14,7 +14,7 @@ export interface Collection {
 	fields: {
 		title: string;
 		type: number
-	}
+	}[]
 }
 
 export enum FieldTypes {
@@ -37,14 +37,28 @@ interface AddDTO{
 }
 
 class CollectionState extends ModalState<any> {
-	collections: Collection[] = []
+	collections: Collection[] | null = []
+	collection: Collection | null = null
     constructor() {
 		super()
         makeObservable(this, {
 			collections: observable,
+			collection: observable,
 			...modalProps
 		});
     }
+
+	setCollections(collections: Collection[]){
+		this.collections = collections
+	}
+
+	setCollection(collection: Collection | null){
+		this.collection = collection
+	}
+
+	setValues(value: any): void {
+		this.values = value ? {...value, theme: (value.theme as any).title} : value
+	}
 
     async add(collection: AddDTO) {
         const add = async () => {
@@ -79,8 +93,12 @@ class CollectionState extends ModalState<any> {
     }
 
     async getById(id: number) {
-        const { data } = await authApi.get(COLLECTION_ROUTE + id);
-        return data;
+		const getById = async() => {
+			const { data } = await authApi.get(COLLECTION_ROUTE + id);
+		    if(data) this.collection = data
+			console.log(this.collection)
+		}
+        return errorHandler(getById);
     }
 }
 

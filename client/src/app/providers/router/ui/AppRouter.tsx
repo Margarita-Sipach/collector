@@ -28,7 +28,7 @@ export const AppRouter = memo(observer(() => {
                                 {element}
                             </div>
                             <AddCollectionModal />
-                            {/* <AddItemModal /> */}
+                            <AddItemModal />
                         </Suspense>
                     )}
                 />

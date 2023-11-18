@@ -8,11 +8,12 @@ interface ModalFormProps {
 	onReset?: any
 	title: string
 	values?: any
+	isModalVisible: boolean
 }
 
 export const ModalForm: FC<ModalFormProps> = observer((props) => {
     const {
-        onFinish, onReset, children, title, values,
+        onFinish, onReset, children, title, values, isModalVisible
     } = props;
 
     const [form] = Form.useForm();
@@ -24,7 +25,7 @@ export const ModalForm: FC<ModalFormProps> = observer((props) => {
 
     return (
         <Modal
-            open={collectionState.isModalVisible}
+            open={isModalVisible}
             onOk={form.submit}
             onCancel={onReset}
             title={title}
