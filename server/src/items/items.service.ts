@@ -17,25 +17,23 @@ export class ItemsService {
 
   async create({ fields, tags, ...createArgs }: CreateDTO) {
     const item = await this.itemRepository.create(createArgs);
-    fields.forEach(([fieldId, value]) => {
-      this.fieldItemRepository.create({
-        fieldId: +fieldId,
-        value,
-        itemId: item.id,
-      });
-    });
-    for (const tag of tags) await this.setTag(item.id, tag);
-    return await this.itemRepository.findByPk(item.id, {
-      include: { all: true },
-    });
+    await Promise.all(
+      fields.map(([fieldId, value]) =>
+        this.fieldItemRepository.create({
+          fieldId: +fieldId,
+          value,
+          itemId: item.id,
+        }),
+      ),
+    );
+    await Promise.all(tags.map((tag) => this.setTag(item.id, tag)));
+    return await this.getById(item.id);
   }
 
   async setTag(itemId: number, title: string) {
     const tag = await this.tagRepository.findOne({ where: { title } });
-    const { id: tagId } = tag.id
-      ? tag
-      : await this.tagRepository.create({ title });
-    this.itemTagRepository.create({ itemId, tagId });
+    const { id: tagId } = tag || (await this.tagRepository.create({ title }));
+    await this.itemTagRepository.create({ itemId, tagId });
   }
 
   async getById(id: number) {
