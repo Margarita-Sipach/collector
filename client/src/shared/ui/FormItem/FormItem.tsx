@@ -1,6 +1,8 @@
 import {
     DatePicker, Form, Input, InputNumber, Select, Switch,
 } from 'antd';
+import { collectionState } from 'entities/Collection';
+import { itemState } from 'entities/Item';
 import { FC, useMemo } from 'react';
 
 export enum FormItemTypes {
@@ -22,6 +24,7 @@ export interface FormItemProps {
   mode?: 'multiple' | 'tags'
   className?: string
   defaultValue?: string
+  other?: Object
 }
 
 export const FormItem: FC<FormItemProps> = (props) => {
@@ -37,6 +40,7 @@ export const FormItem: FC<FormItemProps> = (props) => {
         placeholder = '',
         className,
         defaultValue,
+        other = type === FormItemTypes.switch ? { valuePropName: 'checked' } : {},
     } = props;
 
     const Children = useMemo(() => {
@@ -74,6 +78,7 @@ export const FormItem: FC<FormItemProps> = (props) => {
                 message: 'Please input title!',
             }]}
             className={className}
+            {...other}
         >
             {Children}
         </Form.Item>

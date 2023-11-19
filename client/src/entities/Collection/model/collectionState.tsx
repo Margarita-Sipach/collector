@@ -13,7 +13,8 @@ export interface Collection {
 	description: string;
 	fields: {
 		title: string;
-		type: number
+		type: number;
+		FieldItem: {value: string}
 	}[]
 }
 

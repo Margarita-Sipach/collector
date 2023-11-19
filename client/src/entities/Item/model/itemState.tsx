@@ -1,8 +1,10 @@
+import dayjs from 'dayjs';
+import { FieldTypes } from 'entities/Collection';
 import { makeObservable, observable } from 'mobx';
 import { API } from 'shared/api/api';
 import { ModalState, modalProps } from 'shared/class/ModalState';
 
-const ITEM_ROUTE = 'items/';
+const ITEM_ROUTE = 'items';
 
 export interface Item {
 }
@@ -36,9 +38,23 @@ class ItemState extends ModalState<any> {
         if (values) {
             const fields = Object.fromEntries(
                 values.field
-                    .map(({ id, FieldItem }: any) => [`${id}-field`, FieldItem.value]),
+                    .map(({ id, FieldItem, type }: any) => {
+                        const fn = (val: string) => {
+                            switch (type) {
+                            case FieldTypes.BOOLEAN: return val === 'true';
+                            case FieldTypes.INTEGER: return parseInt(val);
+                            case FieldTypes.DATE: return dayjs(val.slice(0, 10));
+                            default: return val;
+                            }
+                        };
+                        return [`${id}-field`, fn(FieldItem.value)];
+                    }),
             );
-            values = { ...values, ...fields };
+            values = {
+                ...values,
+                ...fields,
+                tag: values.tag.map(({ title }: any) => title),
+            };
         }
         this.values = values;
     }
@@ -49,17 +65,18 @@ class ItemState extends ModalState<any> {
         const item = {
             title,
             tags,
-            userId,
             collectionId,
-            fields: Object.entries(fields).map(([key, val]) => [parseInt(key), val]),
+            fields: Object.entries(fields)
+                .filter(([_, val]) => val)
+                .map(([key, val]) => [parseInt(key), val]),
         };
         await this.api.add(item);
-        await this.getAll();
+        await this.getAll({ collectionId: item.collectionId });
     }
 
     async update(item: AddDTO) {
         await this.api.update(item);
-        await this.getAll();
+        await this.getAll({ collectionId: item.collectionId });
     }
 
     async getAll(query: any = {}) {

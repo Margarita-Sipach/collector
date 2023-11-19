@@ -11,8 +11,9 @@ const CollectionPage = observer(() => {
     const { id } = useParams();
 
     useEffect(() => {
-        collectionState.getById(Number(id));
-        itemState.getAll();
+        const numberId = Number(id);
+        collectionState.getById(numberId);
+        itemState.getAll({ collectionId: numberId });
         return () => {
             collectionState.setCollection(null);
         };

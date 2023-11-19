@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { FieldTypes, collectionState } from 'entities/Collection';
 import { UpdateModal, UpdateModalTypes } from 'features/UpdateModal';
 import { FormItem, FormItemTypes } from 'shared/ui/FormItem/FormItem';
+import { itemState } from 'entities/Item';
 
 const FieldInputTypes = {
     [FieldTypes.BOOLEAN]: FormItemTypes.switch,
@@ -21,12 +22,14 @@ export const UpdateItemModal: FC<UpdateItemModalProps> = observer(() => (
     <UpdateModal
         type={UpdateModalTypes.item}
     >
+        <FormItem name="id" className="none" isRequired={false} />
         <FormItem name="title" label="Item title" />
         <FormItem
             type={FormItemTypes.select}
             mode="tags"
-            name="tags"
+            name="tag"
             options={characterState.tags.map(({ title }: any) => (title))}
+            defaultValue={(itemState.item as any)?.tag}
         />
         {/* <Form.Item
                 name="img"
