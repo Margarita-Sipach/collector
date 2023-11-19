@@ -40,7 +40,10 @@ export class ItemsService {
     return await this.itemRepository.findByPk(id, { include: { all: true } });
   }
 
-  async getAll() {
-    return await this.itemRepository.findAll({ include: { all: true } });
+  async getAll(request) {
+    return await this.itemRepository.findAll({
+      include: { all: true },
+      where: request,
+    });
   }
 }

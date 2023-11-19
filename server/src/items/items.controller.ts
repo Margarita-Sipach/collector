@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from "@nestjs/common";
 import { ItemsService } from "./items.service";
 import { CommonGuard } from "src/guards/common.guard";
 import { CreateDTO } from "./dto/CreateDTO";
+import { Request } from "express";
 
 @Controller("items")
 export class ItemsController {
@@ -21,8 +30,8 @@ export class ItemsController {
   }
 
   @Get()
-  async getAll() {
-    const items = await this.itemsService.getAll();
+  async getAll(@Req() request: Request) {
+    const items = await this.itemsService.getAll(request.query);
     return items;
   }
 }

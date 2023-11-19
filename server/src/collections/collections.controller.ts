@@ -7,7 +7,9 @@ import {
   Patch,
   Post,
   UseGuards,
+  Req,
 } from "@nestjs/common";
+import { Request } from "express";
 import { CollectionsService } from "./collections.service";
 import { CreateDTO } from "./dto/CreateDTO";
 import { CommonGuard } from "src/guards/common.guard";
@@ -25,8 +27,8 @@ export class CollectionsController {
   }
 
   @Get()
-  async getAll() {
-    const collection = await this.collectionsService.getAll();
+  async getAll(@Req() request: Request) {
+    const collection = await this.collectionsService.getAll(request.query);
     return collection;
   }
 
