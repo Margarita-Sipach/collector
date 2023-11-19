@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Button, Form, Space } from 'antd';
+import { Button, Form } from 'antd';
 import { FormItem, FormItemTypes } from 'shared/ui/FormItem/FormItem';
 import { FieldTypes } from 'entities/Collection';
 import { AiFillDelete } from 'react-icons/ai';
@@ -9,48 +9,41 @@ interface FieldsListProps {
   className?: string
 }
 
-export const FieldsList: FC<FieldsListProps> = (props) => {
-    const { } = props;
+export const FieldsList: FC<FieldsListProps> = () => (
+    <Form.List name="fields">
 
-    return (
-        <Form.List name="fields">
+        {(fields, { add, remove }) => (
+            <>
+                <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    block
+                    className={cls.addButton}
+                >
+                    Add field
+                </Button>
+                <div className={cls.fields}>
+                    {fields.map(({ key, name, ...restField }) => (
+                        <div key={key} className={cls.field}>
+                            <FormItem
+                                {...restField}
+                                name={[name, 'title']}
+                                placeholder="Title"
+                            />
+                            <FormItem
+                                {...restField}
+                                name={[name, 'type']}
+                                type={FormItemTypes.select}
+                                options={Object.values(FieldTypes)}
+                            />
+                            <Button onClick={() => remove(name)} type="link">
+                                <AiFillDelete />
+                            </Button>
+                        </div>
+                    ))}
+                </div>
+            </>
+        )}
 
-            {(fields, { add, remove }) => (
-                <>
-                    <Button
-                        type="dashed"
-                        onClick={() => add()}
-                        block
-                        className={cls.addButton}
-                    >
-                        Add field
-                    </Button>
-                    <div className={cls.fields}>
-                        {fields.map(({ key, name, ...restField }) => (
-                            <div key={key} className={cls.field}>
-                                <FormItem
-                                    {...restField}
-                                    name={[name, 'title']}
-                                    placeholder="Title"
-                                />
-                                <FormItem
-                                    {...restField}
-                                    name={[name, 'type']}
-                                    type={FormItemTypes.select}
-                                    options={Object.values(FieldTypes)}
-                                />
-                                <Button onClick={() => remove(name)} type="link">
-                                    <AiFillDelete />
-                                </Button>
-
-                            </div>
-
-                        ))}
-
-                    </div>
-                </>
-            )}
-
-        </Form.List>
-    );
-};
+    </Form.List>
+);

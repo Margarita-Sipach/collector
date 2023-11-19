@@ -1,5 +1,4 @@
-import { FC, useEffect, useState } from 'react';
-import { ModalForm } from 'shared/ui/ModalForm/ModalForm';
+import { FC } from 'react';
 import { characterState } from 'entities/Character';
 import { observer } from 'mobx-react-lite';
 import { FieldTypes, collectionState } from 'entities/Collection';
@@ -18,22 +17,18 @@ interface UpdateItemModalProps {
   className?: string
 }
 
-export const UpdateItemModal: FC<UpdateItemModalProps> = observer((props) => {
-    const {
-    } = props;
-
-    return (
-	<UpdateModal
-	type={UpdateModalTypes.item}
->
-            <FormItem name="title" label="Item title" />
-            <FormItem
-                type={FormItemTypes.select}
-                mode="tags"
-                name="tags"
-                options={characterState.tags.map(({ title }: any) => (title))}
-            />
-            {/* <Form.Item
+export const UpdateItemModal: FC<UpdateItemModalProps> = observer(() => (
+    <UpdateModal
+        type={UpdateModalTypes.item}
+    >
+        <FormItem name="title" label="Item title" />
+        <FormItem
+            type={FormItemTypes.select}
+            mode="tags"
+            name="tags"
+            options={characterState.tags.map(({ title }: any) => (title))}
+        />
+        {/* <Form.Item
                 name="img"
                 label="Image"
             >
@@ -42,11 +37,14 @@ export const UpdateItemModal: FC<UpdateItemModalProps> = observer((props) => {
                 </Upload>
             </Form.Item> */}
 
-            {collectionState.collection?.fields.map(({type, id, title}: any) => (
-                <FormItem type={(FieldInputTypes as any)[type]} name={`${id}-field`} label={title} isRequired={false} />
-            ))}
+        {collectionState.collection?.fields.map(({ type, id, title }: any) => (
+            <FormItem
+                type={(FieldInputTypes as any)[type]}
+                name={`${id}-field`}
+                label={title}
+                isRequired={false}
+            />
+        ))}
 
-        </UpdateModal>
-    );
-});
-
+    </UpdateModal>
+));

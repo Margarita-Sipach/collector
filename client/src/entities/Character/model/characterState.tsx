@@ -36,7 +36,6 @@ class CharacterState {
     async getThemes() {
         const data = await this.getAll(CharacterRoutes.themes);
         this.themes = data;
-        console.log(data);
         return data;
     }
 }

@@ -14,20 +14,19 @@ const UserPage = observer(() => {
         userState.getUserById(id).then((data) => setUser(data));
     };
 
-	const setCollectionsById = (id: number) => {
-        collectionState.getAll({userId: id})
+    const setCollectionsById = (id: number) => {
+        collectionState.getAll({ userId: id });
     };
 
-	useEffect(() => {
-		const numberId = Number(id)
-		setUserById(numberId)
-		setCollectionsById(numberId)
+    useEffect(() => {
+        const numberId = Number(id);
+        setUserById(numberId);
+        setCollectionsById(numberId);
 
-		return () => {
-			collectionState.setCollections([])
-		}
-	}, [])
-
+        return () => {
+            collectionState.setCollections([]);
+        };
+    }, [id]);
 
     return (
         <>
@@ -35,12 +34,16 @@ const UserPage = observer(() => {
                 <div className={cls.col}>
                     <UserHeader user={user} />
                     <div className={cls.body}>
-                        {collectionState.collections?.map((item: any) => <CollectionItem key={item.id} collection={item} />)}
+                        {collectionState.collections?.map((item: any) => (
+                            <CollectionItem
+                                key={item.id}
+                                collection={item}
+                            />
+                        ))}
                     </div>
                 </div>
             )}
         </>
-
     );
 });
 

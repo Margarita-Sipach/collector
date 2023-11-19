@@ -1,16 +1,14 @@
-import { observable } from "mobx";
+import { observable } from 'mobx';
 
 export const modalProps = {
-	values: observable,
-	isModalVisible: observable
+    values: observable,
+    isModalVisible: observable,
 };
 
 export abstract class ModalState<T> {
     values: T | null = null;
 
     isModalVisible: boolean = false;
-
-    constructor() {}
 
     setValues(data: T) {
         this.values = data;

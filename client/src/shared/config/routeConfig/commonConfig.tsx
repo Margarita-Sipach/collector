@@ -18,7 +18,7 @@ export const CommonRoutePath: Record<CommonRoutes, string> = {
     [CommonRoutes.MAIN]: '/',
     [CommonRoutes.USER]: '/user',
     [CommonRoutes.COLLECTION]: '/collection',
-	[CommonRoutes.ITEM]: '/item',
+    [CommonRoutes.ITEM]: '/item',
     [CommonRoutes.NOT_FOUND]: '*',
 };
 
@@ -35,7 +35,7 @@ export const commonRouteConfig: Record<CommonRoutes, RouteProps> = {
         path: `${CommonRoutePath.collection}/:id`,
         element: <CollectionPage />,
     },
-	[CommonRoutes.ITEM]: {
+    [CommonRoutes.ITEM]: {
         path: `${CommonRoutePath.item}/:id`,
         element: <NotFoundPage />,
     },

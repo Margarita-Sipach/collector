@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import { CommonRoutePath } from 'shared/config/routeConfig/commonConfig';
 import { MdEdit } from 'react-icons/md';
 import { observer } from 'mobx-react-lite';
-import cls from './AppCard.module.scss';
 import { FC } from 'react';
 import { itemState } from 'entities/Item';
 import { collectionState } from 'entities/Collection';
+import { useTranslation } from 'react-i18next';
+import cls from './AppCard.module.scss';
 
 export enum CardType{
 	collection = 'collection',
@@ -23,30 +24,31 @@ interface AppCardProps {
 export const AppCard: FC<AppCardProps> = observer((props) => {
     const {
         type,
-		value
+        value,
     } = props;
 
-	const state = type === CardType.collection ? collectionState : itemState
+    const state = type === CardType.collection ? collectionState : itemState;
+    const { t } = useTranslation('button');
 
-	const updateHandle = (e: any) => {
-		e.stopPropagation()
-		state.setValues(value)
-		state.openModal()
-	}
+    const updateHandle = (e: any) => {
+        e.stopPropagation();
+        state.setValues(value);
+        state.openModal();
+    };
 
-	const deleteHandle = (e: any) => {
-		e.stopPropagation()
-		state.delete(value.id, value.userId)
-	}
+    const deleteHandle = (e: any) => {
+        e.stopPropagation();
+        state.delete(value.id, value.userId);
+    };
 
     const items = [
         {
             key: 'update',
-            label: <span onClick={updateHandle}>update</span>,
+            label: <span onClick={updateHandle}>{t('update')}</span>,
         },
         {
             key: 'delete',
-            label: <span onClick={deleteHandle}>delete</span>,
+            label: <span onClick={deleteHandle}>{t('delete')}</span>,
             danger: true,
         },
     ];
@@ -55,7 +57,12 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
         <Link to={`${CommonRoutePath[type]}/${value.id}`} className={cls.card}>
             <Card
                 hoverable
-                cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                cover={(
+                    <img
+                        alt="example"
+                        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                    />
+                )}
             >
                 <div className={cls.cardContent}>
                     <Meta title={value.title} />

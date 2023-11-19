@@ -26,7 +26,7 @@ export const UpdateModal: FC<UpdateModalProps> = observer((props) => {
     const onFinish = async (values: any) => {
         const method = values.id ? 'update' : 'add';
         await state[method]({ userId: userState.userId, ...values });
-		state.closeModal()
+        state.closeModal();
     };
 
     const onReset = () => {
@@ -39,7 +39,7 @@ export const UpdateModal: FC<UpdateModalProps> = observer((props) => {
             onFinish={onFinish}
             onReset={onReset}
             values={state.values}
-			isModalVisible={state.isModalVisible}
+            isModalVisible={state.isModalVisible}
         >
             {children}
         </ModalForm>

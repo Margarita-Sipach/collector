@@ -52,7 +52,7 @@ export const useItems = (
     userId: number,
 ) => {
     const adminItems = useMemo(() => getAdminItems(isAdmin, t), [isAdmin, t]);
-    const authItems = useMemo(() => getAuthItems(isAuth, t, userId), [isAuth, t]);
+    const authItems = useMemo(() => getAuthItems(isAuth, t, userId), [isAuth, t, userId]);
     const commonItems = useMemo(() => getCommonItems(t), [t]);
 
     const items: MenuProps['items'] = useMemo(() => [

@@ -20,10 +20,10 @@ export const UserHeader: FC<UserHeaderProps> = observer((props) => {
     const { user } = props;
     const { t } = useTranslation();
 
-	const handleClick = () => {
-		collectionState.setValues(null)
-		collectionState.openModal();
-	}
+    const handleClick = () => {
+        collectionState.setValues(null);
+        collectionState.openModal();
+    };
 
     return (
         <div className={cls.container}>

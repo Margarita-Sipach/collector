@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import { CommonRoutePath } from 'shared/config/routeConfig/commonConfig';
 import { MdEdit } from 'react-icons/md';
 import { observer } from 'mobx-react-lite';
+import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import cls from './CollectionItem.module.scss';
 import { Collection, collectionState } from '../model/collectionState';
-import { FC } from 'react';
 
 interface CollectionItemProps {
   className?: string
@@ -15,37 +16,50 @@ interface CollectionItemProps {
 
 export const CollectionItem: FC<CollectionItemProps> = observer((props) => {
     const {
-        collection
+        collection,
     } = props;
 
-	const updateHandle = (e: any) => {
-		e.stopPropagation()
-		collectionState.setValues({...collection, theme: (collection.theme as any).title})
-		collectionState.openModal()
-	}
+    const { t } = useTranslation('button');
 
-	const deleteHandle = (e: any) => {
-		e.stopPropagation()
-		collectionState.delete(collection.id, collection.userId)
-	}
+    const updateHandle = (e: any) => {
+        e.stopPropagation();
+        collectionState.setValues({
+            ...collection,
+            theme: (collection.theme as any).title,
+        });
+        collectionState.openModal();
+    };
+
+    const deleteHandle = (e: any) => {
+        e.stopPropagation();
+        collectionState.delete(collection.id, collection.userId);
+    };
 
     const items = [
         {
-            key: 'update',
-            label: <span onClick={updateHandle}>update</span>,
+            key: 'change',
+            label: <span onClick={updateHandle}>{t('change')}</span>,
         },
         {
             key: 'delete',
-            label: <span onClick={deleteHandle}>delete</span>,
+            label: <span onClick={deleteHandle}>{t('delete')}</span>,
             danger: true,
         },
     ];
 
     return (
-        <Link to={`${CommonRoutePath.collection}/${collection.id}`} className={cls.card}>
+        <Link
+            to={`${CommonRoutePath.collection}/${collection.id}`}
+            className={cls.card}
+        >
             <Card
                 hoverable
-                cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                cover={(
+                    <img
+                        alt="example"
+                        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                    />
+                )}
             >
                 <div className={cls.cardContent}>
                     <Meta title={collection.title} />
@@ -58,9 +72,7 @@ export const CollectionItem: FC<CollectionItemProps> = observer((props) => {
                             }}
                         />
                     </Dropdown>
-
                 </div>
-
             </Card>
         </Link>
     );

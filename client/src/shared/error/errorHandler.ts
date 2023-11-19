@@ -5,8 +5,8 @@ export const errorHandler = (fn: () => void, isErrorMsg: boolean = true) => {
         settingsState.setIsLoading();
         return fn();
     } catch (e) {
-        isErrorMsg && settingsState.setError(e);
-		return null
+        if(isErrorMsg) settingsState.setError(e);
+        return null;
     } finally {
         settingsState.removeIsLoading();
     }

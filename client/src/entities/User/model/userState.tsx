@@ -103,7 +103,7 @@ class UserState {
 
     async deleteUser(id: number) {
         try {
-            const { data } = await authApi.delete(`${USER_ROUTE}${id}`);
+            await authApi.delete(`${USER_ROUTE}${id}`);
         } catch (e) {
             settingsState.setError(e);
         } finally {

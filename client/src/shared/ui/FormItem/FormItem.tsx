@@ -1,5 +1,5 @@
 import {
-    DatePicker, Form, Input, InputNumber, Select, SelectProps, Switch,
+    DatePicker, Form, Input, InputNumber, Select, Switch,
 } from 'antd';
 import { FC, useMemo } from 'react';
 
@@ -36,7 +36,7 @@ export const FormItem: FC<FormItemProps> = (props) => {
         mode,
         placeholder = '',
         className,
-		defaultValue
+        defaultValue,
     } = props;
 
     const Children = useMemo(() => {
@@ -63,7 +63,7 @@ export const FormItem: FC<FormItemProps> = (props) => {
         );
         default: return <Input placeholder={placeholder} />;
         }
-    }, []);
+    }, [defaultValue, mode, options, placeholder, type]);
 
     return (
         <Form.Item
