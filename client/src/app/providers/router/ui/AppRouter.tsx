@@ -5,8 +5,8 @@ import { Header } from 'widgets/Header';
 import { Sidebar } from 'widgets/Sidebar';
 import { userState } from 'entities/User';
 import { observer } from 'mobx-react-lite';
-import { AddCollectionModal } from 'widgets/AddCollectionModal';
-import { AddItemModal } from 'widgets/AddItemModal';
+import { UpdateCollectionModal } from 'widgets/UpdateCollectionModal';
+import { UpdateItemModal } from 'widgets/UpdateItemModal';
 import { useRoutes } from '../lib/useRoutes';
 
 export const AppRouter = memo(observer(() => {
@@ -27,8 +27,8 @@ export const AppRouter = memo(observer(() => {
                             <div className="container main">
                                 {element}
                             </div>
-                            <AddCollectionModal />
-                            <AddItemModal />
+                            <UpdateCollectionModal />
+                            <UpdateItemModal />
                         </Suspense>
                     )}
                 />

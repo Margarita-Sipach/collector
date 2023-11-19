@@ -14,11 +14,11 @@ const FieldInputTypes = {
     [FieldTypes.TEXT]: FormItemTypes.textarea,
 };
 
-interface AddItemModalProps {
+interface UpdateItemModalProps {
   className?: string
 }
 
-export const AddItemModal: FC<AddItemModalProps> = observer((props) => {
+export const UpdateItemModal: FC<UpdateItemModalProps> = observer((props) => {
     const {
     } = props;
 

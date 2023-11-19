@@ -5,11 +5,11 @@ import { FormItem, FormItemTypes } from 'shared/ui/FormItem/FormItem';
 import { UpdateModal, UpdateModalTypes } from 'features/UpdateModal';
 import { FieldsList } from './FieldsList/FieldsList';
 
-interface AddCollectionModalProps {
+interface UpdateCollectionModalProps {
   className?: string
 }
 
-export const AddCollectionModal: FC<AddCollectionModalProps> = observer((props) => {
+export const UpdateCollectionModal: FC<UpdateCollectionModalProps> = observer((props) => {
     const {
     } = props;
 
