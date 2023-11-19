@@ -2,7 +2,8 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { User, userState } from 'entities/User';
-import { CollectionItem, collectionState } from 'entities/Collection';
+import { collectionState } from 'entities/Collection';
+import { AppCard, CardType } from 'shared/ui/AppCard/AppCard';
 import cls from './UserPage.module.scss';
 import { UserHeader } from './UserHeader/UserHeader';
 
@@ -35,9 +36,10 @@ const UserPage = observer(() => {
                     <UserHeader user={user} />
                     <div className={cls.body}>
                         {collectionState.collections?.map((item: any) => (
-                            <CollectionItem
+                            <AppCard
                                 key={item.id}
-                                collection={item}
+                                type={CardType.collection}
+                                value={item}
                             />
                         ))}
                     </div>

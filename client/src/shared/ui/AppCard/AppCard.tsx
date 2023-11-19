@@ -43,8 +43,8 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
 
     const items = [
         {
-            key: 'update',
-            label: <span onClick={updateHandle}>{t('update')}</span>,
+            key: 'change',
+            label: <span onClick={updateHandle}>{t('change')}</span>,
         },
         {
             key: 'delete',
