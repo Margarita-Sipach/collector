@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -11,27 +13,42 @@ import { ItemsService } from "./items.service";
 import { CommonGuard } from "src/guards/common.guard";
 import { CreateDTO } from "./dto/CreateDTO";
 import { Request } from "express";
+import { APIController } from "src/base/api.controller";
+import { UpdateDTO } from "./dto/UpdateDTO";
 
 @Controller("items")
 export class ItemsController {
-  constructor(private itemsService: ItemsService) {}
+  api: APIController;
+  constructor(private itemsService: ItemsService) {
+    this.api = new APIController(itemsService);
+  }
 
   @UseGuards(CommonGuard)
   @Post()
   async create(@Body() dto: CreateDTO) {
-    const collection = await this.itemsService.create(dto);
-    return collection;
+    return await this.api.create(dto);
+  }
+
+  @UseGuards(CommonGuard)
+  @Patch("/:id")
+  async update(@Body() dto: UpdateDTO) {
+    return await this.api.update(dto);
   }
 
   @Get("/:id")
   async getById(@Param("id") id: number) {
-    const collection = await this.itemsService.getById(id);
-    return collection;
+    return await this.api.getById(id);
   }
 
   @Get()
   async getAll(@Req() request: Request) {
-    const items = await this.itemsService.getAll(request.query);
-    return items;
+    const params = request.query;
+    return await this.api.getAll(params);
+  }
+
+  @Delete("/:id")
+  async delete(@Param("id") id: number) {
+    await this.api.delete(id);
+    return { status: "success" };
   }
 }
