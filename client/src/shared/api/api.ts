@@ -22,7 +22,7 @@ export class API {
     }
 
     getIdRoute(id: number) {
-        return this.route + id;
+        return `${this.route}/${id}`;
     }
 
     async delete(id: any, clb?: Function) {
@@ -35,7 +35,7 @@ export class API {
 
     async update(newData: any, clb?: Function) {
         const update = async () => {
-            const { data } = await authApi.patch(this.route + newData.id, newData);
+            const { data } = await authApi.patch(this.getIdRoute(newData.id), newData);
             await clb?.(data);
         };
         return errorHandler(update);

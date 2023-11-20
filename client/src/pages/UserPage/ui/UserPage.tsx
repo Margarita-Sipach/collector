@@ -25,7 +25,7 @@ const UserPage = observer(() => {
         setCollectionsById(numberId);
 
         return () => {
-            collectionState.setCollections([]);
+            collectionState.setElements([]);
         };
     }, [id]);
 
@@ -35,7 +35,7 @@ const UserPage = observer(() => {
                 <div className={cls.col}>
                     <UserHeader user={user} />
                     <div className={cls.body}>
-                        {collectionState.collections?.map((item: any) => (
+                        {collectionState.elements?.map((item: any) => (
                             <AppCard
                                 key={item.id}
                                 type={CardType.collection}

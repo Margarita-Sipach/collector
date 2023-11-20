@@ -38,7 +38,8 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
 
     const deleteHandle = (e: any) => {
         e.stopPropagation();
-        state.delete(value.id, type === CardType.collection ? value.userId : value.collectionId);
+        const element = type === CardType.collection ? { userId: value.userId } : { collectionId: value.collectionId };
+        state.delete(value.id, element);
     };
 
     const items = [

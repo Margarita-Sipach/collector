@@ -29,7 +29,7 @@ export const UpdateItemModal: FC<UpdateItemModalProps> = observer(() => (
             mode="tags"
             name="tag"
             options={characterState.tags.map(({ title }: any) => (title))}
-            defaultValue={(itemState.item as any)?.tag}
+            defaultValue={(itemState.element as any)?.tag}
         />
         {/* <Form.Item
                 name="img"
@@ -40,7 +40,7 @@ export const UpdateItemModal: FC<UpdateItemModalProps> = observer(() => (
                 </Upload>
             </Form.Item> */}
 
-        {collectionState.collection?.fields.map(({ type, id, title }: any) => (
+        {collectionState.element?.fields.map(({ type, id, title }: any) => (
             <FormItem
                 type={(FieldInputTypes as any)[type]}
                 name={`${id}-field`}

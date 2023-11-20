@@ -15,19 +15,19 @@ const CollectionPage = observer(() => {
         collectionState.getById(numberId);
         itemState.getAll({ collectionId: numberId });
         return () => {
-            collectionState.setCollection(null);
+            collectionState.setElement(null);
         };
     }, [id]);
 
     return (
         <div className={cls.content}>
-            {collectionState.collection && (
+            {collectionState.element && (
                 <CollectionHeader
-                    collection={collectionState.collection}
+                    collection={collectionState.element}
                 />
             )}
             <div className={cls.body}>
-                {itemState.items?.map((item: any) => (
+                {itemState.elements?.map((item: any) => (
                     <AppCard
                         key={item.id}
                         type={CardType.item}

@@ -27,7 +27,7 @@ export const UpdateModal: FC<UpdateModalProps> = observer((props) => {
         const method = values.id ? 'update' : 'add';
         const args = type === UpdateModalTypes.collection
             ? { userId: userState.userId }
-            : { collectionId: collectionState.collection?.id };
+            : { collectionId: collectionState.element?.id };
         await state[method]({
             ...args,
             ...values,

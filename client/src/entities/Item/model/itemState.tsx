@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 import { FieldTypes } from 'entities/Collection';
-import { makeObservable, observable } from 'mobx';
-import { API } from 'shared/api/api';
-import { ModalState, modalProps } from 'shared/class/ModalState';
-
-const ITEM_ROUTE = 'items/';
+import { makeObservable } from 'mobx';
+import {
+    ElementState, ElementsRoutes, elementProps,
+} from 'shared/class/ElementState';
+import { modalProps } from 'shared/class/ModalState';
 
 export interface Item {
 }
@@ -18,18 +18,11 @@ interface AddDTO{
 	userId: number
 }
 
-class ItemState extends ModalState<any> {
-    items: Item[] | null = [];
-
-    item: Item | null = null;
-
-    api = new API(ITEM_ROUTE);
-
+class ItemState extends ElementState<any> {
     constructor() {
-        super();
+        super(ElementsRoutes.item, ['collectionId']);
         makeObservable(this, {
-            items: observable,
-            item: observable,
+            ...elementProps,
             ...modalProps,
         });
     }
@@ -66,43 +59,30 @@ class ItemState extends ModalState<any> {
             title,
             tags: tag,
             collectionId,
-            fields: Object.entries(fields)
-                .filter(([_, val]) => val)
-                .map(([key, val]) => [parseInt(key), val]),
+            fields: this.convertFields(fields),
         };
         await this.api.add(item);
         await this.getAll({ collectionId: item.collectionId });
     }
 
-    async update({tag, title, collectionId, id, ...fields}: AddDTO) {
-		const item = {
+    async update({
+        tag, title, collectionId, id, ...fields
+    }: AddDTO) {
+        const item = {
             title,
-			id,
+            id,
             tags: tag,
             collectionId,
-            fields: Object.entries(fields)
-                .filter(([_, val]) => val)
-                .map(([key, val]) => [parseInt(key), val]),
+            fields: this.convertFields(fields),
         };
-		console.log(item)
         await this.api.update(item);
         await this.getAll({ collectionId: item.collectionId });
     }
 
-    async getAll(query: any = {}) {
-        const clb = async (data: any) => {
-            if (data) this.items = data;
-        };
-        await this.api.getAll(query, clb);
-    }
-
-    async getById(id: number) {
-        this.api.getById(id);
-    }
-
-    async delete(id: number, collectionId: number) {
-		await this.api.delete(id);
-        await this.getAll({ collectionId });
+    convertFields(fields: any) {
+        return Object.entries(fields)
+            .filter(([_, val]) => val)
+            .map(([key, val]) => [parseInt(key), val]);
     }
 }
 
