@@ -1,7 +1,6 @@
 import { makeObservable, observable } from 'mobx';
-import { authApi } from 'shared/api/api';
+import { API } from 'shared/api/api';
 import { ModalState, modalProps } from 'shared/class/ModalState';
-import { errorHandler } from 'shared/error/errorHandler';
 
 const COLLECTION_ROUTE = 'collections/';
 
@@ -41,6 +40,7 @@ class CollectionState extends ModalState<any> {
     collections: Collection[] | null = [];
 
     collection: Collection | null = null;
+	api: API = new API(COLLECTION_ROUTE)
 
     constructor() {
         super();
@@ -64,43 +64,32 @@ class CollectionState extends ModalState<any> {
     }
 
     async add(collection: AddDTO) {
-        const add = async () => {
-            await authApi.post(COLLECTION_ROUTE, collection);
-            await this.getAll({ userId: collection.userId });
-        };
-        return errorHandler(add);
+		await this.api.add(collection);
+        await this.getAll({ userId: collection.userId });
     }
 
     async getAll(query: any = {}) {
-        const getAll = async () => {
-            const { data } = await authApi.get(COLLECTION_ROUTE, { params: query });
-            if (data) this.collections = data;
+        const clb = async (data: any) => {
+            if (data) this.setCollections(data);
         };
-        return errorHandler(getAll);
+		await this.api.getAll(query, clb)
     }
 
     async delete(id: number, userId: number) {
-        const deleteHandle = async () => {
-            await authApi.delete(COLLECTION_ROUTE + id);
-            await this.getAll({ userId });
-        };
-        return errorHandler(deleteHandle);
+		await this.api.delete(id);
+        await this.getAll({ userId });
     }
 
     async update(collection: any) {
-        const update = async () => {
-            await authApi.patch(COLLECTION_ROUTE + collection.id, collection);
-            await this.getAll({ userId: collection.userId });
-        };
-        return errorHandler(update);
+		await this.api.update(collection);
+        await this.getAll({ userId: collection.userId });
     }
 
     async getById(id: number) {
-        const getById = async () => {
-            const { data } = await authApi.get(COLLECTION_ROUTE + id);
-            if (data) this.collection = data;
+        const clb = async (data: any) => {
+            if (data) this.setCollection(data);
         };
-        return errorHandler(getById);
+		await this.api.getById(id, clb);
     }
 }
 

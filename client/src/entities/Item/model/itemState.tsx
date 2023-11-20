@@ -4,7 +4,7 @@ import { makeObservable, observable } from 'mobx';
 import { API } from 'shared/api/api';
 import { ModalState, modalProps } from 'shared/class/ModalState';
 
-const ITEM_ROUTE = 'items';
+const ITEM_ROUTE = 'items/';
 
 export interface Item {
 }
@@ -12,7 +12,7 @@ export interface Item {
 interface AddDTO{
 	collectionId: number;
 	title: string;
-	tags: any;
+	tag: any;
 	id: null;
 	fields: [string, any][]
 	userId: number
@@ -60,11 +60,11 @@ class ItemState extends ModalState<any> {
     }
 
     async add({
-        id, title, tags, collectionId, userId, ...fields
+        id, title, tag, collectionId, userId, ...fields
     }: AddDTO) {
         const item = {
             title,
-            tags,
+            tags: tag,
             collectionId,
             fields: Object.entries(fields)
                 .filter(([_, val]) => val)
@@ -74,7 +74,17 @@ class ItemState extends ModalState<any> {
         await this.getAll({ collectionId: item.collectionId });
     }
 
-    async update(item: AddDTO) {
+    async update({tag, title, collectionId, id, ...fields}: AddDTO) {
+		const item = {
+            title,
+			id,
+            tags: tag,
+            collectionId,
+            fields: Object.entries(fields)
+                .filter(([_, val]) => val)
+                .map(([key, val]) => [parseInt(key), val]),
+        };
+		console.log(item)
         await this.api.update(item);
         await this.getAll({ collectionId: item.collectionId });
     }
@@ -90,8 +100,9 @@ class ItemState extends ModalState<any> {
         this.api.getById(id);
     }
 
-    async delete() {
-
+    async delete(id: number, collectionId: number) {
+		await this.api.delete(id);
+        await this.getAll({ collectionId });
     }
 }
 
