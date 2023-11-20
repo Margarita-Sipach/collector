@@ -5,20 +5,15 @@ import { CommonRoutePath } from 'shared/config/routeConfig/commonConfig';
 import { MdEdit } from 'react-icons/md';
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
-import { itemState } from 'entities/Item';
-import { collectionState } from 'entities/Collection';
 import { useTranslation } from 'react-i18next';
+import { ElementsTypes } from 'shared/class/ElementState';
+import { elementsStates } from 'shared/states/states';
 import cls from './AppCard.module.scss';
-
-export enum CardType{
-	collection = 'collection',
-	item = 'item'
-}
 
 interface AppCardProps {
   className?: string
   value: any
-  type: CardType
+  type: ElementsTypes
 }
 
 export const AppCard: FC<AppCardProps> = observer((props) => {
@@ -27,7 +22,7 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
         value,
     } = props;
 
-    const state = type === CardType.collection ? collectionState : itemState;
+    const state = elementsStates[type];
     const { t } = useTranslation('button');
 
     const updateHandle = (e: any) => {
@@ -38,7 +33,7 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
 
     const deleteHandle = (e: any) => {
         e.stopPropagation();
-        const element = type === CardType.collection ? { userId: value.userId } : { collectionId: value.collectionId };
+        const element = type === ElementsTypes.collection ? { userId: value.userId } : { collectionId: value.collectionId };
         state.delete(value.id, element);
     };
 

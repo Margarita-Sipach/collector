@@ -13,7 +13,7 @@ const { Title } = Typography;
 
 interface UserHeaderProps {
   className?: string
-  user: Partial<User>
+  user: User
 }
 
 export const UserHeader: FC<UserHeaderProps> = observer((props) => {

@@ -1,18 +1,14 @@
 import { collectionState } from 'entities/Collection';
-import { itemState } from 'entities/Item';
 import { userState } from 'entities/User';
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
+import { ElementsTypes } from 'shared/class/ElementState';
+import { elementsStates } from 'shared/states/states';
 import { ModalForm } from 'shared/ui/ModalForm/ModalForm';
-
-export enum UpdateModalTypes{
-	collection = 'collection',
-	item = 'item'
-}
 
 interface UpdateModalProps {
   className?: string
-  type: UpdateModalTypes
+  type: ElementsTypes
 }
 
 export const UpdateModal: FC<UpdateModalProps> = observer((props) => {
@@ -21,11 +17,11 @@ export const UpdateModal: FC<UpdateModalProps> = observer((props) => {
         children,
     } = props;
 
-    const state = type === UpdateModalTypes.collection ? collectionState : itemState;
+    const state = elementsStates[type];
 
     const onFinish = async (values: any) => {
         const method = values.id ? 'update' : 'add';
-        const args = type === UpdateModalTypes.collection
+        const args = type === ElementsTypes.collection
             ? { userId: userState.userId }
             : { collectionId: collectionState.element?.id };
         await state[method]({

@@ -1,5 +1,7 @@
 import { observable } from 'mobx';
 import { API } from 'shared/api/api';
+import { collectionState } from 'entities/Collection';
+import { itemState } from 'entities/Item';
 import { ModalState } from './ModalState';
 
 export const elementProps = {
@@ -17,7 +19,7 @@ export enum ElementsRoutes {
 	item = 'items'
 }
 
-export abstract class ElementState<T> extends ModalState<T> {
+export class ElementState<T> extends ModalState<T> {
     element: any = null;
 
     elements: any = null;

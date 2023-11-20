@@ -2,9 +2,10 @@ import { FC } from 'react';
 import { characterState } from 'entities/Character';
 import { observer } from 'mobx-react-lite';
 import { FieldTypes, collectionState } from 'entities/Collection';
-import { UpdateModal, UpdateModalTypes } from 'features/UpdateModal';
+import { UpdateModal } from 'features/UpdateModal';
 import { FormItem, FormItemTypes } from 'shared/ui/FormItem/FormItem';
 import { itemState } from 'entities/Item';
+import { ElementsTypes } from 'shared/class/ElementState';
 
 const FieldInputTypes = {
     [FieldTypes.BOOLEAN]: FormItemTypes.switch,
@@ -20,7 +21,7 @@ interface UpdateItemModalProps {
 
 export const UpdateItemModal: FC<UpdateItemModalProps> = observer(() => (
     <UpdateModal
-        type={UpdateModalTypes.item}
+        type={ElementsTypes.item}
     >
         <FormItem name="id" className="none" isRequired={false} />
         <FormItem name="title" label="Item title" />

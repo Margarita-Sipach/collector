@@ -2,7 +2,8 @@ import { FC } from 'react';
 import { Character, characterState } from 'entities/Character';
 import { observer } from 'mobx-react-lite';
 import { FormItem, FormItemTypes } from 'shared/ui/FormItem/FormItem';
-import { UpdateModal, UpdateModalTypes } from 'features/UpdateModal';
+import { UpdateModal } from 'features/UpdateModal';
+import { ElementsTypes } from 'shared/class/ElementState';
 import { FieldsList } from './FieldsList/FieldsList';
 
 interface UpdateCollectionModalProps {
@@ -11,7 +12,7 @@ interface UpdateCollectionModalProps {
 
 export const UpdateCollectionModal: FC<UpdateCollectionModalProps> = observer(() => (
     <UpdateModal
-        type={UpdateModalTypes.collection}
+        type={ElementsTypes.collection}
     >
         <FormItem name="id" className="none" isRequired={false} />
         <FormItem name="title" />

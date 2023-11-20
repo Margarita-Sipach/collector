@@ -1,1 +1,1 @@
-export { UpdateModal, UpdateModalTypes } from './ui/UpdateModal';
+export { UpdateModal } from './ui/UpdateModal';
