@@ -23,9 +23,11 @@ const CollectionPage = observer(() => {
 
     return (
         <PageWrapper type={ElementsTypes.item}>
-            <CollectionHeader
-                collection={collectionState.element}
-            />
+            {collectionState.element && (
+                <CollectionHeader
+                    collection={collectionState.element}
+                />
+            )}
         </PageWrapper>
     );
 });
