@@ -8,18 +8,21 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ElementsTypes } from 'shared/class/ElementState';
 import { elementsStates } from 'shared/states/states';
+import { userState } from 'entities/User';
 import cls from './AppCard.module.scss';
 
 interface AppCardProps {
   className?: string
   value: any
   type: ElementsTypes
+  userId: number
 }
 
 export const AppCard: FC<AppCardProps> = observer((props) => {
     const {
         type,
         value,
+        userId,
     } = props;
 
     const state = elementsStates[type];
@@ -62,15 +65,17 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
             >
                 <div className={cls.cardContent}>
                     <Meta title={value.title} />
-                    <Dropdown menu={{ items }}>
-                        <MdEdit
-                            className={cls.menuLink}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                            }}
-                        />
-                    </Dropdown>
+                    {(userId === userState.userId || userState.isAdmin) && (
+                        <Dropdown menu={{ items }}>
+                            <MdEdit
+                                className={cls.menuLink}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                }}
+                            />
+                        </Dropdown>
+                    )}
 
                 </div>
 

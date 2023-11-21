@@ -22,13 +22,17 @@ const CollectionPage = observer(() => {
     }, [id]);
 
     return (
-        <PageWrapper type={ElementsTypes.item}>
+        <>
+
             {collectionState.element && (
-                <CollectionHeader
-                    collection={collectionState.element}
-                />
-            )}
-        </PageWrapper>
+                <PageWrapper type={ElementsTypes.item} userId={collectionState.element.userId}>
+                    <CollectionHeader
+                        collection={collectionState.element}
+                    />
+
+                </PageWrapper>
+		 )}
+        </>
     );
 });
 

@@ -46,6 +46,7 @@ export class ElementState<T> extends ModalState<T> {
         const params = this.generateParams(element, paramsNames);
         const clb = async (data: any) => {
             if (data) this.setElements(data);
+            console.log(data);
         };
         await this.api.getAll(params, clb);
     }
