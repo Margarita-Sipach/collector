@@ -64,7 +64,7 @@ export class UsersController {
   }
 
   @UseGuards(AdminGuard)
-  @Patch()
+  @Patch("/:id")
   async updateUser(@Body() dto: UpdateStatusDTO | UpdateRoleDTO) {
     const res = await this.usersService.updateUser(dto);
     if (!res)
