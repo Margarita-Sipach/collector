@@ -1,4 +1,4 @@
-import { observable } from 'mobx';
+import { keys, observable } from 'mobx';
 import { API } from 'shared/api/api';
 import { collectionState } from 'entities/Collection';
 import { itemState } from 'entities/Item';
@@ -24,6 +24,8 @@ export class ElementState<T> extends ModalState<T> {
 
     elements: any = null;
 
+    allElements: any = null;
+
     api: API;
 
     paramsNames: string[];
@@ -42,10 +44,15 @@ export class ElementState<T> extends ModalState<T> {
         this.elements = elements;
     }
 
-    async getAll(element: any, paramsNames = this.paramsNames) {
+    setAllElements(allElements: any) {
+        this.allElements = allElements;
+        this.setElements(allElements);
+    }
+
+    async getAll(element: any, paramsNames = this.paramsNames, limit?: number) {
         const params = this.generateParams(element, paramsNames);
         const clb = async (data: any) => {
-            if (data) this.setElements(data);
+            if (data) this.setAllElements(data);
         };
         await this.api.getAll(params, clb);
     }
@@ -77,5 +84,24 @@ export class ElementState<T> extends ModalState<T> {
             ...acc,
             [name]: element[name],
         }), {});
+    }
+
+    limitElements(limit: number) {
+        this.setElements(this.allElements.slice(0, limit));
+    }
+
+    filterElements(filterArgs: Object) {
+        if (this.allElements) {
+            const elements = this.allElements.filter((element: any) => Object.entries(filterArgs).every(([argKey, argVal]) => {
+                const convertToTitle = (arr: any): {title: string}[] => arr.map(({ title }: {title: string}) => title);
+                const fn = (arr: any): object[] => (argKey === 'tag' ? convertToTitle(arr) : arr);
+                if (Array.isArray(argVal)) return fn(argVal).every((v) => fn(element[argKey]).includes(v));
+                return element[argKey] === argVal;
+            }));
+            this.setElements(elements);
+        }
+    }
+
+    sortElements(sortArgs: string) {
     }
 }

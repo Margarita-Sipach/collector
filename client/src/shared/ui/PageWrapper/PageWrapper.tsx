@@ -13,7 +13,7 @@ interface PageWrapperProps{
 export const PageWrapper: FC<PageWrapperProps> = observer((props) => {
     const { children, type, userId } = props;
     const state = elementsStates[type];
-    console.log(state.elements);
+
     return (
         <div className={cls.col}>
             {children}
