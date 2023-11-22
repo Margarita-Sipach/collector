@@ -23,13 +23,11 @@ export class ItemsController {
     this.api = new APIController(itemsService);
   }
 
-  @UseGuards(CommonGuard)
   @Post()
   async create(@Body() dto: CreateDTO) {
     return await this.api.create(dto);
   }
 
-  @UseGuards(CommonGuard)
   @Patch("/:id")
   async update(@Body() dto: UpdateDTO) {
     return await this.api.update(dto);
