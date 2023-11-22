@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { api } from 'shared/api/api';
+import { API } from 'shared/api/api';
 
 export interface Character {
 	id: number
@@ -7,8 +7,8 @@ export interface Character {
 }
 
 export enum CharacterRoutes{
-	tags = '/tags',
-	themes = '/themes'
+	tags = 'tags',
+	themes = 'themes'
 }
 
 class CharacterState {
@@ -22,21 +22,18 @@ class CharacterState {
         this.getThemes();
     }
 
-    async getAll(route: CharacterRoutes) {
-        const { data } = await api.get(route);
-        return data;
+    async getAll(route: CharacterRoutes, clb: Function) {
+        await new API(route).getAll({}, clb);
     }
 
     async getTags() {
-        const data = await this.getAll(CharacterRoutes.tags);
-        this.tags = data;
-        return data;
+        const clb = (data: any) => this.tags = data;
+        await this.getAll(CharacterRoutes.tags, clb);
     }
 
     async getThemes() {
-        const data = await this.getAll(CharacterRoutes.themes);
-        this.themes = data;
-        return data;
+        const clb = (data: any) => this.themes = data;
+        await this.getAll(CharacterRoutes.themes, clb);
     }
 }
 

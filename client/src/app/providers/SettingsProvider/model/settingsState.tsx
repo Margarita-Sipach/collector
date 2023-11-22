@@ -4,6 +4,8 @@ import { makeAutoObservable } from 'mobx';
 class SettingsState {
     error: string = '';
 
+    success: string = '';
+
     isLoading: boolean = false;
 
     constructor() {
@@ -18,8 +20,16 @@ class SettingsState {
         this.error = error || i18next.t('error:unexpected');
     }
 
+    setSuccessText(success: string) {
+        this.success = success;
+    }
+
     removeError() {
         this.error = '';
+    }
+
+    removeSuccess() {
+        this.success = '';
     }
 
     setIsLoading() {

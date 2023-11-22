@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { User, userState } from 'entities/User';
+import { userState } from 'entities/User';
 import { collectionState } from 'entities/Collection';
 import { PageWrapper } from 'shared/ui/PageWrapper/PageWrapper';
 import { ElementsTypes } from 'shared/class/ElementState';
@@ -9,11 +9,10 @@ import { UserHeader } from './UserHeader/UserHeader';
 
 const UserPage = observer(() => {
     const { id } = useParams();
-    const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
         const numberId = Number(id);
-        userState.getUserById(numberId).then((data) => setUser(data));
+        userState.getUserById(numberId);
         collectionState.getAll({ userId: numberId });
 
         return () => {
@@ -23,9 +22,9 @@ const UserPage = observer(() => {
 
     return (
         <>
-            {user && (
-                <PageWrapper type={ElementsTypes.collection} userId={user.id}>
-                    <UserHeader user={user} />
+            {userState.pageUser && (
+                <PageWrapper type={ElementsTypes.collection} userId={userState.pageUser.id}>
+                    <UserHeader user={userState.pageUser} />
                 </PageWrapper>
             )}
         </>

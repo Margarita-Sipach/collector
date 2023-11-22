@@ -5,7 +5,7 @@ import { settingsState } from '..';
 import cls from './SettingsProvider.module.scss';
 
 export const SettingsProvider = observer(({ children }) => {
-    const { isLoading, error } = settingsState;
+    const { isLoading, error, success } = settingsState;
 
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -17,7 +17,14 @@ export const SettingsProvider = observer(({ children }) => {
             });
             settingsState.removeError();
         }
-    }, [error, messageApi]);
+        if (success) {
+            messageApi.open({
+                type: 'success',
+                content: success,
+            });
+            settingsState.removeSuccess();
+        }
+    }, [error, messageApi, success]);
 
     return (
         <>
