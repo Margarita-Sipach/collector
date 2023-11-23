@@ -25,13 +25,17 @@ export class CollectionsService {
       ...collectionArgs,
       themeId,
     });
-    await this.fieldService.createCollectionFields(fields, collection.id);
+    await this.fieldService.createCollectionFields(
+      fields,
+      collection.id,
+    );
     return await this.getById(collection.id);
   }
 
   async update({ fields, theme, id, ...collectionArgs }: UpdateDTO) {
     const { id: themeId } = await this.themeService.getByTitle(theme);
-    await this.fieldService.updateCollectionFields(fields);
+    await this.fieldService.deleteByCollectionId(id);
+    await this.fieldService.updateCollectionFields(fields, id);
 
     const collection = await this.getById(id);
 

@@ -21,6 +21,9 @@ export enum FieldTypes {
 
 interface FieldCreationAttrs {
   title: string;
+  type: FieldTypes;
+  id?: number;
+  collectionId: number;
 }
 
 @Table({ tableName: "fields" })

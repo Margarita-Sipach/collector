@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/sequelize";
 import { Field, FieldTypes } from "./fields.model";
 import { CreateDTO } from "./dto/CreateDTO";
 import { FieldItem } from "src/fields-items/fields-items.model";
+import { Fields } from "src/collections/dto/CreateDTO";
 
 @Injectable()
 export class FieldsService {
@@ -26,18 +27,23 @@ export class FieldsService {
     return field;
   }
 
-  async updateCollectionFields(fields) {
+  async updateCollectionFields(fields, collectionId: number) {
     await Promise.all(
-      fields.map((field) =>
-        this.fieldRepository.update(field, { where: { id: field.id } }),
-      ),
+      fields.map(({ id, ...field }) => 
+       this.fieldRepository.create(
+			{ ...(id ? {id} : {}), ...field, collectionId }
+        )
+      )
     );
   }
 
-  async createCollectionFields(fields: {title: string, type: FieldTypes, id: number}[], collectionId: number) {
+  async createCollectionFields(
+    fields: Fields[],
+    collectionId: number,
+  ) {
     if (fields)
       await Promise.all(
-        fields.map(({id, ...field}) =>
+        fields.map(({ id, ...field }) =>
           this.create({
             ...field,
             collectionId,
@@ -53,6 +59,10 @@ export class FieldsService {
 
   async deleteByItemId(itemId: number) {
     await this.fieldItemRepository.destroy({ where: { itemId } });
+  }
+
+  async deleteByCollectionId(collectionId: number) {
+    await this.fieldRepository.destroy({ where: { collectionId } });
   }
 
   async createItemFields(fields, id) {

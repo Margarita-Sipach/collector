@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { Item } from "./items.model";
 import { CreateDTO } from "./dto/CreateDTO";
-import { FieldItem } from "src/fields-items/fields-items.model";
 import { APIService } from "src/base/api.service";
 import { UpdateDTO } from "./dto/UpdateDTO";
 import { TagsService } from "src/tags/tags.service";

@@ -6,13 +6,11 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards,
   Req,
 } from "@nestjs/common";
 import { Request } from "express";
 import { CollectionsService } from "./collections.service";
 import { CreateDTO } from "./dto/CreateDTO";
-import { CommonGuard } from "src/guards/common.guard";
 import { UpdateDTO } from "./dto/UpdateDTO";
 import { APIController } from "src/base/api.controller";
 
