@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
-import { Field } from "./fields.model";
+import { Field, FieldTypes } from "./fields.model";
 import { CreateDTO } from "./dto/CreateDTO";
 import { FieldItem } from "src/fields-items/fields-items.model";
 
@@ -34,10 +34,10 @@ export class FieldsService {
     );
   }
 
-  async createCollectionFields(fields: any, collectionId: number) {
+  async createCollectionFields(fields: {title: string, type: FieldTypes, id: number}[], collectionId: number) {
     if (fields)
       await Promise.all(
-        fields.map(({id, field}) =>
+        fields.map(({id, ...field}) =>
           this.create({
             ...field,
             collectionId,

@@ -7,10 +7,8 @@ import {
   Patch,
   Post,
   Req,
-  UseGuards,
 } from "@nestjs/common";
 import { ItemsService } from "./items.service";
-import { CommonGuard } from "src/guards/common.guard";
 import { CreateDTO } from "./dto/CreateDTO";
 import { Request } from "express";
 import { APIController } from "src/base/api.controller";
