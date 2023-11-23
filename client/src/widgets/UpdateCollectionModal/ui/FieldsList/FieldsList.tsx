@@ -36,6 +36,13 @@ export const FieldsList: FC<FieldsListProps> = () => (
                                 type={FormItemTypes.select}
                                 options={Object.values(FieldTypes)}
                             />
+							<FormItem
+							className={'none'}
+                                {...restField}
+								isRequired={false} 
+                                name={[name, 'id']}
+                                type={FormItemTypes.input}
+                            />
                             <Button onClick={() => remove(name)} type="link">
                                 <AiFillDelete />
                             </Button>
