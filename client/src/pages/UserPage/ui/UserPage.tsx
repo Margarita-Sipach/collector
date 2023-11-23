@@ -23,7 +23,7 @@ const UserPage = observer(() => {
     return (
         <>
             {userState.pageUser && (
-                <PageWrapper type={ElementsTypes.collection} userId={userState.pageUser.id}>
+                <PageWrapper type={ElementsTypes.collection}>
                     <UserHeader user={userState.pageUser} />
                 </PageWrapper>
             )}

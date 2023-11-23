@@ -65,7 +65,7 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
             >
                 <div className={cls.cardContent}>
                     <Meta title={value.title} />
-                    {(userId === userState.userId || userState.isAdmin) && (
+                    {((userId === userState.userId || userState.isAdmin) && userState.isAuth) && (
                         <Dropdown menu={{ items }}>
                             <MdEdit
                                 className={cls.menuLink}

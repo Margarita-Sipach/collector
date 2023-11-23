@@ -7,11 +7,10 @@ import cls from './PageWrapper.module.scss';
 
 interface PageWrapperProps{
 	type: ElementsTypes
-	userId: number
 }
 
 export const PageWrapper: FC<PageWrapperProps> = observer((props) => {
-    const { children, type, userId } = props;
+    const { children, type } = props;
     const state = elementsStates[type];
 
     return (
@@ -23,7 +22,7 @@ export const PageWrapper: FC<PageWrapperProps> = observer((props) => {
                         key={item.id}
                         type={type}
                         value={item}
-                        userId={userId}
+                        userId={item.userId}
                     />
                 ))}
             </div>

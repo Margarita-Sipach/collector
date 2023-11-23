@@ -94,7 +94,6 @@ class UserState {
         if (!id) return settingsState.setErrorText('Id does not exist');
         const clb = (data: any) => {
             this.pageUser = data;
-            console.log(this.pageUser);
         };
         await this.api.getById(id, clb);
     }

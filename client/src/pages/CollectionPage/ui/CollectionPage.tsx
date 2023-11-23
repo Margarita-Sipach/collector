@@ -25,7 +25,7 @@ const CollectionPage = observer(() => {
         <>
 
             {collectionState.element && (
-                <PageWrapper type={ElementsTypes.item} userId={collectionState.element.userId}>
+                <PageWrapper type={ElementsTypes.item}>
                     <CollectionHeader
                         collection={collectionState.element}
                     />

@@ -52,7 +52,7 @@ export class ElementState<T> extends ModalState<T> {
     async getAll(element: any, paramsNames = this.paramsNames, limit?: number) {
         const params = this.generateParams(element, paramsNames);
         const clb = async (data: any) => {
-            if (data) this.setAllElements(data);
+            if (data) this.setAllElements('collection' in data[0] ? data.map((i: any) => ({...i, userId: i.collection?.userId})) : data);
         };
         await this.api.getAll(params, clb);
     }

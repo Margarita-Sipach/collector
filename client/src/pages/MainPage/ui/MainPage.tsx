@@ -17,13 +17,11 @@ const MainPage = observer(() => {
 
     useEffect(() => {
         collectionState.getAll({}, []).then((i) => collectionState.limitElements(5));
-
         itemState.getAll({}, []);
         characterState.getTags();
     }, []);
 
     useEffect(() => {
-        console.log(selectedTags);
         itemState.filterElements(selectedTags ? { tag: selectedTags } : {});
     }, [selectedTags]);
 
@@ -37,9 +35,9 @@ const MainPage = observer(() => {
     return (
         <div>
             <div>collections</div>
-            <PageWrapper type={ElementsTypes.collection} userId={userState.userId}>			</PageWrapper>
+            <PageWrapper type={ElementsTypes.collection}>			</PageWrapper>
             <div>items</div>
-            <PageWrapper type={ElementsTypes.item} userId={userState.userId}>
+            <PageWrapper type={ElementsTypes.item}>
 
                 <div className={cls.tags}>
                     {characterState.tags.map((tag) => (
