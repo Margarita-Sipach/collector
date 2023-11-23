@@ -1,0 +1,16 @@
+.addButton {
+    margin-bottom: 10px;
+}
+
+.fields {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.field {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 45% 45% 10%;
+    gap: 5px;
+}

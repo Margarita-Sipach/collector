@@ -8,7 +8,6 @@
 *::before,
 *::after {
     box-sizing: border-box;
-    transition: 0.2s all;
     background: none;
 }
 
@@ -57,18 +56,4 @@ a:active { outline: none; }
 
 img {
     vertical-align: top;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-size: inherit;
-    font-weight: inherit;
-}
-
-li {
-    list-style-type: none;
 }

@@ -6,22 +6,14 @@ import { useTranslation } from 'react-i18next';
 import { AiFillDelete } from 'react-icons/ai';
 
 export const useColumns = () => {
-    const [users, setUsers] = useState([]);
-
     const { t } = useTranslation(['user', 'button']);
 
-    const getUsers = async () => {
-        const updatedUsers = await userState.getUsers();
-        setUsers(updatedUsers);
-    };
     const changeHandler = async (args: Partial<User>) => {
         await userState.updateUser(args);
-        await getUsers();
     };
 
     const deleteHandler = (id: number) => {
         userState.deleteUser(id);
-        getUsers();
     };
 
     const columns: ColumnsType<any> = [
@@ -73,7 +65,9 @@ export const useColumns = () => {
         },
 
         {
+            title: t('button:delete'),
             key: 'delete',
+            dataIndex: 'delete',
             render: (_, { id }) => (
                 <Button
                     onClick={() => deleteHandler(id)}
@@ -87,8 +81,8 @@ export const useColumns = () => {
     ];
 
     useEffect(() => {
-        getUsers();
+        userState.getUsers();
     }, []);
 
-    return { columns, users };
+    return { columns, users: userState.pageUsers };
 };

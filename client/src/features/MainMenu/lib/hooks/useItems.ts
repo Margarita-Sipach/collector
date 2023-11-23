@@ -15,9 +15,13 @@ const getAdminItems = (isAdmin: boolean, t: TFunction) => {
     return [];
 };
 
-const getAuthItems = (isAuth: boolean, t: TFunction) => {
+const getAuthItems = (isAuth: boolean, t: TFunction, userId: number) => {
     if (isAuth) {
         return [
+            {
+                label: t('myPage'),
+                key: `${CommonRoutePath.user}/${userId}`,
+            },
             {
                 label: t('exit'),
                 key: 'exit',
@@ -41,9 +45,14 @@ const getCommonItems = (t: TFunction) => [{
     key: CommonRoutePath.main,
 }];
 
-export const useItems = (isAuth: boolean, isAdmin: boolean, t: TFunction) => {
+export const useItems = (
+    isAuth: boolean,
+    isAdmin: boolean,
+    t: TFunction,
+    userId: number,
+) => {
     const adminItems = useMemo(() => getAdminItems(isAdmin, t), [isAdmin, t]);
-    const authItems = useMemo(() => getAuthItems(isAuth, t), [isAuth, t]);
+    const authItems = useMemo(() => getAuthItems(isAuth, t, userId), [isAuth, t, userId]);
     const commonItems = useMemo(() => getCommonItems(t), [t]);
 
     const items: MenuProps['items'] = useMemo(() => [

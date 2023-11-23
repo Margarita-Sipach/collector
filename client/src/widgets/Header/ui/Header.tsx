@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { AdminRoutePath } from 'shared/config/routeConfig/adminConfig';
 import { userState } from 'entities/User';
 import { observer } from 'mobx-react-lite';
+import { CommonRoutePath } from 'shared/config/routeConfig/commonConfig';
 import cls from './Header.module.scss';
 
 interface HeaderProps {
@@ -20,7 +21,7 @@ interface HeaderProps {
 
 export const Header: FC<HeaderProps> = memo(observer(() => {
     const navigate = useNavigate();
-    const { isAuth, isAdmin } = userState;
+    const { isAuth, isAdmin, userId } = userState;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
@@ -40,10 +41,15 @@ export const Header: FC<HeaderProps> = memo(observer(() => {
                         onClick={() => navigate(AdminRoutePath.admin)}
                     />
                 )}
-                {isAuth && <Button icon={<UserOutlined />} />}
+                {isAuth && (
+                    <Button
+                        icon={<UserOutlined />}
+                        onClick={() => { navigate(`${CommonRoutePath.user}/${userId}`); }}
+                    />
+                )}
                 <Burger onClick={() => setIsMenuOpen((prev) => !prev)} />
             </div>
-            <MainMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
+            <MainMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} userId={userId} />
         </header>
     );
 }));

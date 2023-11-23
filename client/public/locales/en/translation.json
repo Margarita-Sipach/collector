@@ -5,5 +5,7 @@
 	"inputValid": "Please input valid",
 	"admin": "Admin Page",
 	"main": "Main Page",
-	"exit": "Exit"
+	"exit": "Exit",
+	"myPage": "My Page",
+	"collection": "Collection"
 }

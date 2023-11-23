@@ -14,15 +14,17 @@ import { useItems } from '../lib/hooks/useItems';
 interface MainMenuProps{
 	isOpen: boolean
 	setIsOpen: Dispatch<SetStateAction<boolean>>
+	userId: number
 }
 
-export const MainMenu: FC<MainMenuProps> = memo(observer(({ isOpen, setIsOpen }) => {
+export const MainMenu: FC<MainMenuProps> = memo(observer((props) => {
+    const { isOpen, setIsOpen, userId } = props;
     const navigate = useNavigate();
 
     const { isAdmin, isAuth } = userState;
     const { t } = useTranslation();
 
-    const items = useItems(isAuth, isAdmin, t);
+    const items = useItems(isAuth, isAdmin, t, userId);
 
     const onClick: MenuProps['onClick'] = ({ key }) => {
         let path = key;
