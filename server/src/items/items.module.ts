@@ -10,10 +10,22 @@ import { User } from "src/users/users.model";
 import { AdminGuard } from "src/guards/admin.guard";
 import { AuthGuard } from "src/guards/auth.guard";
 import { FieldItem } from "src/fields-items/fields-items.model";
+import { TagsService } from "src/tags/tags.service";
+import { FieldsService } from "src/fields/fields.service";
+import { Field } from "src/fields/fields.model";
 
 @Module({
   controllers: [ItemsController],
-  providers: [ItemsService, UsersService, AdminGuard, AuthGuard],
-  imports: [SequelizeModule.forFeature([Item, Tag, ItemTag, User, FieldItem])],
+  providers: [
+    ItemsService,
+    UsersService,
+    FieldsService,
+    TagsService,
+    AdminGuard,
+    AuthGuard,
+  ],
+  imports: [
+    SequelizeModule.forFeature([Item, Tag, ItemTag, User, Field, FieldItem]),
+  ],
 })
 export class ItemsModule {}

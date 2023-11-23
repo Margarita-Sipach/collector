@@ -4,5 +4,5 @@ import { ThemesService } from "./themes.service";
 import { Theme } from "./themes.model";
 import { getCharacterModuleObj } from "src/character/character.module";
 
-@Module(getCharacterModuleObj(ThemesController, ThemesService, Theme))
+@Module(getCharacterModuleObj([ThemesController], [ThemesService], [Theme]))
 export class ThemesModule {}

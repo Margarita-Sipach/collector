@@ -5,11 +5,11 @@ import { User } from "src/users/users.model";
 import { UsersService } from "src/users/users.service";
 
 export const getCharacterModuleObj = (
-  CharacterController: any,
-  CharacterService: any,
-  Character: any,
+  CharacterControllers: any[],
+  CharacterServices: any[],
+  Characters: any[],
 ) => ({
-  controllers: [CharacterController],
-  providers: [CharacterService, AuthGuard, AdminGuard, UsersService],
-  imports: [SequelizeModule.forFeature([Character, User])],
+  controllers: [...CharacterControllers],
+  providers: [...CharacterServices, AuthGuard, AdminGuard, UsersService],
+  imports: [SequelizeModule.forFeature([...Characters, User])],
 });

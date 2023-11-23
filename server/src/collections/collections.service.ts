@@ -25,36 +25,26 @@ export class CollectionsService {
       ...collectionArgs,
       themeId,
     });
-    await this.createFields(fields, collection.id);
+    await this.fieldService.createCollectionFields(fields, collection.id);
     return await this.getById(collection.id);
   }
 
-  async update({ fields, theme, ...collectionArgs }: UpdateDTO) {
+  async update({ fields, theme, id, ...collectionArgs }: UpdateDTO) {
     const { id: themeId } = await this.themeService.getByTitle(theme);
+    await this.fieldService.updateCollectionFields(fields);
+
+    const collection = await this.getById(id);
+
     await this.collectionRepository.update(
       {
+        ...collection,
         ...collectionArgs,
+        id,
         themeId,
       },
-      { where: { id: collectionArgs.id } },
+      { where: { id } },
     );
-
-    await this.fieldService.deleteByCollectionId(collectionArgs.id);
-    await this.createFields(fields, collectionArgs.id);
-
-    return await this.getById(collectionArgs.id);
-  }
-
-  async createFields(fields: any, collectionId: number) {
-    if (fields)
-      await Promise.all(
-        fields.map((field) =>
-          this.fieldService.create({
-            ...field,
-            collectionId,
-          }),
-        ),
-      );
+    return await this.getById(id);
   }
 
   async getAll(params) {
