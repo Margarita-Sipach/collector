@@ -7,6 +7,7 @@ import { ModalState } from './ModalState';
 export const elementProps = {
     element: observable,
     elements: observable,
+	allElements: observable,
 };
 
 export enum ElementsTypes {
@@ -52,7 +53,11 @@ export class ElementState<T> extends ModalState<T> {
     async getAll(element: any, paramsNames = this.paramsNames, limit?: number) {
         const params = this.generateParams(element, paramsNames);
         const clb = async (data: any) => {
-            if (data) this.setAllElements('collection' in data[0] ? data.map((i: any) => ({ ...i, userId: i.collection?.userId })) : data);
+			this.setAllElements(
+				data.length && 'collection' in data?.[0] 
+				? data.map((i: any) => ({...i, userId: i.collection?.userId}))
+				: data
+			)
         };
         await this.api.getAll(params, clb);
     }
@@ -74,7 +79,7 @@ export class ElementState<T> extends ModalState<T> {
 
     async getById(id: number) {
         const clb = async (data: any) => {
-            if (data) this.setElement(data);
+            this.setElement(data);
         };
         await this.api.getById(id, clb);
     }

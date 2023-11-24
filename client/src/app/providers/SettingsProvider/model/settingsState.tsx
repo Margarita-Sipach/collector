@@ -13,7 +13,7 @@ class SettingsState {
     }
 
     setError(error: any) {
-        this.setErrorText(error.response.data.message);
+        this.setErrorText(error.response?.data?.message);
     }
 
     setErrorText(error: string) {
