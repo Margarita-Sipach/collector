@@ -16,6 +16,7 @@ interface AddDTO{
 	id: null;
 	fields: [string, any][]
 	userId: number
+	img: any
 }
 
 class ItemState extends ElementState<any> {
@@ -53,10 +54,11 @@ class ItemState extends ElementState<any> {
     }
 
     async add({
-        id, title, tag, collectionId, userId, ...fields
+        id, title, tag, img, collectionId, userId, ...fields
     }: AddDTO) {
         const item = {
             title,
+            img,
             tags: tag,
             collectionId,
             fields: this.convertFields(fields),
@@ -66,11 +68,12 @@ class ItemState extends ElementState<any> {
     }
 
     async update({
-        tag, title, collectionId, id, ...fields
+        tag, title, img, collectionId, id, ...fields
     }: AddDTO) {
         const item = {
             title,
             id,
+            img,
             tags: tag,
             collectionId,
             fields: this.convertFields(fields),

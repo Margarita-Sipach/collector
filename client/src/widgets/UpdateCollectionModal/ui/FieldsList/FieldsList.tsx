@@ -28,18 +28,25 @@ export const FieldsList: FC<FieldsListProps> = () => (
                             <FormItem
                                 {...restField}
                                 name={[name, 'title']}
-                                placeholder="Title"
+                                args={{
+                                    item: {
+                                        placeholder: 'Title',
+                                    },
+                                }}
+
                             />
                             <FormItem
                                 {...restField}
                                 name={[name, 'type']}
                                 type={FormItemTypes.select}
-                                options={Object.values(FieldTypes)}
+                                args={{
+                                    itemChildren: Object.values(FieldTypes),
+                                }}
                             />
-							<FormItem
-							className={'none'}
+                            <FormItem
+                                className="none"
                                 {...restField}
-								isRequired={false} 
+                                isRequired={false}
                                 name={[name, 'id']}
                                 type={FormItemTypes.input}
                             />

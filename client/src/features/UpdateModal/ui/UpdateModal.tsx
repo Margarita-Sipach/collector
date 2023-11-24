@@ -27,6 +27,7 @@ export const UpdateModal: FC<UpdateModalProps> = observer((props) => {
         await state[method]({
             ...args,
             ...values,
+            img: values.img.file,
         });
         state.closeModal();
     };
