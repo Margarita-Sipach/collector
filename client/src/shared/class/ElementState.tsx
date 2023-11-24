@@ -87,7 +87,7 @@ export class ElementState<T> extends ModalState<T> {
     }
 
     limitElements(limit: number) {
-        this.setElements(this.allElements?.slice(0, limit) || []);
+        this.setElements(this.allElements.slice(0, limit));
     }
 
     filterElements(filterArgs: Object) {
