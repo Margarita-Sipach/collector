@@ -1,5 +1,6 @@
 import {
-    DatePicker, Form, Input, InputNumber, Select, Switch,
+    Button,
+    DatePicker, Form, Input, InputNumber, Select, Switch, Upload,
 } from 'antd';
 import { collectionState } from 'entities/Collection';
 import { itemState } from 'entities/Item';
@@ -12,20 +13,67 @@ export enum FormItemTypes {
 	'textarea' = 'textarea',
 	'select' = 'select',
 	'date' = 'date',
+	'img' = 'img'
 }
 
-export interface FormItemProps {
-  name: string | [string | number, string]
-  label?: string
-  isRequired?: boolean
-  type?: FormItemTypes
-  options?: string[]
-  placeholder?: string
-  mode?: 'multiple' | 'tags'
-  className?: string
-  defaultValue?: string
-  other?: Object
+interface BaseType{
+	name: string | [string | number, string]
+	label?: string
+	isRequired?: boolean
+	type?: FormItemTypes;
+	args?: {
+		formItem?: any
+		item?: any
+		itemChildren?: any
+	}
+	className?: string
 }
+
+interface SelectType extends BaseType{
+	type?: FormItemTypes.select;
+	args?: {
+		item?: {
+			mode?: 'multiple' | 'tags',
+			defaultValue?: string
+		},
+		itemChildren?: string[]
+		formItem?: undefined
+	}
+}
+
+interface InputType extends BaseType{
+	type?: FormItemTypes.input | FormItemTypes.textarea;
+	args?: {
+		item?: {
+			placeholder: string
+		}
+		formItem?: undefined
+		itemChildren?: undefined
+	}
+}
+
+interface SwitchType extends BaseType{
+	type?: FormItemTypes.switch;
+	args?: {
+		itemChildren?: undefined
+		item?: undefined
+		formItem?: undefined
+	}
+}
+
+interface Other extends BaseType {
+	type?: FormItemTypes.date | FormItemTypes.img | FormItemTypes.inputNumber
+}
+
+type FormItemProps = SelectType | InputType | SwitchType | Other
+
+const normFile = (e: any) => {
+    console.log('Upload event:', e);
+    if (Array.isArray(e)) {
+	  return e;
+    }
+    return e?.fileList;
+};
 
 export const FormItem: FC<FormItemProps> = (props) => {
     const {
@@ -35,39 +83,44 @@ export const FormItem: FC<FormItemProps> = (props) => {
             ? name[0].toUpperCase() + name.slice(1)
             : '',
         isRequired = true,
-        options,
-        mode,
-        placeholder = '',
+        args = {
+            formItem: {
+                ...type === FormItemTypes.img ? { getValueFromEvent: normFile } : {},
+                ...type === FormItemTypes.switch ? { valuePropName: 'checked' } : {},
+            },
+            item: {},
+            itemChildren: {},
+        },
         className,
-        defaultValue,
-        other = type === FormItemTypes.switch ? { valuePropName: 'checked' } : {},
     } = props;
 
     const Children = useMemo(() => {
         switch (type) {
-        case 'textarea': return <Input.TextArea />;
-        case 'inputNumber': return <InputNumber />;
-        case 'switch': return <Switch />;
-        case 'date': return <DatePicker />;
-        case 'select': return (
-            options
-            && (
-                <Select mode={mode} defaultValue={defaultValue}>
-                    {options.map((item) => (
-                        <Select.Option
-                            value={item}
-                            key={item}
-                        >
-                            {item}
-                        </Select.Option>
-                    ))}
-                </Select>
-            )
+        case FormItemTypes.textarea: return <Input.TextArea />;
+        case FormItemTypes.inputNumber: return <InputNumber />;
+        case FormItemTypes.switch: return <Switch />;
+        case FormItemTypes.date: return <DatePicker />;
+        case FormItemTypes.img: return (
+            <Upload action="/upload.do" listType="picture">
+                <Button>Click to upload</Button>
+            </Upload>
+        );
+        case FormItemTypes.select: return (
+            <Select {...args?.item}>
+                {args?.itemChildren?.map((item: string) => (
+                    <Select.Option
+                        value={item}
+                        key={item}
+                    >
+                        {item}
+                    </Select.Option>
+                ))}
+            </Select>
 
         );
-        default: return <Input placeholder={placeholder} />;
+        default: return <Input {...args.item} />;
         }
-    }, [defaultValue, mode, options, placeholder, type]);
+    }, [args, type]);
 
     return (
         <Form.Item
@@ -78,7 +131,7 @@ export const FormItem: FC<FormItemProps> = (props) => {
                 message: 'Please input title!',
             }]}
             className={className}
-            {...other}
+            {...args?.formItem}
         >
             {Children}
         </Form.Item>

@@ -1,11 +1,12 @@
 import { FC } from 'react';
-import { characterState } from 'entities/Character';
+import { Character, characterState } from 'entities/Character';
 import { observer } from 'mobx-react-lite';
 import { FieldTypes, collectionState } from 'entities/Collection';
 import { UpdateModal } from 'features/UpdateModal';
 import { FormItem, FormItemTypes } from 'shared/ui/FormItem/FormItem';
 import { itemState } from 'entities/Item';
 import { ElementsTypes } from 'shared/class/ElementState';
+import { Button, Upload } from 'antd';
 
 const FieldInputTypes = {
     [FieldTypes.BOOLEAN]: FormItemTypes.switch,
@@ -27,19 +28,25 @@ export const UpdateItemModal: FC<UpdateItemModalProps> = observer(() => (
         <FormItem name="title" label="Item title" />
         <FormItem
             type={FormItemTypes.select}
-            mode="tags"
+            args={{
+                item: {
+                    mode: 'tags',
+                    defaultValue: (itemState.element as any)?.tag,
+                },
+                itemChildren: characterState.tags.map(({ title }: Character) => (title)),
+            }}
             name="tag"
-            options={characterState.tags.map(({ title }: any) => (title))}
-            defaultValue={(itemState.element as any)?.tag}
         />
-        {/* <Form.Item
-                name="img"
-                label="Image"
-            >
-                <Upload action="/upload.do" listType="picture">
-                    <Button>Click to upload</Button>
-                </Upload>
-            </Form.Item> */}
+        <FormItem
+            name="img"
+            type={FormItemTypes.img}
+
+            label="Image"
+        >
+            <Upload action="/upload.do" listType="picture">
+                <Button>Click to upload</Button>
+            </Upload>
+        </FormItem>
 
         {collectionState.element?.fields.map(({ type, id, title }: any) => (
             <FormItem
