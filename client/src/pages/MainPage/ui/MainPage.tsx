@@ -16,7 +16,7 @@ const MainPage = observer(() => {
     const [selectedTags, setSelectedTags] = useState<Character[]>([]);
 
     useEffect(() => {
-        collectionState.getAll({}, []).then((i) => collectionState.limitElements(5));
+        collectionState.getAll({}, []);
         itemState.getAll({}, []);
         characterState.getTags();
     }, []);
@@ -24,6 +24,11 @@ const MainPage = observer(() => {
     useEffect(() => {
         itemState.filterElements(selectedTags ? { tag: selectedTags } : {});
     }, [selectedTags]);
+
+	useEffect(() => {        
+		const collectionsAmount = 5
+		collectionState.limitElements(collectionsAmount)
+    }, [collectionState.elements]);
 
     const handleChange = (tag: Character, checked: boolean) => {
         const nextSelectedTags = checked
