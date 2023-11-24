@@ -6,7 +6,7 @@ import {
   ForeignKey,
   Table,
 } from "sequelize-typescript";
-import { Base, requireString } from "src/base/character.model";
+import { Base, requireString } from "src/base/base.model";
 import { Collection } from "src/collections/collections.model";
 import { FieldItem } from "src/fields-items/fields-items.model";
 import { Field } from "src/fields/fields.model";

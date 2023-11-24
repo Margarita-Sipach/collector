@@ -6,7 +6,7 @@ import {
   HasMany,
   Table,
 } from "sequelize-typescript";
-import { Base, requireString } from "src/base/character.model";
+import { Base, requireString } from "src/base/base.model";
 import { Field } from "src/fields/fields.model";
 import { Item } from "src/items/items.model";
 import { Theme } from "src/themes/themes.model";

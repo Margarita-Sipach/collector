@@ -1,22 +1,50 @@
-import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+} from "@nestjs/common";
+import { Request } from "express";
 import { CollectionsService } from "./collections.service";
 import { CreateDTO } from "./dto/CreateDTO";
-import { CommonGuard } from "src/guards/common.guard";
+import { UpdateDTO } from "./dto/UpdateDTO";
+import { APIController } from "src/base/api.controller";
 
 @Controller("collections")
 export class CollectionsController {
-  constructor(private collectionsService: CollectionsService) {}
+  api: APIController;
+  constructor(private collectionsService: CollectionsService) {
+    this.api = new APIController(collectionsService);
+  }
 
-  @UseGuards(CommonGuard)
   @Post()
   async create(@Body() dto: CreateDTO) {
-    const collection = await this.collectionsService.create(dto);
-    return collection;
+    return await this.api.create(dto);
+  }
+
+  @Patch("/:id")
+  async update(@Body() dto: UpdateDTO) {
+    return await this.api.update(dto);
+  }
+
+  @Get("/:id")
+  async getById(@Param("id") id: number) {
+    return await this.api.getById(id);
   }
 
   @Get()
-  async getAll() {
-    const collection = await this.collectionsService.getAll();
-    return collection;
+  async getAll(@Req() request: Request) {
+    const params = request.query;
+    return await this.api.getAll(params);
+  }
+
+  @Delete("/:id")
+  async delete(@Param("id") id: number) {
+    await this.api.delete(id);
+    return { status: "success" };
   }
 }

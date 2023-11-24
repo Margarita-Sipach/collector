@@ -40,6 +40,6 @@ export class UserGuard implements CanActivate {
   }
 
   getBodyId(body: any) {
-    return body.id;
+    return body.userId;
   }
 }

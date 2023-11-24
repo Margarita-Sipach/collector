@@ -5,7 +5,7 @@ import {
   requireEnum,
   requireString,
   uniqString,
-} from "src/base/character.model";
+} from "src/base/base.model";
 import { Collection } from "src/collections/collections.model";
 
 interface UserCreationAttrs {
@@ -34,7 +34,7 @@ export class User extends Base<User, UserCreationAttrs> {
   @Column(requireBoolean)
   isActive: boolean;
 
-  @Default(Roles.ADMIN)
+  @Default(Roles.USER)
   @Column(requireEnum(Roles))
   role: Roles;
 

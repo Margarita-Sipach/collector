@@ -2,8 +2,6 @@ export interface CreateDTO {
   collectionId: number;
   title: string;
   img?: string;
-  tagsIds: number[];
-  fields: {
-    [key: number]: string;
-  };
+  tags: string[];
+  fields: [number, any][];
 }

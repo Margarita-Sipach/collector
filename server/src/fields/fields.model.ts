@@ -6,7 +6,7 @@ import {
   ForeignKey,
   Table,
 } from "sequelize-typescript";
-import { Base, requireEnum, requireString } from "src/base/character.model";
+import { Base, requireEnum, requireString } from "src/base/base.model";
 import { Collection } from "src/collections/collections.model";
 import { FieldItem } from "src/fields-items/fields-items.model";
 import { Item } from "src/items/items.model";
@@ -21,6 +21,9 @@ export enum FieldTypes {
 
 interface FieldCreationAttrs {
   title: string;
+  type: FieldTypes;
+  id?: number;
+  collectionId: number;
 }
 
 @Table({ tableName: "fields" })

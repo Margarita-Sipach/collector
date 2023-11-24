@@ -1,5 +1,5 @@
 import { Column, ForeignKey, Table } from "sequelize-typescript";
-import { Base } from "src/base/character.model";
+import { Base } from "src/base/base.model";
 import { Item } from "src/items/items.model";
 import { Tag } from "src/tags/tags.model";
 

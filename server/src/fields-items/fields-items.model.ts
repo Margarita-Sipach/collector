@@ -1,12 +1,12 @@
 import { Column, DataType, ForeignKey, Table } from "sequelize-typescript";
-import { Base } from "src/base/character.model";
+import { Base } from "src/base/base.model";
 import { Field } from "src/fields/fields.model";
 import { Item } from "src/items/items.model";
 
 interface FieldItemCreationAttrs {
   fieldId: number;
   itemId: number;
-  value: string;
+  value?: string;
 }
 
 @Table({ tableName: "fields-items" })
@@ -19,6 +19,6 @@ export class FieldItem extends Base<FieldItem, FieldItemCreationAttrs> {
   @Column
   fieldId: number;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING })
   value: Field["type"];
 }

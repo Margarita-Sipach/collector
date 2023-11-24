@@ -1,8 +1,9 @@
 import { FieldTypes } from "src/fields/fields.model";
 
-type Fields = {
+export type Fields = {
   title: string;
   type: FieldTypes;
+  id?: number;
 };
 
 export interface CreateDTO {
