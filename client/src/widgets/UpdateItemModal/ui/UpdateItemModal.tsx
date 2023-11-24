@@ -41,7 +41,7 @@ export const UpdateItemModal: FC<UpdateItemModalProps> = observer(() => (
                 </Upload>
             </Form.Item> */}
 
-        {collectionState.element?.fields.map(({ type, id, title }: any) => (
+        {collectionState.element?.fields?.map(({ type, id, title }: any) => (
             <FormItem
                 type={(FieldInputTypes as any)[type]}
                 name={`${id}-field`}
