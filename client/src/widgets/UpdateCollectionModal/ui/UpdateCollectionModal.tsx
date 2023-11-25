@@ -28,10 +28,8 @@ export const UpdateCollectionModal: FC<UpdateCollectionModalProps> = observer(()
             name="img"
             type={FormItemTypes.img}
             label="Image"
+			isRequired={false}
         >
-            <Upload listType="picture" action="/upload.do">
-                <Button>Click to upload</Button>
-            </Upload>
         </FormItem>
         <FormItem
             type={FormItemTypes.textarea}

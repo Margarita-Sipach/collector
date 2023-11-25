@@ -40,12 +40,9 @@ export const UpdateItemModal: FC<UpdateItemModalProps> = observer(() => (
         <FormItem
             name="img"
             type={FormItemTypes.img}
-
             label="Image"
+			isRequired={false}
         >
-            <Upload action="/upload.do" listType="picture">
-                <Button>Click to upload</Button>
-            </Upload>
         </FormItem>
 
         {collectionState.element?.fields?.map(({ type, id, title }: any) => (

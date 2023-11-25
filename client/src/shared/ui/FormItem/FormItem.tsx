@@ -67,13 +67,7 @@ interface Other extends BaseType {
 
 type FormItemProps = SelectType | InputType | SwitchType | Other
 
-const normFile = (e: any) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-	  return e;
-    }
-    return e?.fileList;
-};
+const normFile = (e: any) => e.file;
 
 export const FormItem: FC<FormItemProps> = (props) => {
     const {
