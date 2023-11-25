@@ -20,7 +20,7 @@ class ThemeState {
         this.theme = theme;
         this.isLight = !this.isLight;
         this.toggleBodyClass();
-		localStorage.setItem(LOCAL_STORAGE.THEME_KEY, theme)
+        localStorage.setItem(LOCAL_STORAGE.THEME_KEY, theme);
     }
 
     toggleBodyClass(theme: Theme = this.theme) {

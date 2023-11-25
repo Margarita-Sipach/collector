@@ -28,9 +28,8 @@ export const UpdateCollectionModal: FC<UpdateCollectionModalProps> = observer(()
             name="img"
             type={FormItemTypes.img}
             label="Image"
-			isRequired={false}
-        >
-        </FormItem>
+            isRequired={false}
+        />
         <FormItem
             type={FormItemTypes.textarea}
             name="description"

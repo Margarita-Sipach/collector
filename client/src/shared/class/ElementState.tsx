@@ -7,7 +7,7 @@ import { ModalState } from './ModalState';
 export const elementProps = {
     element: observable,
     elements: observable,
-	allElements: observable,
+    allElements: observable,
 };
 
 export enum ElementsTypes {
@@ -53,11 +53,11 @@ export class ElementState<T> extends ModalState<T> {
     async getAll(element: any, paramsNames = this.paramsNames, limit?: number) {
         const params = this.generateParams(element, paramsNames);
         const clb = async (data: any) => {
-			this.setAllElements(
-				data.length && 'collection' in data?.[0] 
-				? data.map((i: any) => ({...i, userId: i.collection?.userId}))
-				: data
-			)
+            this.setAllElements(
+                data.length && 'collection' in data?.[0]
+                    ? data.map((i: any) => ({ ...i, userId: i.collection?.userId }))
+                    : data,
+            );
         };
         await this.api.getAll(params, clb);
     }

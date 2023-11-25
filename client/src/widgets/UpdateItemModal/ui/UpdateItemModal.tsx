@@ -41,9 +41,8 @@ export const UpdateItemModal: FC<UpdateItemModalProps> = observer(() => (
             name="img"
             type={FormItemTypes.img}
             label="Image"
-			isRequired={false}
-        >
-        </FormItem>
+            isRequired={false}
+        />
 
         {collectionState.element?.fields?.map(({ type, id, title }: any) => (
             <FormItem
