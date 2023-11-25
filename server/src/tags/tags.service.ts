@@ -3,14 +3,19 @@ import { InjectModel } from "@nestjs/sequelize";
 import { Tag } from "./tags.model";
 import { CharacterService } from "src/character/character.service";
 import { ItemTag } from "src/items-tags/items-tags.model";
+import { APIService } from "src/base/api.service";
 
 @Injectable()
 export class TagsService extends CharacterService {
+  tagApi: APIService;
+  itemTagApi: APIService;
   constructor(
     @InjectModel(Tag) private tagRepository: typeof Tag,
     @InjectModel(ItemTag) private itemTagRepository: typeof ItemTag,
   ) {
     super(tagRepository);
+    this.tagApi = new APIService(tagRepository);
+    this.itemTagApi = new APIService(itemTagRepository);
   }
 
   async createItemTags(tagTitles: string[], itemId: number) {
@@ -28,16 +33,8 @@ export class TagsService extends CharacterService {
     )[0];
   }
 
-  async deleteItemTag({ id }: ItemTag) {
-    await this.itemTagRepository.destroy({ where: { id } });
-  }
-
   async createAndDeleteItemTags(tags: string[], itemId: number) {
-    await this.deleteByItemId(itemId);
+    await this.itemTagApi.deleteByItemId(itemId);
     await this.createItemTags(tags, itemId);
-  }
-
-  async deleteByItemId(itemId: number) {
-    await this.itemTagRepository.destroy({ where: { itemId } });
   }
 }

@@ -9,13 +9,11 @@ export class CharacterController {
   @UseGuards(AdminGuard)
   @Post()
   async create(@Body() dto: CreateDTO) {
-    const character = await this.characterService.create(dto);
-    return character;
+    return await this.characterService.create(dto);
   }
 
   @Get()
   async get() {
-    const characters = await this.characterService.getAll();
-    return characters;
+    return await this.characterService.getAll();
   }
 }

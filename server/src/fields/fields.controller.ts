@@ -10,13 +10,11 @@ export class FieldsController {
   @UseGuards(AdminGuard)
   @Post()
   async create(@Body() dto: CreateDTO) {
-    const collection = await this.fieldsService.create(dto);
-    return collection;
+    return await this.fieldsService.fieldApi.create(dto);
   }
 
   @Get()
   async get() {
-    const collections = await this.fieldsService.getAll();
-    return collections;
+    return await this.fieldsService.fieldApi.getAll();
   }
 }

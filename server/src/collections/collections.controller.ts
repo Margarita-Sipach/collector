@@ -12,39 +12,35 @@ import { Request } from "express";
 import { CollectionsService } from "./collections.service";
 import { CreateDTO } from "./dto/CreateDTO";
 import { UpdateDTO } from "./dto/UpdateDTO";
-import { APIController } from "src/base/api.controller";
 
 @Controller("collections")
 export class CollectionsController {
-  api: APIController;
-  constructor(private collectionsService: CollectionsService) {
-    this.api = new APIController(collectionsService);
-  }
+  constructor(private collectionsService: CollectionsService) {}
 
   @Post()
   async create(@Body() dto: CreateDTO) {
-    return await this.api.create(dto);
+    return await this.collectionsService.create(dto);
   }
 
   @Patch("/:id")
   async update(@Body() dto: UpdateDTO) {
-    return await this.api.update(dto);
+    return await this.collectionsService.update(dto);
   }
 
   @Get("/:id")
   async getById(@Param("id") id: number) {
-    return await this.api.getById(id);
+    return await this.collectionsService.api.getById(id);
   }
 
   @Get()
   async getAll(@Req() request: Request) {
     const params = request.query;
-    return await this.api.getAll(params);
+    return await this.collectionsService.api.getAll(params);
   }
 
   @Delete("/:id")
   async delete(@Param("id") id: number) {
-    await this.api.delete(id);
+    await this.collectionsService.api.delete(id);
     return { status: "success" };
   }
 }

@@ -17,7 +17,7 @@ export class UserGuard implements CanActivate {
   }
 
   async getUser(headerId: number) {
-    const user = await this.userService.getUserById(headerId);
+    const user = await this.userService.api.getById(headerId);
     if (!user)
       throw new UnauthorizedException({ message: "User doesn't exist" });
     if (!user.isActive)

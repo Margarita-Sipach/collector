@@ -1,26 +1,25 @@
 import { InjectModel } from "@nestjs/sequelize";
 import { CreateDTO } from "./dto/CreateDTO";
 import { Character } from "./character.model";
+import { APIService } from "src/base/api.service";
 
 export class CharacterService {
+  api: APIService;
   constructor(
     @InjectModel(Character) private characterRepository: typeof Character,
-  ) {}
+  ) {
+    this.api = new APIService(characterRepository);
+  }
 
   async create(dto: CreateDTO) {
-    const character = await this.characterRepository.create(dto);
-    return character;
+    return await this.api.create(dto);
   }
 
   async getAll() {
-    const characters = await this.characterRepository.findAll();
-    return characters;
+    return await this.api.getAll();
   }
 
   async getByTitle(title: string) {
-    const characters = await this.characterRepository.findOne({
-      where: { title },
-    });
-    return characters;
+    return await this.api.getByTitle(title);
   }
 }
