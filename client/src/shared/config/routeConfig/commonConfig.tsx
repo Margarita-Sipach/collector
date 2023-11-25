@@ -1,4 +1,5 @@
 import { CollectionPage } from 'pages/CollectionPage';
+import { ItemPage } from 'pages/ItemPage';
 import { MainPage } from 'pages/MainPage';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { UserPage } from 'pages/UserPage';
@@ -37,7 +38,7 @@ export const commonRouteConfig: Record<CommonRoutes, RouteProps> = {
     },
     [CommonRoutes.ITEM]: {
         path: `${CommonRoutePath.item}/:id`,
-        element: <NotFoundPage />,
+        element: <ItemPage />,
     },
     [CommonRoutes.NOT_FOUND]: {
         path: CommonRoutePath.not_found,

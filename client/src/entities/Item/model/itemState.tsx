@@ -6,7 +6,10 @@ import {
 } from 'shared/class/ElementState';
 import { modalProps } from 'shared/class/ModalState';
 
-export interface Item {
+export interface Item extends AddDTO {
+	tag: {
+		title: string
+	}[]
 }
 
 interface AddDTO{

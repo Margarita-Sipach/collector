@@ -8,28 +8,31 @@ import { observer } from 'mobx-react-lite';
 import { Collection } from 'entities/Collection';
 import Markdown from 'react-markdown';
 import { itemState } from 'entities/Item';
-import { ElementsTypes } from 'shared/class/ElementState';
+import { ElementState, ElementsTypes } from 'shared/class/ElementState';
 import { elementsStates } from 'shared/states/states';
 import cls from './PageHeader.module.scss';
 
 const { Title } = Typography;
 
 interface PageHeaderProps {
-	type: ElementsTypes,
+	type?: ElementsTypes,
 	img: string,
-	userId: number
+	userId: number,
+	isButton?: boolean
 }
 
 export const PageHeader: FC<PageHeaderProps> = observer((props) => {
     const {
-        children, type, img, userId,
+        children, type, img, userId, isButton = true,
     } = props;
     const { t } = useTranslation();
 
     const handleClick = () => {
-        const state = elementsStates[type];
-        state.setValues(null);
-        state.openModal();
+        if (type) {
+            const state = elementsStates[type];
+            state.setValues(null);
+            state.openModal();
+        }
     };
 
     return (
@@ -41,7 +44,7 @@ export const PageHeader: FC<PageHeaderProps> = observer((props) => {
             <div className={cls.content}>
                 {children}
             </div>
-            {(userId === userState.userId || userState.isAdmin) && (
+            {type && isButton && (userId === userState.userId || userState.isAdmin) && (
                 <Button
                     className={cls.buttons}
                     onClick={handleClick}
