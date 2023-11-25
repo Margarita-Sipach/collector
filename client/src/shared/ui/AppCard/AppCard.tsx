@@ -1,10 +1,12 @@
-import { Card, Dropdown } from 'antd';
+import {
+    Avatar, Card, Dropdown, Tag,
+} from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { Link } from 'react-router-dom';
-import { CommonRoutePath } from 'shared/config/routeConfig/commonConfig';
+import { CommonRoutePath, CommonRoutes } from 'shared/config/routeConfig/commonConfig';
 import { MdEdit } from 'react-icons/md';
 import { observer } from 'mobx-react-lite';
-import { FC } from 'react';
+import { FC, memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ElementsTypes } from 'shared/class/ElementState';
 import { elementsStates } from 'shared/states/states';
@@ -27,6 +29,8 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
 
     const state = elementsStates[type];
     const { t } = useTranslation('button');
+
+    console.log(value);
 
     const updateHandle = (e: any) => {
         e.stopPropagation();
@@ -52,6 +56,25 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
         },
     ];
 
+    const MainLink = memo(() => {
+        if (type === ElementsTypes.collection) {
+            const { username, id } = value.user;
+            return (
+                <span>
+                    User:
+                    <Link to={`${CommonRoutePath.user}/${id}`}>{username}</Link>
+                </span>
+            );
+        }
+        const { title, id } = value.collection;
+        return (
+            <span>
+                Collection:
+                <Link to={`${CommonRoutePath.collection}/${id}`}>{title}</Link>
+            </span>
+        );
+    });
+
     return (
         <Link to={`${CommonRoutePath[type]}/${value.id}`} className={cls.card}>
             <Card
@@ -64,8 +87,13 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
                 )}
             >
                 <div className={cls.cardContent}>
-                    <Meta title={value.title} />
-                    {((userId === userState.userId || userState.isAdmin) && userState.isAuth) && (
+                    <Meta
+                        title={value.title}
+                        description={(
+                            <MainLink />
+                        )}
+                    />
+                    {userState.canUserChange(userId) && (
                         <Dropdown menu={{ items }}>
                             <MdEdit
                                 className={cls.menuLink}

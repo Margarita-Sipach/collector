@@ -32,8 +32,6 @@ class UserState {
 
     isAdmin: boolean = false;
 
-    userId: number = Number(localStorage.getItem(LOCAL_STORAGE.USER_ID));
-
     api = new API(USER_ROUTE);
 
     constructor() {
@@ -49,7 +47,8 @@ class UserState {
         const clb = async (data: any) => {
             this.setUser(data);
         };
-        await this.api.getById(this.userId, clb);
+        const userId = Number(localStorage.getItem(LOCAL_STORAGE.USER_ID));
+        await this.api.getById(userId, clb);
     }
 
     removeUser() {
@@ -60,22 +59,19 @@ class UserState {
     }
 
     async auth(user: User, successCallback: () => void, isRegistration: boolean = true) {
-        try {
-            const clb = async (data: any) => {
-                this.setUser(data);
-                localStorage.setItem(LOCAL_STORAGE.USER_ID, String(data.id));
-                successCallback();
-            };
-            const path = `${USER_ROUTE}/${isRegistration ? 'registration' : 'login'}`;
-            await this.api.add(user, clb, path);
-        } catch (e) { console.log(e); }
+        const clb = async (data: any) => {
+            this.setUser(data);
+            localStorage.setItem(LOCAL_STORAGE.USER_ID, String(data.id));
+            successCallback();
+        };
+        const path = `${USER_ROUTE}/${isRegistration ? 'registration' : 'login'}`;
+        await this.api.add(user, clb, path);
     }
 
     setUser(data: User) {
         this.isAuth = true;
         this.isAdmin = data.role === Role.ADMIN;
         this.user = data;
-        this.userId = data.id;
         this.api.updateUserId(data.id);
     }
 
@@ -91,7 +87,6 @@ class UserState {
     }
 
     async getUserById(id: number) {
-        if (!id) return settingsState.setErrorText('Id does not exist');
         const clb = (data: any) => {
             this.pageUser = data;
         };
@@ -108,6 +103,14 @@ class UserState {
         const clb = (data: any) => this.setPageUsers(data);
         await this.api.delete(id);
         await this.api.getAll({}, clb);
+    }
+
+    canUserChange(id: number) {
+        return (id === this.user?.id || this.isAdmin) && this.isAuth;
+    }
+
+    get userId() {
+        return this.user?.id;
     }
 }
 

@@ -4,9 +4,9 @@ import { useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Avatar, Descriptions, List } from 'antd';
 import { clearScreenDown } from 'readline';
+import { FaHeart, FaRegHeart } from 'react-icons/fa6';
 import { ItemHeader } from './ItemHeader/ItemHeader';
 import cls from './ItemPage.module.scss';
-import { FaHeart, FaRegHeart } from "react-icons/fa6";
 
 const ItemPage = observer(() => {
     const { id } = useParams();

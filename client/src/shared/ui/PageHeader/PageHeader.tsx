@@ -44,7 +44,7 @@ export const PageHeader: FC<PageHeaderProps> = observer((props) => {
             <div className={cls.content}>
                 {children}
             </div>
-            {type && isButton && (userId === userState.userId || userState.isAdmin) && (
+            {type && isButton && userState.canUserChange(userId) && (
                 <Button
                     className={cls.buttons}
                     onClick={handleClick}
