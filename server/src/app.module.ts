@@ -15,6 +15,8 @@ import { TagsModule } from "./tags/tags.module";
 import { FieldsModule } from "./fields/fields.module";
 import { Field } from "./fields/fields.model";
 import { FieldItem } from "./fields-items/fields-items.model";
+import { Like } from "./users-items/likes.model";
+import { Comment } from "./users-items/comments.model";
 
 const dialectOptions = {
   supportBigNumbers: true,
@@ -38,8 +40,19 @@ const dialectOptions = {
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
       autoLoadModels: true,
-      models: [User, Collection, Theme, Item, Tag, ItemTag, Field, FieldItem],
-      dialectOptions,
+      models: [
+        User,
+        Collection,
+        Theme,
+        Item,
+        Tag,
+        ItemTag,
+        Field,
+        FieldItem,
+        Comment,
+        Like,
+      ],
+        dialectOptions,
     }),
     UsersModule,
     CollectionsModule,
