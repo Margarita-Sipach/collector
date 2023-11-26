@@ -35,9 +35,9 @@ export class ItemsService {
     return await this.commentRepository.create(dto);
   }
 
-  async updateLike({ likeVal, ...dto }) {
+  async updateLike({ like, ...dto }) {
     const [{ id }, _] = await this.likeRepository.findOrCreate({ where: dto });
-    await this.likeApi.update({ id, like: likeVal });
+    await this.likeApi.update({ id, like });
     return this.likeApi.getById(id);
   }
 
