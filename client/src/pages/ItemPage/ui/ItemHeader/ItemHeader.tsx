@@ -25,28 +25,32 @@ export const ItemHeader: FC<ItemHeaderProps> = observer((props) => {
     const { item } = props;
     const { t } = useTranslation();
     const { isAuth, user, userId } = userState;
+    const [like, setLike] = useState({
+        status: item?.likes?.find?.(({ id, Like }: any) => id === userId && Like.like),
+        amount: item?.likes.filter?.(({ Like }: any) => Like.like).length,
+    });
 
-    const [isLiked, setIsLiked] = useState(user?.likedItems.find(({ Like }: any) => Like.itemId === item.id)?.Like?.like);
-    const like = async () => {
-        const newLike = !isLiked;
-        await itemState.like(userId, newLike);
-        setIsLiked(newLike);
+    const likeHandler = async () => {
+        const { status, amount } = like;
+        const newLike = { status: !status, amount: amount + (status ? -1 : +1) };
+        await itemState.like(userId, newLike.status);
+        setLike(newLike);
     };
     return (
         <PageHeader img="" userId={item.userId} isButton={false}>
             <Flex>
-                {isAuth && (
-                    <Button type="link" size="large" onClick={like}>
-                        {isLiked ? <FaHeart /> : <FaRegHeart />}
-                    </Button>
-                )}
+                <Button disabled={!isAuth} type="link" size="large" onClick={likeHandler}>
+                    {like.amount}
+                    {like.status ? <FaHeart /> : <FaRegHeart />}
+                </Button>
+
                 <Title>{item.title}</Title>
 
             </Flex>
             <Title level={3}>
                 Tags:
                 {' '}
-                {item.tag.map(({ title }) => <Tag>{title}</Tag>)}
+                {item.tag.map(({ title }) => <Tag key={title}>{title}</Tag>)}
             </Title>
 
         </PageHeader>

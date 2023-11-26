@@ -7,6 +7,7 @@ import {
 import { modalProps } from 'shared/class/ModalState';
 
 export interface Item extends AddDTO {
+	likes: any;
 	tag: {
 		title: string
 	}[];
@@ -78,8 +79,9 @@ class ItemState extends ElementState<any> {
         await this.getById(this.id);
     }
 
-    comment() {
-
+    async comment(values: any) {
+        await this.api.add(values, undefined, `${ElementsRoutes.item}/comment`);
+        await this.getById(this.id);
     }
 
     get id() {

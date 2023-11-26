@@ -1,12 +1,16 @@
 import { itemState } from 'entities/Item';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import { Avatar, Descriptions, List } from 'antd';
-import { clearScreenDown } from 'readline';
-import { FaHeart, FaRegHeart } from 'react-icons/fa6';
-import { ItemHeader } from './ItemHeader/ItemHeader';
+import {
+    Avatar, Descriptions, Form, List,
+} from 'antd';
+import { FormItem, FormItemTypes } from 'shared/ui/FormItem/FormItem';
+import { userState } from 'entities/User';
+import { CommonRoutePath } from 'shared/config/routeConfig/commonConfig';
+import { FormButton } from 'shared/ui/FormButton/FormButton';
 import cls from './ItemPage.module.scss';
+import { ItemHeader } from './ItemHeader/ItemHeader';
 
 const ItemPage = observer(() => {
     const { id } = useParams();
@@ -14,10 +18,11 @@ const ItemPage = observer(() => {
     useEffect(() => {
         const numberId = Number(id);
         itemState.getById(numberId);
-
-        return () => {
-        };
     }, [id]);
+
+    const onFinish = (values: any) => {
+        itemState.comment({ ...values, userId: userState.userId, itemId: Number(id) });
+    };
 
     return itemState.element && (
         <div className={cls.col}>
@@ -37,13 +42,22 @@ const ItemPage = observer(() => {
                     itemLayout="horizontal"
                     style={{ width: '100%' }}
                 >
-                    {new Array(10).fill('wertyuiknbvdrty htresxcvg').map((i, index) => (
+                    {userState.isAuth && (
+                        <Form
+                            onFinish={onFinish}
+                        >
+                            <FormItem name="comment" label="" type={FormItemTypes.textarea} />
+                            <FormButton>Submit</FormButton>
+                        </Form>
+                    )}
+                    {itemState.element.comments.map(({ Comment, username, id }: any, i: number) => (
                         <List.Item>
                             <List.Item.Meta
+                                key={Comment.id}
                                 style={{ width: '100%' }}
-                                avatar={<Avatar src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`} />}
-                                title={<a href="https://ant.design">{i}</a>}
-                                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                                avatar={<Avatar src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`} />}
+                                title={<Link to={`${CommonRoutePath.user}/${id}`}>{username}</Link>}
+                                description={Comment.comment}
                             />
                         </List.Item>
                     ))}
