@@ -16,8 +16,8 @@ const MainPage = observer(() => {
     const [selectedTags, setSelectedTags] = useState<Character[]>([]);
 
     useEffect(() => {
-        collectionState.getAll({}, []).then((i) => collectionState.limitElements(5));
-        itemState.getAll({}, []);
+        collectionState.getAll({ amount: 5, sortLength: 'items' });
+        itemState.getAll();
         characterState.getTags();
     }, []);
 
@@ -33,24 +33,23 @@ const MainPage = observer(() => {
 	  };
 
     return (
-        <div>
-            <div>collections</div>
-            <PageWrapper type={ElementsTypes.collection}>			</PageWrapper>
-            <div>items</div>
-            <PageWrapper type={ElementsTypes.item}>
-
-                <div className={cls.tags}>
-                    {characterState.tags.map((tag) => (
-                        <CheckableTag
-                            key={tag.id}
-                            checked={selectedTags.includes(tag)}
-                            onChange={(checked) => handleChange(tag, checked)}
-                        >
-                            {tag.title}
-                        </CheckableTag>
-                    ))}
-                </div>
-            </PageWrapper>
+        <div className={cls.page}>
+            <div className={cls.col}>
+                <PageWrapper type={ElementsTypes.collection} />
+                <PageWrapper type={ElementsTypes.item}>
+                    <div className={cls.tags}>
+                        {characterState.tags.map((tag) => (
+                            <CheckableTag
+                                key={tag.id}
+                                checked={selectedTags.includes(tag)}
+                                onChange={(checked) => handleChange(tag, checked)}
+                            >
+                                {tag.title}
+                            </CheckableTag>
+                        ))}
+                    </div>
+                </PageWrapper>
+            </div>
         </div>
     );
 });

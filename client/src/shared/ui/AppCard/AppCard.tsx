@@ -60,6 +60,7 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
             return (
                 <span>
                     User:
+                    {' '}
                     <Link to={`${CommonRoutePath.user}/${id}`}>{username}</Link>
                 </span>
             );
@@ -69,6 +70,7 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
             return (
                 <span>
                     Collection:
+                    {' '}
                     <Link to={`${CommonRoutePath.collection}/${id}`}>{title}</Link>
                 </span>
             );

@@ -38,7 +38,7 @@ interface AddDTO{
 
 class CollectionState extends ElementState<any> {
     constructor() {
-        super(ElementsRoutes.collection, ['userId']);
+        super(ElementsRoutes.collection);
         makeObservable(this, {
             ...elementProps,
             ...modalProps,

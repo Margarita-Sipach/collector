@@ -29,12 +29,9 @@ export class ElementState<T> extends ModalState<T> {
 
     api: API;
 
-    paramsNames: string[];
-
-    constructor(type: ElementsRoutes, paramsNames: string[]) {
+    constructor(type: ElementsRoutes) {
         super();
         this.api = new API(type);
-        this.paramsNames = paramsNames;
     }
 
     setElement(element: any) {
@@ -50,8 +47,7 @@ export class ElementState<T> extends ModalState<T> {
         this.setElements(allElements);
     }
 
-    async getAll(element: any, paramsNames = this.paramsNames, limit?: number) {
-        const params = this.generateParams(element, paramsNames);
+    async getAll(params: any = {}) {
         const clb = async (data: any) => {
             this.setAllElements(
                 data.length && 'collection' in data?.[0]
@@ -59,24 +55,25 @@ export class ElementState<T> extends ModalState<T> {
                     : data,
             );
         };
-        await this.api.getAll(params, clb);
+        await this.api.getAll(clb, params);
     }
 
-    async add(element: any) {
+    async add(element: any, params: object = {}) {
+        console.log(params);
         const convertedElement = this.convertElement(element);
         await this.api.add(convertedElement);
-        await this.getAll(convertedElement);
+        await this.getAll(params);
     }
 
-    async delete(id: number, element: object) {
+    async delete(id: number, params: object = {}) {
         await this.api.delete(id);
-        await this.getAll(element);
+        await this.getAll(params);
     }
 
-    async update(element: any) {
+    async update(element: any, params: object = {}) {
         const convertedElement = this.convertElement(element);
         await this.api.update(convertedElement);
-        await this.getAll(convertedElement);
+        await this.getAll(params);
     }
 
     convertElement(element: any) {
@@ -88,13 +85,6 @@ export class ElementState<T> extends ModalState<T> {
             this.setElement(data);
         };
         await this.api.getById(id, clb);
-    }
-
-    generateParams(element: any, paramsNames = this.paramsNames) {
-        return paramsNames.reduce((acc, name) => ({
-            ...acc,
-            [name]: element[name],
-        }), {});
     }
 
     limitElements(limit: number) {

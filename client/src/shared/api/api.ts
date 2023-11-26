@@ -77,7 +77,7 @@ export class API {
         }
     }
 
-    async getAll(query: any = {}, clb?: Function) {
+    async getAll(clb?: Function, query: any = {}) {
         try {
             settingsState.setIsLoading();
             const { data } = await this.api.get(this.route, { params: query });
