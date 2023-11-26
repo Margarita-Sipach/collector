@@ -56,33 +56,14 @@ class ItemState extends ElementState<any> {
         this.values = values;
     }
 
-    async add({
-        id, title, tag, img, collectionId, userId, ...fields
-    }: AddDTO) {
-        const item = {
-            title,
-            img,
-            tags: tag,
-            collectionId,
+    convertElement(element: any) {
+        const fields = Object.fromEntries(Object.entries(element).filter(([key, _]) => key.endsWith('field')));
+        const values = Object.fromEntries(Object.entries(element).filter(([key, _]) => !key.endsWith('field')));
+        return {
+            ...values,
+            tags: values.tag,
             fields: this.convertFields(fields),
         };
-        await this.api.add(item);
-        await this.getAll({ collectionId: item.collectionId });
-    }
-
-    async update({
-        tag, title, img, collectionId, id, ...fields
-    }: AddDTO) {
-        const item = {
-            title,
-            id,
-            img,
-            tags: tag,
-            collectionId,
-            fields: this.convertFields(fields),
-        };
-        await this.api.update(item);
-        await this.getAll({ collectionId: item.collectionId });
     }
 
     convertFields(fields: any) {

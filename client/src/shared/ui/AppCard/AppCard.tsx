@@ -30,8 +30,6 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
     const state = elementsStates[type];
     const { t } = useTranslation('button');
 
-    console.log(value);
-
     const updateHandle = (e: any) => {
         e.stopPropagation();
         state.setValues(value);
@@ -56,8 +54,8 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
         },
     ];
 
-    const MainLink = memo(() => {
-        if (type === ElementsTypes.collection) {
+    const MainLink = () => {
+        if (type === ElementsTypes.collection && value.user) {
             const { username, id } = value.user;
             return (
                 <span>
@@ -66,14 +64,17 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
                 </span>
             );
         }
-        const { title, id } = value.collection;
-        return (
-            <span>
-                Collection:
-                <Link to={`${CommonRoutePath.collection}/${id}`}>{title}</Link>
-            </span>
-        );
-    });
+        if (type === ElementsTypes.item && value.collection) {
+            const { title, id } = value.collection;
+            return (
+                <span>
+                    Collection:
+                    <Link to={`${CommonRoutePath.collection}/${id}`}>{title}</Link>
+                </span>
+            );
+        }
+        return <span />;
+    };
 
     return (
         <Link to={`${CommonRoutePath[type]}/${value.id}`} className={cls.card}>
@@ -104,9 +105,7 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
                             />
                         </Dropdown>
                     )}
-
                 </div>
-
             </Card>
         </Link>
     );

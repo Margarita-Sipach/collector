@@ -48,6 +48,17 @@ class CollectionState extends ElementState<any> {
     setValues(value: any): void {
         this.values = value ? { ...value, theme: (value.theme as any).title } : value;
     }
+
+    convertElement({ fields: changedFields, ...values }: any) {
+        const changedFieldsIds = changedFields.map(({ id }: any) => id);
+        const deletedFields = this?.values?.fields ? this?.values?.fields
+            .filter(({ id }: any) => !changedFieldsIds.includes(id))
+            .map(({ id }: any) => ({ id })) : [];
+        return {
+            fields: [...deletedFields, ...changedFields],
+            ...values,
+        };
+    }
 }
 
 export const collectionState = new CollectionState();

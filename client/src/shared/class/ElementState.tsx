@@ -63,8 +63,9 @@ export class ElementState<T> extends ModalState<T> {
     }
 
     async add(element: any) {
-        await this.api.add(element);
-        await this.getAll(element);
+        const convertedElement = this.convertElement(element);
+        await this.api.add(convertedElement);
+        await this.getAll(convertedElement);
     }
 
     async delete(id: number, element: object) {
@@ -73,8 +74,13 @@ export class ElementState<T> extends ModalState<T> {
     }
 
     async update(element: any) {
-        await this.api.update(element);
-        await this.getAll(element);
+        const convertedElement = this.convertElement(element);
+        await this.api.update(convertedElement);
+        await this.getAll(convertedElement);
+    }
+
+    convertElement(element: any) {
+        return element;
     }
 
     async getById(id: number) {
