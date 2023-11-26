@@ -22,6 +22,16 @@ export class ItemsController {
     return await this.itemsService.create(dto);
   }
 
+  @Post("/comment")
+  async createComment(@Body() dto: any) {
+    return await this.itemsService.createComment(dto);
+  }
+
+  @Post("/like")
+  async updateLike(@Body() dto: any) {
+    return await this.itemsService.updateLike(dto);
+  }
+
   @Patch("/:id")
   async update(@Body() dto: UpdateDTO) {
     return await this.itemsService.update(dto);

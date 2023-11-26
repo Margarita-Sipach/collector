@@ -1,4 +1,10 @@
-import { Column, Default, HasMany, Table } from "sequelize-typescript";
+import {
+  BelongsToMany,
+  Column,
+  Default,
+  HasMany,
+  Table,
+} from "sequelize-typescript";
 import {
   Base,
   requireBoolean,
@@ -7,6 +13,9 @@ import {
   uniqString,
 } from "src/base/base.model";
 import { Collection } from "src/collections/collections.model";
+import { Item } from "src/items/items.model";
+import { Comment } from "src/users-items/comments.model";
+import { Like } from "src/users-items/likes.model";
 
 interface UserCreationAttrs {
   username: string;
@@ -40,4 +49,10 @@ export class User extends Base<User, UserCreationAttrs> {
 
   @HasMany(() => Collection)
   collections: Collection[];
+
+  @BelongsToMany(() => Item, () => Comment)
+  commentedItems: Item[];
+
+  @BelongsToMany(() => Item, () => Like)
+  likedItems: Item[];
 }

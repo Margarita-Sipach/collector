@@ -12,6 +12,9 @@ import { FieldItem } from "src/fields-items/fields-items.model";
 import { Field } from "src/fields/fields.model";
 import { ItemTag } from "src/items-tags/items-tags.model";
 import { Tag } from "src/tags/tags.model";
+import { Comment } from "src/users-items/comments.model";
+import { Like } from "src/users-items/likes.model";
+import { User } from "src/users/users.model";
 
 interface ItemCreationAttrs {
   title: string;
@@ -38,4 +41,10 @@ export class Item extends Base<Item, ItemCreationAttrs> {
 
   @BelongsToMany(() => Field, () => FieldItem)
   field: Field[];
+
+  @BelongsToMany(() => User, () => Comment)
+  comments: User[];
+
+  @BelongsToMany(() => User, () => Like)
+  likes: User[];
 }
