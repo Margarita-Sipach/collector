@@ -5,9 +5,15 @@ export class APIService {
   }
 
   async getAll(params = {}) {
+    const { limit, order, ...where } = params as any;
+
     return await this.repository.findAll({
       include: { all: true },
-      where: params,
+      ...{
+        limit,
+        order: [order?.split?.(".") || ["updatedAt", "DESC"]],
+        where,
+      },
     });
   }
 

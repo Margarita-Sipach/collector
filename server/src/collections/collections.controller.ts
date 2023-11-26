@@ -34,8 +34,15 @@ export class CollectionsController {
 
   @Get()
   async getAll(@Req() request: Request) {
-    const params = request.query;
-    return await this.collectionsService.api.getAll(params);
+    const { amount, sortLength, ...params } = request.query;
+    let collections = await this.collectionsService.api.getAll(params);
+    if (sortLength)
+      collections = collections.sort((a, b) => {
+        const getLength = (x) => x[sortLength as any].length;
+        return getLength(b) - getLength(a);
+      });
+    if (amount) collections = collections.slice(0, amount);
+    return collections;
   }
 
   @Delete("/:id")
