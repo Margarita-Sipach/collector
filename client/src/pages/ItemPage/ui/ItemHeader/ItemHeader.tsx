@@ -34,7 +34,7 @@ export const ItemHeader: FC<ItemHeaderProps> = observer((props) => {
         setLike(newLike);
     };
     return (
-        <PageHeader img="" userId={item.userId} isButton={false}>
+        <PageHeader img={item?.img} userId={item.userId} isButton={false}>
             <Flex>
                 <Button disabled={!isAuth} type="link" size="large" onClick={likeHandler}>
                     {like.amount}

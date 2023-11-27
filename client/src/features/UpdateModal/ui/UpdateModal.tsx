@@ -23,6 +23,7 @@ export const UpdateModal: FC<UpdateModalProps> = observer((props) => {
     const state = elementsStates[type];
 
 	const normFile = async(e: any) => {
+		if(!e?.file) return
 		const cloudinaryUrl = 'https://api.cloudinary.com/v1_1/dtjmfvhid/image/upload'
 		const formData = new FormData();
 		formData.append('file', e.file)
