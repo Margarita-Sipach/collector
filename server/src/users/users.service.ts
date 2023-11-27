@@ -3,44 +3,26 @@ import { InjectModel } from "@nestjs/sequelize";
 import { User } from "./users.model";
 import { RegistrationDTO } from "./dto/registration.dto";
 import { LoginDTO } from "./dto/login.dto";
+import { APIService } from "src/base/api.service";
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User) private userRepository: typeof User) {}
+  api: APIService;
+  constructor(@InjectModel(User) private userRepository: typeof User) {
+    this.api = new APIService(userRepository);
+  }
 
   async registration(dto: RegistrationDTO) {
-    const user = await this.userRepository.create(dto);
-    return user;
+    return await this.api.create(dto);
   }
 
   async login({ email, password }: LoginDTO) {
-    const user = await this.userRepository.findOne({
+    return await this.userRepository.findOne({
       where: { email, password },
     });
-    return user;
   }
 
-  async getUserById(id: number) {
-    const user = await this.userRepository.findByPk(id, {
-      include: { all: true },
-    });
-    return user;
-  }
-
-  async getAllUsers() {
-    const users = await this.userRepository.findAll();
-    return users;
-  }
-
-  async updateUser({ id, ...updatedFields }: Partial<User>) {
-    const res = await this.userRepository.update(updatedFields, {
-      where: { id },
-    });
-    return res[0];
-  }
-
-  async deleteUser(id: number) {
-    const res = await this.userRepository.destroy({ where: { id } });
-    return res;
+  async update(updatedFields: Partial<User>) {
+    return (await this.api.update(updatedFields))[0];
   }
 }

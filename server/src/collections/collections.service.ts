@@ -21,45 +21,15 @@ export class CollectionsService {
 
   async create({ fields, theme, ...collectionArgs }: CreateDTO) {
     const { id: themeId } = await this.themeService.getByTitle(theme);
-    const collection = await this.collectionRepository.create({
-      ...collectionArgs,
-      themeId,
-    });
-    await this.fieldService.createCollectionFields(
-      fields,
-      collection.id,
-    );
-    return await this.getById(collection.id);
+    const { id } = await this.api.create({ ...collectionArgs, themeId });
+    await this.fieldService.updateCollectionFields(fields, id);
+    return await this.api.getById(id);
   }
 
   async update({ fields, theme, id, ...collectionArgs }: UpdateDTO) {
     const { id: themeId } = await this.themeService.getByTitle(theme);
-    await this.fieldService.deleteByCollectionId(id);
     await this.fieldService.updateCollectionFields(fields, id);
-
-    const collection = await this.getById(id);
-
-    await this.collectionRepository.update(
-      {
-        ...collection,
-        ...collectionArgs,
-        id,
-        themeId,
-      },
-      { where: { id } },
-    );
-    return await this.getById(id);
-  }
-
-  async getAll(params) {
-    return await this.api.getAll(params);
-  }
-
-  async getById(id: number) {
+    await this.api.update({ id, themeId, ...collectionArgs });
     return await this.api.getById(id);
-  }
-
-  async delete(id: number) {
-    return await this.api.delete(id);
   }
 }

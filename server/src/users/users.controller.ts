@@ -48,8 +48,8 @@ export class UsersController {
   }
 
   @Get("/:id")
-  async getUserById(@Param("id") id: number) {
-    const user = await this.usersService.getUserById(id);
+  async getById(@Param("id") id: number) {
+    const user = await this.usersService.api.getById(id);
     if (!user) throw new UnauthorizedException({ message: "No user" });
     if (!user.isActive)
       throw new UnauthorizedException({ message: "User is not active" });
@@ -59,23 +59,23 @@ export class UsersController {
   @UseGuards(CommonGuard)
   @Get()
   async getAllUsers() {
-    const users = await this.usersService.getAllUsers();
+    const users = await this.usersService.api.getAll();
     return users;
   }
 
   @UseGuards(AdminGuard)
   @Patch("/:id")
   async updateUser(@Body() dto: UpdateStatusDTO | UpdateRoleDTO) {
-    const res = await this.usersService.updateUser(dto);
+    const res = await this.usersService.api.update(dto);
     if (!res)
       throw new UnauthorizedException({ message: "User doesn't exist" });
-    return await this.usersService.getUserById(dto.id);
+    return await this.usersService.api.getById(dto.id);
   }
 
   @UseGuards(AdminGuard)
   @Delete("/:id")
   async deleteUser(@Param("id") id: number) {
-    await this.usersService.deleteUser(id);
+    await this.usersService.api.delete(id);
     return { status: "success" };
   }
 }

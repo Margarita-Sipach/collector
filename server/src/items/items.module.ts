@@ -13,6 +13,8 @@ import { FieldItem } from "src/fields-items/fields-items.model";
 import { TagsService } from "src/tags/tags.service";
 import { FieldsService } from "src/fields/fields.service";
 import { Field } from "src/fields/fields.model";
+import { Comment } from "src/users-items/comments.model";
+import { Like } from "src/users-items/likes.model";
 
 @Module({
   controllers: [ItemsController],
@@ -25,7 +27,16 @@ import { Field } from "src/fields/fields.model";
     AuthGuard,
   ],
   imports: [
-    SequelizeModule.forFeature([Item, Tag, ItemTag, User, Field, FieldItem]),
+    SequelizeModule.forFeature([
+      Item,
+      Tag,
+      ItemTag,
+      User,
+      Field,
+      FieldItem,
+      Comment,
+      Like,
+    ]),
   ],
 })
 export class ItemsModule {}

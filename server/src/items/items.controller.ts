@@ -11,40 +11,46 @@ import {
 import { ItemsService } from "./items.service";
 import { CreateDTO } from "./dto/CreateDTO";
 import { Request } from "express";
-import { APIController } from "src/base/api.controller";
 import { UpdateDTO } from "./dto/UpdateDTO";
 
 @Controller("items")
 export class ItemsController {
-  api: APIController;
-  constructor(private itemsService: ItemsService) {
-    this.api = new APIController(itemsService);
-  }
+  constructor(private itemsService: ItemsService) {}
 
   @Post()
   async create(@Body() dto: CreateDTO) {
-    return await this.api.create(dto);
+    return await this.itemsService.create(dto);
+  }
+
+  @Post("/comment")
+  async createComment(@Body() dto: any) {
+    return await this.itemsService.createComment(dto);
+  }
+
+  @Post("/like")
+  async updateLike(@Body() dto: any) {
+    return await this.itemsService.updateLike(dto);
   }
 
   @Patch("/:id")
   async update(@Body() dto: UpdateDTO) {
-    return await this.api.update(dto);
+    return await this.itemsService.update(dto);
   }
 
   @Get("/:id")
   async getById(@Param("id") id: number) {
-    return await this.api.getById(id);
+    return await this.itemsService.api.getById(id);
   }
 
   @Get()
   async getAll(@Req() request: Request) {
     const params = request.query;
-    return await this.api.getAll(params);
+    return await this.itemsService.api.getAll(params);
   }
 
   @Delete("/:id")
   async delete(@Param("id") id: number) {
-    await this.api.delete(id);
+    await this.itemsService.api.delete(id);
     return { status: "success" };
   }
 }

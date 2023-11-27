@@ -15,6 +15,9 @@ import { TagsModule } from "./tags/tags.module";
 import { FieldsModule } from "./fields/fields.module";
 import { Field } from "./fields/fields.model";
 import { FieldItem } from "./fields-items/fields-items.model";
+import { Like } from "./users-items/likes.model";
+import { Comment } from "./users-items/comments.model";
+import { AppGateway } from "./socket/socket.gateway";
 
 const dialectOptions = {
   supportBigNumbers: true,
@@ -25,7 +28,7 @@ const dialectOptions = {
 
 @Module({
   controllers: [],
-  providers: [],
+  providers: [AppGateway],
   imports: [
     ConfigModule.forRoot({
       envFilePath: ".env",
@@ -38,7 +41,18 @@ const dialectOptions = {
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
       autoLoadModels: true,
-      models: [User, Collection, Theme, Item, Tag, ItemTag, Field, FieldItem],
+      models: [
+        User,
+        Collection,
+        Theme,
+        Item,
+        Tag,
+        ItemTag,
+        Field,
+        FieldItem,
+        Comment,
+        Like,
+      ],
       dialectOptions,
     }),
     UsersModule,
