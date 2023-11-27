@@ -12,6 +12,7 @@ import { ElementsTypes } from 'shared/class/ElementState';
 import { elementsStates } from 'shared/states/states';
 import { userState } from 'entities/User';
 import cls from './AppCard.module.scss';
+import { DEFAULT_IMG } from 'shared/const/img';
 
 interface AppCardProps {
   className?: string
@@ -87,8 +88,9 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
                 hoverable
                 cover={(
                     <img
+					className={cls.img}
                         alt="example"
-                        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                        src={value.img || DEFAULT_IMG}
                     />
                 )}
             >

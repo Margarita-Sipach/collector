@@ -10,6 +10,7 @@ export interface Collection {
 	title: string;
 	theme: string;
 	description: string;
+	img?: string;
 	fields: {
 		title: string;
 		type: number;
