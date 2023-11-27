@@ -14,20 +14,13 @@ const UserPage = observer(() => {
         const numberId = Number(id);
         userState.getUserById(numberId);
         collectionState.getAll({ userId: numberId });
-
-        return () => {
-            collectionState.setElements([]);
-        };
     }, [id]);
 
-    return (
-        <>
-            {userState.pageUser && (
+    return (userState.pageUser && (
                 <PageWrapper type={ElementsTypes.collection}>
-                    <UserHeader user={userState.pageUser} />
+                    <UserHeader user={userState.pageUser} collections={collectionState.elements} />
                 </PageWrapper>
-            )}
-        </>
+            )
     );
 });
 
