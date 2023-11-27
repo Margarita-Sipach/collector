@@ -25,7 +25,7 @@ export const UserHeader: FC<UserHeaderProps> = observer((props) => {
     return (
         <PageHeader img="" type={ElementsTypes.collection} userId={user.id}>
             <Title>{user.username}</Title>
-            <AppStatistic itemsAmount={collections?.reduce((acc, {items}: any) => acc + items?.length, 0)} collectionsAmount={collections.length} />
+            <AppStatistic itemsAmount={collections ? collections?.reduce((acc, {items}: any) => acc + items?.length, 0) : 0} collectionsAmount={collections.length} />
         </PageHeader>
 
     );
