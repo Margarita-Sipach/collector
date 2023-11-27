@@ -2,7 +2,6 @@ import CheckableTag from 'antd/es/tag/CheckableTag';
 import { Character, characterState } from 'entities/Character';
 import { collectionState } from 'entities/Collection';
 import { itemState } from 'entities/Item';
-import { userState } from 'entities/User';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -27,10 +26,10 @@ const MainPage = observer(() => {
 
     const handleChange = (tag: Character, checked: boolean) => {
         const nextSelectedTags = checked
-		  ? [...selectedTags, tag]
-		  : selectedTags.filter((t) => t.id !== tag.id);
+            ? [...selectedTags, tag]
+            : selectedTags.filter((t) => t.id !== tag.id);
         setSelectedTags(nextSelectedTags);
-	  };
+    };
 
     return (
         <div className={cls.page}>

@@ -1,6 +1,4 @@
-import { settingsState } from 'app/providers/SettingsProvider';
 import { Collection } from 'entities/Collection';
-import { itemState } from 'entities/Item';
 import { makeAutoObservable } from 'mobx';
 import { API } from 'shared/api/api';
 import { LOCAL_STORAGE } from 'shared/const/localstorage';

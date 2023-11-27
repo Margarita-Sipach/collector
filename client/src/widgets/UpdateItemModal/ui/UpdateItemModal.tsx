@@ -6,7 +6,6 @@ import { UpdateModal } from 'features/UpdateModal';
 import { FormItem, FormItemTypes } from 'shared/ui/FormItem/FormItem';
 import { itemState } from 'entities/Item';
 import { ElementsTypes } from 'shared/class/ElementState';
-import { Button, Upload } from 'antd';
 
 const FieldInputTypes = {
     [FieldTypes.BOOLEAN]: FormItemTypes.switch,

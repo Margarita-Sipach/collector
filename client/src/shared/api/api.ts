@@ -1,6 +1,5 @@
 import { settingsState } from 'app/providers/SettingsProvider';
 import axios from 'axios';
-import { errorHandler } from 'shared/error/errorHandler';
 
 export class API {
     route: string;

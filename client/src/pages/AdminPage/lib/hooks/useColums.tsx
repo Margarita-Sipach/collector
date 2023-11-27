@@ -16,58 +16,48 @@ export const useColumns = () => {
         userState.deleteUser(id);
     };
 
+    const generateInfoColumn = (title: string) => ({
+        title: t(`user:${title}`),
+        dataIndex: title,
+        key: title,
+    });
+
+    const generateRenderComponent = (tagText: string, changedCell: any) => (
+        <div>
+            <Tag>{t(`user:${tagText}`)}</Tag>
+            <Button
+                onClick={() => changeHandler(changedCell)}
+            >
+                {t('button:change')}
+            </Button>
+        </div>
+    );
+
     const columns: ColumnsType<any> = [
+        generateInfoColumn('username'),
+        generateInfoColumn('email'),
         {
-            title: t('user:username'),
-            dataIndex: 'username',
-            key: 'username',
-        },
-        {
-            title: t('user:email'),
-            dataIndex: 'email',
-            key: 'email',
-        },
-        {
-            title: t('user:role'),
-            key: 'role',
-            dataIndex: 'role',
+            ...generateInfoColumn('role'),
             render: (_, { id, role }) => (
-                <div>
-                    <Tag>{t(`user:${role === Role.ADMIN ? 'admin' : 'user'}`)}</Tag>
-                    <Button
-                        onClick={() => changeHandler({
-                            id,
-                            role: role === Role.USER ? Role.ADMIN : Role.USER,
-                        })}
-                    >
-                        {t('button:change')}
-                    </Button>
-                </div>
+                generateRenderComponent(
+                    role === Role.ADMIN ? 'admin' : 'user',
+                    { id, role: role === Role.USER ? Role.ADMIN : Role.USER },
+                )
             ),
         },
         {
+            ...generateInfoColumn('isActive'),
             title: t('user:status'),
-            dataIndex: 'isActive',
-            key: 'isActive',
             render: (_, { id, isActive }) => (
-                <div>
-                    <Tag>{t(`user:${isActive ? 'active' : 'blocked'}`)}</Tag>
-                    <Button
-                        onClick={() => changeHandler({
-                            id,
-                            isActive: !isActive,
-                        })}
-                    >
-                        {t('button:change')}
-                    </Button>
-                </div>
+                generateRenderComponent(
+                    isActive ? 'active' : 'blocked',
+                    { id, isActive: !isActive },
+                )
             ),
         },
 
         {
-            title: t('button:delete'),
-            key: 'delete',
-            dataIndex: 'delete',
+            ...generateInfoColumn('delete'),
             render: (_, { id }) => (
                 <Button
                     onClick={() => deleteHandler(id)}

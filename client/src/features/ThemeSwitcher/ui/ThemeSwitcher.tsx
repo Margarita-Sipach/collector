@@ -11,15 +11,16 @@ interface ThemeSwitcherProps {
 
 export const ThemeSwitcher: FC<ThemeSwitcherProps> = memo(observer((props) => {
     const { Tag = FloatButton } = props;
+    const { isLight } = themeState;
 
     const switchTheme = () => {
-        const newTheme = themeState.theme === Theme.light ? Theme.dark : Theme.light;
+        const newTheme = isLight ? Theme.dark : Theme.light;
         themeState.setTheme(newTheme);
     };
 
     return (
         <Tag
-            icon={themeState.isLight ? <BsSun /> : <BsMoon />}
+            icon={isLight ? <BsSun /> : <BsMoon />}
             onClick={switchTheme}
         />
     );

@@ -15,25 +15,30 @@ import { ItemHeader } from './ItemHeader/ItemHeader';
 const ItemPage = observer(() => {
     const { id } = useParams();
 
+    const { userId, isAuth } = userState;
+    const { element } = itemState;
+
     useEffect(() => {
         const numberId = Number(id);
         itemState.getById(numberId);
     }, [id]);
 
     const onFinish = (values: any) => {
-        itemState.comment({ ...values, userId: userState.userId, itemId: Number(id) });
+        itemState.comment({ ...values, userId, itemId: Number(id) });
     };
 
-    return itemState.element && (
+    return element && (
         <div className={cls.col}>
             <ItemHeader
-                item={itemState.element}
+                item={element}
             />
             <div className={cls.body}>
                 <Descriptions title="Item Info">
                     {
-                        itemState.element.field.map(({ FieldItem, title, id }: any) => (
-                            <Descriptions.Item key={id} label={title}>{FieldItem.value}</Descriptions.Item>
+                        element.field.map(({ FieldItem, title, id }: any) => (
+                            <Descriptions.Item key={id} label={title}>
+                                {FieldItem.value}
+                            </Descriptions.Item>
                         ))
                     }
                 </Descriptions>
@@ -42,21 +47,29 @@ const ItemPage = observer(() => {
                     itemLayout="horizontal"
                     style={{ width: '100%' }}
                 >
-                    {userState.isAuth && (
+                    {isAuth && (
                         <Form
                             onFinish={onFinish}
                         >
-                            <FormItem name="comment" label="" type={FormItemTypes.textarea} />
-                            <FormButton>Submit</FormButton>
+                            <FormItem
+                                name="comment"
+                                label=""
+                                type={FormItemTypes.textarea}
+                            />
+                            <FormButton />
                         </Form>
                     )}
-                    {itemState.element.comments.map(({ Comment, username, id }: any, i: number) => (
+                    {element.comments.map(({ Comment, username, id }: any, i: number) => (
                         <List.Item>
                             <List.Item.Meta
                                 key={Comment.id}
                                 style={{ width: '100%' }}
                                 avatar={<Avatar src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`} />}
-                                title={<Link to={`${CommonRoutePath.user}/${id}`}>{username}</Link>}
+                                title={
+								<Link to={`${CommonRoutePath.user}/${id}`}>
+									{username}
+									</Link>
+									}
                                 description={Comment.comment}
                             />
                         </List.Item>

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { CommonRoutePath } from 'shared/config/routeConfig/commonConfig';
 import { useTranslation } from 'react-i18next';
 import { settingsState } from 'app/providers/SettingsProvider';
+import { FormButton } from 'shared/ui/FormButton/FormButton';
 import cls from './AuthPage.module.scss';
 import { AuthFormItem } from './AuthFormItem/AuthFormItem';
 
@@ -76,14 +77,7 @@ const AuthPage: FC<AuthPageProps> = memo(({ isRegistration = true }: AuthPagePro
                     />
                 )}
 
-                <Form.Item>
-                    <Button
-                        type="primary"
-                        htmlType="submit"
-                    >
-                        {t('button:submit')}
-                    </Button>
-                </Form.Item>
+                <FormButton />
             </Form>
         </div>
 

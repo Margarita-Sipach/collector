@@ -1,18 +1,13 @@
 import { FC } from 'react';
 import {
-    Avatar, Button, Typography,
+    Avatar, Button,
 } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { userState } from 'entities/User';
 import { observer } from 'mobx-react-lite';
-import { Collection } from 'entities/Collection';
-import Markdown from 'react-markdown';
-import { itemState } from 'entities/Item';
-import { ElementState, ElementsTypes } from 'shared/class/ElementState';
+import { ElementsTypes } from 'shared/class/ElementState';
 import { elementsStates } from 'shared/states/states';
 import cls from './PageHeader.module.scss';
-
-const { Title } = Typography;
 
 interface PageHeaderProps {
 	type?: ElementsTypes,

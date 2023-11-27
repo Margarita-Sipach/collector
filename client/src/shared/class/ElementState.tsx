@@ -1,7 +1,5 @@
-import { keys, observable } from 'mobx';
+import { observable } from 'mobx';
 import { API } from 'shared/api/api';
-import { collectionState } from 'entities/Collection';
-import { itemState } from 'entities/Item';
 import { ModalState } from './ModalState';
 
 export const elementProps = {

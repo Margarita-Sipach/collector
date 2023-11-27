@@ -1,6 +1,5 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, useState } from 'react';
 import {
-    Avatar,
     Button,
     Flex,
     Tag, Typography,
@@ -9,10 +8,8 @@ import { useTranslation } from 'react-i18next';
 import { observer } from 'mobx-react-lite';
 import { Item, itemState } from 'entities/Item';
 import { PageHeader } from 'shared/ui/PageHeader/PageHeader';
-import { ElementsTypes } from 'shared/class/ElementState';
 import { FaHeart, FaRegHeart } from 'react-icons/fa6';
 import { userState } from 'entities/User';
-import cls from './ItemHeader.module.scss';
 
 const { Title } = Typography;
 
@@ -24,7 +21,7 @@ interface ItemHeaderProps {
 export const ItemHeader: FC<ItemHeaderProps> = observer((props) => {
     const { item } = props;
     const { t } = useTranslation();
-    const { isAuth, user, userId } = userState;
+    const { isAuth, userId } = userState;
     const [like, setLike] = useState({
         status: item?.likes?.find?.(({ id, Like }: any) => id === userId && Like.like),
         amount: item?.likes.filter?.(({ Like }: any) => Like.like).length,
@@ -45,14 +42,13 @@ export const ItemHeader: FC<ItemHeaderProps> = observer((props) => {
                 </Button>
 
                 <Title>{item.title}</Title>
-
             </Flex>
             <Title level={3}>
-                Tags:
+                {t('tags')}
+                :
                 {' '}
                 {item.tag.map(({ title }) => <Tag key={title}>{title}</Tag>)}
             </Title>
-
         </PageHeader>
     );
 });

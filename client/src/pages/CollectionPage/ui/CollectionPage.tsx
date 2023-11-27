@@ -14,25 +14,16 @@ const CollectionPage = observer(() => {
         const numberId = Number(id);
         collectionState.getById(numberId);
         itemState.getAll({ collectionId: numberId });
-
-        return () => {
-            collectionState.setElement(null);
-            itemState.setElements([]);
-        };
     }, [id]);
 
-    return (
-        <>
+    return collectionState.element && (
+        <PageWrapper type={ElementsTypes.item}>
+            <CollectionHeader
+                collection={collectionState.element}
+            />
 
-            {collectionState.element && (
-                <PageWrapper type={ElementsTypes.item}>
-                    <CollectionHeader
-                        collection={collectionState.element}
-                    />
+        </PageWrapper>
 
-                </PageWrapper>
-		 )}
-        </>
     );
 });
 
