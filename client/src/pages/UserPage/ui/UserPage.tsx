@@ -17,10 +17,13 @@ const UserPage = observer(() => {
     }, [id]);
 
     return (userState.pageUser && (
-                <PageWrapper type={ElementsTypes.collection}>
-                    <UserHeader user={userState.pageUser} collections={collectionState.elements} />
-                </PageWrapper>
-            )
+        <PageWrapper type={ElementsTypes.collection}>
+            <UserHeader
+                user={userState.pageUser}
+                collections={collectionState.elements}
+            />
+        </PageWrapper>
+    )
     );
 });
 

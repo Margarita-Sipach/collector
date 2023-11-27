@@ -4,6 +4,13 @@ import {
 } from 'shared/class/ElementState';
 import { modalProps } from 'shared/class/ModalState';
 
+export interface Field{
+	id: number
+	title: string;
+	type: FieldTypes;
+	FieldItem: {value: string}
+}
+
 export interface Collection {
 	id: number;
 	userId: number;
@@ -11,11 +18,7 @@ export interface Collection {
 	theme: string;
 	description: string;
 	img?: string;
-	fields: {
-		title: string;
-		type: number;
-		FieldItem: {value: string}
-	}[]
+	fields: Field[]
 }
 
 export enum FieldTypes {

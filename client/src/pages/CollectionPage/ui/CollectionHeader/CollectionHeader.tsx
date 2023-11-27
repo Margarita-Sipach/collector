@@ -19,7 +19,11 @@ export const CollectionHeader: FC<CollectionHeaderProps> = observer((props) => {
     const { t } = useTranslation();
 
     return (
-        <PageHeader img={collection?.img || ''} type={ElementsTypes.item} userId={collection.userId}>
+        <PageHeader
+            img={collection?.img || ''}
+            type={ElementsTypes.item}
+            userId={collection.userId}
+        >
             <Title>{collection.title}</Title>
             <Title level={3}>
                 Theme:

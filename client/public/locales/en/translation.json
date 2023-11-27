@@ -10,5 +10,7 @@
 	"collection": "Collection",
 	"item": "Item",
 	"modal": "Modal",
-	"tags": "Tags"
+	"tags": "Tags",
+	"user": "User",
+	"upload": "Upload"
 }

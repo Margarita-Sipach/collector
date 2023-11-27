@@ -7,8 +7,8 @@ import { userState } from 'entities/User';
 import { observer } from 'mobx-react-lite';
 import { ElementsTypes } from 'shared/class/ElementState';
 import { elementsStates } from 'shared/states/states';
-import cls from './PageHeader.module.scss';
 import { DEFAULT_IMG } from 'shared/const/img';
+import cls from './PageHeader.module.scss';
 
 interface PageHeaderProps {
 	type?: ElementsTypes,
@@ -36,7 +36,7 @@ export const PageHeader: FC<PageHeaderProps> = observer((props) => {
             <Avatar
                 shape="square"
                 className={cls.avatar}
-				src={img || DEFAULT_IMG}
+                src={img || DEFAULT_IMG}
             />
             <div className={cls.content}>
                 {children}

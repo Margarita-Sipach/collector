@@ -57,7 +57,6 @@ export class ElementState<T> extends ModalState<T> {
     }
 
     async add(element: any, params: object = {}) {
-        console.log(params);
         const convertedElement = this.convertElement(element);
         await this.api.add(convertedElement);
         await this.getAll(params);

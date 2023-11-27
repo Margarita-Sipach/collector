@@ -1,7 +1,9 @@
 import { FC } from 'react';
 import { Character, characterState } from 'entities/Character';
 import { observer } from 'mobx-react-lite';
-import { FieldTypes, collectionState } from 'entities/Collection';
+import {
+    Collection, Field, FieldTypes, collectionState,
+} from 'entities/Collection';
 import { UpdateModal } from 'features/UpdateModal';
 import { FormItem, FormItemTypes } from 'shared/ui/FormItem/FormItem';
 import { itemState } from 'entities/Item';
@@ -30,9 +32,9 @@ export const UpdateItemModal: FC<UpdateItemModalProps> = observer(() => (
             args={{
                 item: {
                     mode: 'tags',
-                    defaultValue: (itemState.element as any)?.tag,
+                    defaultValue: itemState.element?.tag,
                 },
-                itemChildren: characterState.tags.map(({ title }: Character) => (title)),
+                itemChildren: characterState.tags.map(({ title }) => (title)),
             }}
             name="tag"
         />
@@ -43,9 +45,9 @@ export const UpdateItemModal: FC<UpdateItemModalProps> = observer(() => (
             isRequired={false}
         />
 
-        {collectionState.element?.fields?.map(({ type, id, title }: any) => (
+        {collectionState.element?.fields?.map(({ type, id, title }: Field) => (
             <FormItem
-                type={(FieldInputTypes as any)[type]}
+                type={FieldInputTypes[type]}
                 name={`${id}-field`}
                 label={title}
                 isRequired={false}

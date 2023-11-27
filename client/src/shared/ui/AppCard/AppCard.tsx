@@ -11,8 +11,8 @@ import { useTranslation } from 'react-i18next';
 import { ElementsTypes } from 'shared/class/ElementState';
 import { elementsStates } from 'shared/states/states';
 import { userState } from 'entities/User';
-import cls from './AppCard.module.scss';
 import { DEFAULT_IMG } from 'shared/const/img';
+import cls from './AppCard.module.scss';
 
 interface AppCardProps {
   className?: string
@@ -31,32 +31,30 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
     const state = elementsStates[type];
     const { t } = useTranslation(['button', 'translation']);
 
-    const updateHandle = (e: any) => {
+    const updateHandler = (e: any) => {
         e.stopPropagation();
         state.setValues(value);
         state.openModal();
     };
 
-    const deleteHandle = (e: any) => {
+    const deleteHandler = (e: any) => {
         e.stopPropagation();
-        const element = type === ElementsTypes.collection ? { userId: value.userId } : { collectionId: value.collectionId };
+        const element = type === ElementsTypes.collection
+            ? { userId: value.userId }
+            : { collectionId: value.collectionId };
         state.delete(value.id, element);
     };
 
+    const generateItem = (name: string, clb: (e: any) => void) => ({
+        key: name,
+        label: <span onClick={clb}>
+            {t(`button:${name}`)}
+               </span>,
+    });
+
     const items = [
-        {
-            key: 'change',
-            label: <span onClick={updateHandle}>
-                {t('button:change')}
-            </span>,
-        },
-        {
-            key: 'delete',
-            label: <span onClick={deleteHandle}>
-                {t('button:delete')}
-            </span>,
-            danger: true,
-        },
+        generateItem('change', updateHandler),
+        generateItem('delete', deleteHandler),
     ];
 
     const MainLink = () => {
@@ -65,7 +63,7 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
                 const { id, ...args } = value[valueKey];
                 return (
                     <span>
-                        {t(valueKey)}
+                        {t(`translation:${valueKey}`)}
                         :
                         {' '}
                         <Link to={`${CommonRoutePath[valueKey]}/${id}`}>
@@ -88,7 +86,7 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
                 hoverable
                 cover={(
                     <img
-					className={cls.img}
+                        className={cls.img}
                         alt="example"
                         src={value.img || DEFAULT_IMG}
                     />

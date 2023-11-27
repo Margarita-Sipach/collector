@@ -1,5 +1,5 @@
 import { itemState } from 'entities/Item';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import {
@@ -10,6 +10,7 @@ import { userState } from 'entities/User';
 import { CommonRoutePath } from 'shared/config/routeConfig/commonConfig';
 import { FormButton } from 'shared/ui/FormButton/FormButton';
 import { io } from 'socket.io-client';
+import { DEFAULT_IMG } from 'shared/const/img';
 import cls from './ItemPage.module.scss';
 import { ItemHeader } from './ItemHeader/ItemHeader';
 
@@ -75,7 +76,7 @@ const ItemPage = observer(() => {
                             <List.Item.Meta
                                 key={Comment.id}
                                 style={{ width: '100%' }}
-                                avatar={<Avatar src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${i}`} />}
+                                avatar={<Avatar src={DEFAULT_IMG} />}
                                 title={(
                                     <Link to={`${CommonRoutePath.user}/${id}`}>
                                         {username}

@@ -1,5 +1,5 @@
 import { Role, User, userState } from 'entities/User';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import type { ColumnsType } from 'antd/es/table';
 import { Button, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';

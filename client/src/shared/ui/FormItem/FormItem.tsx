@@ -3,6 +3,7 @@ import {
     DatePicker, Form, Input, InputNumber, Select, Switch, Upload,
 } from 'antd';
 import { FC, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export enum FormItemTypes {
 	'input' = 'input',
@@ -66,6 +67,7 @@ interface Other extends BaseType {
 type FormItemProps = SelectType | InputType | SwitchType | Other
 
 export const FormItem: FC<FormItemProps> = (props) => {
+    const { t } = useTranslation();
     const {
         name,
         type = FormItemTypes.input,
@@ -91,7 +93,7 @@ export const FormItem: FC<FormItemProps> = (props) => {
         case FormItemTypes.date: return <DatePicker />;
         case FormItemTypes.img: return (
             <Upload beforeUpload={() => false} listType="picture">
-                <Button>Click to upload</Button>
+                <Button>{t('upload')}</Button>
             </Upload>
         );
         case FormItemTypes.select: return (
