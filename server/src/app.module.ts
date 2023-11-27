@@ -17,6 +17,7 @@ import { Field } from "./fields/fields.model";
 import { FieldItem } from "./fields-items/fields-items.model";
 import { Like } from "./users-items/likes.model";
 import { Comment } from "./users-items/comments.model";
+import { AppGateway } from "./socket/socket.gateway";
 
 const dialectOptions = {
   supportBigNumbers: true,
@@ -27,7 +28,7 @@ const dialectOptions = {
 
 @Module({
   controllers: [],
-  providers: [],
+  providers: [AppGateway],
   imports: [
     ConfigModule.forRoot({
       envFilePath: ".env",
@@ -52,7 +53,7 @@ const dialectOptions = {
         Comment,
         Like,
       ],
-        dialectOptions,
+      dialectOptions,
     }),
     UsersModule,
     CollectionsModule,

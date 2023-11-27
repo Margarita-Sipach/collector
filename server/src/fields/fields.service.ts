@@ -47,12 +47,9 @@ export class FieldsService {
   }
 
   async updateItemField([fieldId, value], itemId: number) {
-	const [{id}, _] = await this.fieldItemRepository.findOrCreate(
-		{ where: {fieldId, itemId} }
-	  );
-    await this.fieldItemRepository.update(
-      { value },
-      { where: { id } },
-    );
+    const [{ id }, _] = await this.fieldItemRepository.findOrCreate({
+      where: { fieldId, itemId },
+    });
+    await this.fieldItemRepository.update({ value }, { where: { id } });
   }
 }
