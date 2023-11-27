@@ -79,9 +79,8 @@ class ItemState extends ElementState<any> {
         await this.getById(this.id);
     }
 
-    async comment(values: any) {
-        await this.api.add(values, undefined, `${ElementsRoutes.item}/comment`);
-        await this.getById(this.id);
+    async comment(values: any, clb: () => void) {
+        await this.api.add(values, clb, `${ElementsRoutes.item}/comment`);
     }
 
     get id() {

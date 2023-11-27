@@ -47,13 +47,13 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
             key: 'change',
             label: <span onClick={updateHandle}>
                 {t('button:change')}
-                   </span>,
+            </span>,
         },
         {
             key: 'delete',
             label: <span onClick={deleteHandle}>
                 {t('button:delete')}
-                   </span>,
+            </span>,
             danger: true,
         },
     ];
