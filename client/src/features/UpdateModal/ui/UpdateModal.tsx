@@ -35,7 +35,7 @@ export const UpdateModal: FC<UpdateModalProps> = observer((props) => {
     const onFinish = async ({ img, ...values }: any) => {
         const method = values.id ? 'update' : 'add';
         const args = type === ElementsTypes.collection
-            ? { userId: userState.userId }
+            ? { userId: userState.pageUser.id }
             : { collectionId: collectionState.element?.id };
         const imgSrc = await normFile(img);
         await state[method]({ ...args, ...values, img: imgSrc }, args);
