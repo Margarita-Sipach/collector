@@ -21,7 +21,7 @@ interface AddDTO{
 	id: any;
 	fields: [string, any][]
 	userId: number
-	img: any
+	img?: any
 }
 
 class ItemState extends ElementState<any> {

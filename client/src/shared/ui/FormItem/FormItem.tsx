@@ -65,8 +65,6 @@ interface Other extends BaseType {
 
 type FormItemProps = SelectType | InputType | SwitchType | Other
 
-const normFile = (e: any) => e.file;
-
 export const FormItem: FC<FormItemProps> = (props) => {
     const {
         name,
@@ -77,7 +75,6 @@ export const FormItem: FC<FormItemProps> = (props) => {
         isRequired = true,
         args = {
             formItem: {
-                ...type === FormItemTypes.img ? { getValueFromEvent: normFile } : {},
                 ...type === FormItemTypes.switch ? { valuePropName: 'checked' } : {},
             },
             item: {},
@@ -93,7 +90,7 @@ export const FormItem: FC<FormItemProps> = (props) => {
         case FormItemTypes.switch: return <Switch />;
         case FormItemTypes.date: return <DatePicker />;
         case FormItemTypes.img: return (
-            <Upload action="/upload.do" listType="picture">
+            <Upload beforeUpload={() => false} listType="picture">
                 <Button>Click to upload</Button>
             </Upload>
         );

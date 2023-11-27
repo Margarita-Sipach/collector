@@ -18,8 +18,8 @@ export const ModalForm: FC<ModalFormProps> = observer((props) => {
     const [form] = Form.useForm();
 
     useEffect(() => {
+		form.resetFields();
         if (values) form.setFieldsValue(values);
-        else form.resetFields();
     }, [values, form]);
 
     return (
