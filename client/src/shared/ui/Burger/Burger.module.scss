@@ -1,0 +1,14 @@
+.burger {
+    position: relative;
+    z-index: 3;
+}
+
+.icon {
+    color: var(--primary-inverted-color);
+}
+
+.burger,
+.icon {
+    width: 20px;
+    height: 20px;
+}
