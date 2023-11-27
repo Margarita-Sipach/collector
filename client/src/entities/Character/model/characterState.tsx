@@ -23,7 +23,7 @@ class CharacterState {
     }
 
     async getAll(route: CharacterRoutes, clb: Function) {
-        await new API(route).getAll({}, clb);
+        await new API(route).getAll(clb);
     }
 
     async getTags() {

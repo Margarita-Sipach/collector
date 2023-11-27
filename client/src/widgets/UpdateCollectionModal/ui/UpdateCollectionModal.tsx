@@ -4,7 +4,6 @@ import { observer } from 'mobx-react-lite';
 import { FormItem, FormItemTypes } from 'shared/ui/FormItem/FormItem';
 import { UpdateModal } from 'features/UpdateModal';
 import { ElementsTypes } from 'shared/class/ElementState';
-import { Button, Upload } from 'antd';
 import { FieldsList } from './FieldsList/FieldsList';
 
 interface UpdateCollectionModalProps {

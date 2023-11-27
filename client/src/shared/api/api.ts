@@ -1,6 +1,5 @@
 import { settingsState } from 'app/providers/SettingsProvider';
 import axios from 'axios';
-import { errorHandler } from 'shared/error/errorHandler';
 
 export class API {
     route: string;
@@ -77,7 +76,7 @@ export class API {
         }
     }
 
-    async getAll(query: any = {}, clb?: Function) {
+    async getAll(clb?: Function, query: any = {}) {
         try {
             settingsState.setIsLoading();
             const { data } = await this.api.get(this.route, { params: query });

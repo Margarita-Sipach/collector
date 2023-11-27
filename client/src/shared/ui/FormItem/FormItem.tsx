@@ -2,8 +2,6 @@ import {
     Button,
     DatePicker, Form, Input, InputNumber, Select, Switch, Upload,
 } from 'antd';
-import { collectionState } from 'entities/Collection';
-import { itemState } from 'entities/Item';
 import { FC, useMemo } from 'react';
 
 export enum FormItemTypes {

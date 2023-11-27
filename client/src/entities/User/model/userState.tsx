@@ -1,4 +1,3 @@
-import { settingsState } from 'app/providers/SettingsProvider';
 import { Collection } from 'entities/Collection';
 import { makeAutoObservable } from 'mobx';
 import { API } from 'shared/api/api';
@@ -83,7 +82,7 @@ class UserState {
         const clb = async (data: any) => {
             this.setPageUsers(data);
         };
-        await this.api.getAll({}, clb);
+        await this.api.getAll(clb);
     }
 
     async getUserById(id: number) {
@@ -96,13 +95,13 @@ class UserState {
     async updateUser(changeArgs: Partial<User>) {
         const clb = (data: any) => this.setPageUsers(data);
         await this.api.update(changeArgs);
-        await this.api.getAll({}, clb);
+        await this.api.getAll(clb);
     }
 
     async deleteUser(id: number) {
         const clb = (data: any) => this.setPageUsers(data);
         await this.api.delete(id);
-        await this.api.getAll({}, clb);
+        await this.api.getAll(clb);
     }
 
     canUserChange(id: number) {

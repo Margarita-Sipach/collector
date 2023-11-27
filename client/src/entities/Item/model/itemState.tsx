@@ -7,16 +7,18 @@ import {
 import { modalProps } from 'shared/class/ModalState';
 
 export interface Item extends AddDTO {
+	likes: any;
 	tag: {
 		title: string
-	}[]
+	}[];
+	id: number
 }
 
 interface AddDTO{
 	collectionId: number;
 	title: string;
 	tag: any;
-	id: null;
+	id: any;
 	fields: [string, any][]
 	userId: number
 	img: any
@@ -24,7 +26,7 @@ interface AddDTO{
 
 class ItemState extends ElementState<any> {
     constructor() {
-        super(ElementsRoutes.item, ['collectionId']);
+        super(ElementsRoutes.item);
         makeObservable(this, {
             ...elementProps,
             ...modalProps,
@@ -56,39 +58,33 @@ class ItemState extends ElementState<any> {
         this.values = values;
     }
 
-    async add({
-        id, title, tag, img, collectionId, userId, ...fields
-    }: AddDTO) {
-        const item = {
-            title,
-            img,
+    convertElement(element: any) {
+        const fields = Object.fromEntries(Object.entries(element).filter(([key, _]) => key.endsWith('field')));
+        const { tag, ...values } = Object.fromEntries(Object.entries(element).filter(([key, _]) => !key.endsWith('field')));
+        return {
+            ...values,
             tags: tag,
-            collectionId,
             fields: this.convertFields(fields),
         };
-        await this.api.add(item);
-        await this.getAll({ collectionId: item.collectionId });
-    }
-
-    async update({
-        tag, title, img, collectionId, id, ...fields
-    }: AddDTO) {
-        const item = {
-            title,
-            id,
-            img,
-            tags: tag,
-            collectionId,
-            fields: this.convertFields(fields),
-        };
-        await this.api.update(item);
-        await this.getAll({ collectionId: item.collectionId });
     }
 
     convertFields(fields: any) {
         return Object.entries(fields)
             .filter(([_, val]) => val)
             .map(([key, val]) => [parseInt(key), val]);
+    }
+
+    async like(userId: number, value: boolean) {
+        await this.api.add({ itemId: this.id, like: value, userId }, undefined, `${ElementsRoutes.item}/like`);
+        await this.getById(this.id);
+    }
+
+    async comment(values: any, clb: () => void) {
+        await this.api.add(values, clb, `${ElementsRoutes.item}/comment`);
+    }
+
+    get id() {
+        return this.element.id;
     }
 }
 

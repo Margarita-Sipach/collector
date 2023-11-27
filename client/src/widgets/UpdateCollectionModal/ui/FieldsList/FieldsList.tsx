@@ -11,7 +11,6 @@ interface FieldsListProps {
 
 export const FieldsList: FC<FieldsListProps> = () => (
     <Form.List name="fields">
-
         {(fields, { add, remove }) => (
             <>
                 <Button

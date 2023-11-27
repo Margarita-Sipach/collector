@@ -1,12 +1,12 @@
 import {
-    Avatar, Card, Dropdown, Tag,
+    Card, Dropdown,
 } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { Link } from 'react-router-dom';
 import { CommonRoutePath, CommonRoutes } from 'shared/config/routeConfig/commonConfig';
 import { MdEdit } from 'react-icons/md';
 import { observer } from 'mobx-react-lite';
-import { FC, memo, useMemo } from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ElementsTypes } from 'shared/class/ElementState';
 import { elementsStates } from 'shared/states/states';
@@ -28,9 +28,7 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
     } = props;
 
     const state = elementsStates[type];
-    const { t } = useTranslation('button');
-
-    console.log(value);
+    const { t } = useTranslation(['button', 'translation']);
 
     const updateHandle = (e: any) => {
         e.stopPropagation();
@@ -47,36 +45,44 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
     const items = [
         {
             key: 'change',
-            label: <span onClick={updateHandle}>{t('change')}</span>,
+            label: <span onClick={updateHandle}>
+                {t('button:change')}
+            </span>,
         },
         {
             key: 'delete',
-            label: <span onClick={deleteHandle}>{t('delete')}</span>,
+            label: <span onClick={deleteHandle}>
+                {t('button:delete')}
+            </span>,
             danger: true,
         },
     ];
 
-    const MainLink = memo(() => {
-        if (type === ElementsTypes.collection) {
-            const { username, id } = value.user;
-            return (
-                <span>
-                    User:
-                    <Link to={`${CommonRoutePath.user}/${id}`}>{username}</Link>
-                </span>
-            );
-        }
-        const { title, id } = value.collection;
-        return (
-            <span>
-                Collection:
-                <Link to={`${CommonRoutePath.collection}/${id}`}>{title}</Link>
-            </span>
-        );
-    });
+    const MainLink = () => {
+        const generateLink = (elementType: ElementsTypes, valueKey: CommonRoutes, linkValue: string) => {
+            if (type === ElementsTypes[elementType] && value[valueKey]) {
+                const { id, ...args } = value[valueKey];
+                return (
+                    <span>
+                        {t(valueKey)}
+                        :
+                        {' '}
+                        <Link to={`${CommonRoutePath[valueKey]}/${id}`}>
+                            {args[linkValue]}
+                        </Link>
+                    </span>
+                );
+            }
+        };
+        return generateLink(ElementsTypes.collection, CommonRoutes.USER, 'username')
+		|| generateLink(ElementsTypes.item, CommonRoutes.COLLECTION, 'title') || <span />;
+    };
 
     return (
-        <Link to={`${CommonRoutePath[type]}/${value.id}`} className={cls.card}>
+        <Link
+            to={`${CommonRoutePath[type]}/${value.id}`}
+            className={cls.card}
+        >
             <Card
                 hoverable
                 cover={(
@@ -104,9 +110,7 @@ export const AppCard: FC<AppCardProps> = observer((props) => {
                             />
                         </Dropdown>
                     )}
-
                 </div>
-
             </Card>
         </Link>
     );
