@@ -1,0 +1,26 @@
+.Header {
+    width: 100%;
+    display: flex;
+    height: var(--header-height);
+    align-items: center;
+}
+
+.col {
+    display: flex;
+    align-items: center;
+    width: 50%;
+
+    &:first-of-type {
+        gap: 10px;
+        justify-content: space-between;
+    }
+
+    &:nth-of-type(2) {
+        gap: 5px;
+        justify-content: flex-end;
+    }
+}
+
+.input {
+    max-width: 400px;
+}

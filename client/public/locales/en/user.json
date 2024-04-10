@@ -1,0 +1,12 @@
+{
+	"username": "Username",
+	"email": "Email",
+	"password": "Password",
+	"repeatedPassword": "Repeated password",
+	"status": "Status",
+	"active": "Active",
+	"blocked": "Blocked",
+	"role": "Role",
+	"user": "User",
+	"admin": "Admin"
+}
